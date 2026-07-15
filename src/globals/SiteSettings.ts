@@ -87,6 +87,16 @@ export const SiteSettings: GlobalConfig = {
       },
     },
     {
+      name: 'portfolioDefaultOgImage',
+      type: 'upload',
+      relationTo: 'media',
+      label: 'OG implicit pentru proiecte portofoliu',
+      admin: {
+        description:
+          'Folosită pe paginile de proiect dacă proiectul nu are og:image propriu. Dacă lipsește, se folosește imaginea Open Graph implicită.',
+      },
+    },
+    {
       name: 'ctaPhoneLabel',
       type: 'text',
       defaultValue: 'Sună Acum',

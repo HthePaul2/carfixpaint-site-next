@@ -12,6 +12,7 @@ import {
   SITE_SETTINGS,
   STATIC_PAGES_CONTENT,
 } from '@/seed/content'
+import { publicAssetPath, upsertMedia } from '@/seed/media'
 import { faqSeedKey, reviewSeedKey, slugify } from '@/seed/slugify'
 import { upsertByField, upsertBySlug, upsertGlobal } from '@/seed/upsert'
 
@@ -90,12 +91,60 @@ async function removeStaleDemoContent(payload: Payload) {
   ])
 }
 
+function publicUrlToAbsolute(url?: string) {
+  if (!url?.startsWith('/')) return null
+  return publicAssetPath(...url.slice(1).split('/'))
+}
+
 async function seed() {
   const payload = await getPayload({ config: configPromise })
   const serviceIdBySlug = new Map<string, number>()
 
   console.log('→ Removing stale demo content...')
   await removeStaleDemoContent(payload)
+
+  console.log('→ Uploading brand media into Payload Media...')
+  const [logoMedia, ogMedia, heroMedia] = await Promise.all([
+    upsertMedia(payload, {
+      absolutePath: publicAssetPath('logo.svg'),
+      alt: 'Logo Car Fix & Paint',
+      category: 'general',
+    }),
+    upsertMedia(payload, {
+      absolutePath: publicAssetPath('og-image.png'),
+      alt: 'Car Fix & Paint — imagine Open Graph',
+      category: 'general',
+    }),
+    upsertMedia(payload, {
+      absolutePath: publicAssetPath('hero.png'),
+      alt: 'Car Fix & Paint — imagine hero homepage',
+      category: 'general',
+    }),
+  ])
+
+  console.log('→ Uploading page OG images into Payload Media...')
+  const pageOgAlts: Record<string, string> = {
+    home: 'Acasă — imagine Open Graph',
+    servicii: 'Servicii — imagine Open Graph',
+    'daune-rca-casco': 'Daune RCA/CASCO — imagine Open Graph',
+    portofoliu: 'Portofoliu — imagine Open Graph',
+    'portofoliu-exemplu': 'Portofoliu proiect — imagine Open Graph implicită',
+    despre: 'Despre — imagine Open Graph',
+    recenzii: 'Recenzii — imagine Open Graph',
+    faq: 'FAQ — imagine Open Graph',
+    blog: 'Blog — imagine Open Graph',
+    contact: 'Contact — imagine Open Graph',
+  }
+
+  const pageOgIds = new Map<string, number>()
+  for (const key of Object.keys(pageOgAlts)) {
+    const media = await upsertMedia(payload, {
+      absolutePath: publicAssetPath('og', `${key}.jpg`),
+      alt: `Car Fix & Paint — ${pageOgAlts[key]}`,
+      category: 'general',
+    })
+    pageOgIds.set(key, media.id as number)
+  }
 
   console.log('→ Seeding site-settings...')
   await upsertGlobal(payload, 'site-settings', {
@@ -108,6 +157,8 @@ async function seed() {
     whatsappNumber: SITE_SETTINGS.whatsappNumber,
     whatsappMessage: SITE_SETTINGS.whatsappMessage,
     canonicalDomain: SITE_SETTINGS.canonicalDomain,
+    defaultOgImage: ogMedia.id,
+    portfolioDefaultOgImage: pageOgIds.get('portofoliu-exemplu'),
     ctaPhoneLabel: SITE_SETTINGS.ctaPhoneLabel,
     ctaQuoteLabel: SITE_SETTINGS.ctaQuoteLabel,
     logoAbbreviation: SITE_SETTINGS.logoAbbreviation,
@@ -117,6 +168,7 @@ async function seed() {
     copyrightText: SITE_SETTINGS.copyrightText,
   })
 
+  console.log(`  brand media: logo#${logoMedia.id}, hero#${heroMedia.id}, og#${ogMedia.id}`)
   console.log('→ Seeding homepage...')
   await upsertGlobal(payload, 'homepage', {
     heroBadge: HOMEPAGE_CONTENT.heroBadge,
@@ -143,27 +195,48 @@ async function seed() {
     seoKeywords: HOMEPAGE_CONTENT.seoKeywords,
     ogTitle: HOMEPAGE_CONTENT.ogTitle,
     ogDescription: HOMEPAGE_CONTENT.ogDescription,
+    ogImage: pageOgIds.get('home'),
   })
 
   console.log('→ Seeding static pages...')
   await upsertGlobal(payload, 'static-pages', {
-    servicii: STATIC_PAGES_CONTENT.servicii,
+    servicii: {
+      ...STATIC_PAGES_CONTENT.servicii,
+      ogImage: pageOgIds.get('servicii'),
+    },
     daune: {
       ...STATIC_PAGES_CONTENT.daune,
       highlights: STATIC_PAGES_CONTENT.daune.highlights,
       processSteps: STATIC_PAGES_CONTENT.daune.processSteps,
+      ogImage: pageOgIds.get('daune-rca-casco'),
     },
-    portofoliu: STATIC_PAGES_CONTENT.portofoliu,
+    portofoliu: {
+      ...STATIC_PAGES_CONTENT.portofoliu,
+      ogImage: pageOgIds.get('portofoliu'),
+    },
     despre: {
       ...STATIC_PAGES_CONTENT.despre,
       stats: STATIC_PAGES_CONTENT.despre.stats,
       whyItems: STATIC_PAGES_CONTENT.despre.whyItems.map((item) => ({ item })),
       valuesContent: null,
+      ogImage: pageOgIds.get('despre'),
     },
-    recenzii: STATIC_PAGES_CONTENT.recenzii,
-    faq: STATIC_PAGES_CONTENT.faq,
-    blog: STATIC_PAGES_CONTENT.blog,
-    contact: STATIC_PAGES_CONTENT.contact,
+    recenzii: {
+      ...STATIC_PAGES_CONTENT.recenzii,
+      ogImage: pageOgIds.get('recenzii'),
+    },
+    faq: {
+      ...STATIC_PAGES_CONTENT.faq,
+      ogImage: pageOgIds.get('faq'),
+    },
+    blog: {
+      ...STATIC_PAGES_CONTENT.blog,
+      ogImage: pageOgIds.get('blog'),
+    },
+    contact: {
+      ...STATIC_PAGES_CONTENT.contact,
+      ogImage: pageOgIds.get('contact'),
+    },
   })
 
   console.log('→ Seeding legal page titles and SEO...')
@@ -200,7 +273,7 @@ async function seed() {
     serviceIdBySlug.set(service.id, doc.id as number)
   }
 
-  console.log('→ Seeding portfolio projects...')
+  console.log('→ Uploading portfolio media and seeding projects...')
   for (const [index, project] of PORTFOLIO_PROJECTS.entries()) {
     const slug = project.slug ?? slugify(project.title)
     const serviceIds = project.services
@@ -209,6 +282,24 @@ async function seed() {
       .map((serviceSlug) => serviceIdBySlug.get(serviceSlug))
       .filter((value): value is number => typeof value === 'number')
     const published = project.published ?? false
+
+    const beforePath = publicUrlToAbsolute(project.beforeImage)
+    const afterPath = publicUrlToAbsolute(project.afterImage)
+
+    const beforeMedia = beforePath
+      ? await upsertMedia(payload, {
+          absolutePath: beforePath,
+          alt: `${project.title} — concept înainte`,
+          category: 'portfolio-before',
+        })
+      : null
+    const afterMedia = afterPath
+      ? await upsertMedia(payload, {
+          absolutePath: afterPath,
+          alt: `${project.title} — concept după`,
+          category: 'portfolio-after',
+        })
+      : null
 
     await upsertBySlug(
       payload,
@@ -219,6 +310,9 @@ async function seed() {
         legacyId: project.id,
         description: project.description,
         services: serviceIds,
+        beforeImage: beforeMedia?.id,
+        afterImage: afterMedia?.id,
+        ogImage: null,
         legacyBeforeImageUrl: project.beforeImage,
         legacyAfterImageUrl: project.afterImage,
         duration: project.duration,
@@ -235,9 +329,17 @@ async function seed() {
     )
   }
 
-  console.log('→ Seeding blog posts...')
+  console.log('→ Uploading blog covers and seeding posts...')
   for (const [index, post] of BLOG_POSTS.entries()) {
     const slug = post.slug ?? slugify(post.title)
+    const coverPath = publicUrlToAbsolute(post.image)
+    const coverMedia = coverPath
+      ? await upsertMedia(payload, {
+          absolutePath: coverPath,
+          alt: post.title,
+          category: 'blog',
+        })
+      : null
 
     await upsertBySlug(
       payload,
@@ -247,6 +349,8 @@ async function seed() {
         title: post.title,
         legacyId: post.id,
         excerpt: post.excerpt,
+        coverImage: coverMedia?.id,
+        ogImage: coverMedia?.id,
         legacyMarkdown: post.content ?? '',
         legacyCoverImageUrl: post.image,
         readTime: post.readTime,

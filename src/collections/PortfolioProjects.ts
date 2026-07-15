@@ -118,5 +118,15 @@ export const PortfolioProjects: CollectionConfig = {
       name: 'seoDescription',
       type: 'textarea',
     },
+    {
+      name: 'ogImage',
+      type: 'upload',
+      relationTo: 'media',
+      label: 'Imagine Open Graph (og:image)',
+      admin: {
+        description:
+          'Imagine pentru share. Dacă e goală, se folosește OG-ul implicit pentru proiecte portofoliu din Setări site, apoi imaginea Open Graph implicită.',
+      },
+    },
   ],
 }

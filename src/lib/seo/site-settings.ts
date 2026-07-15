@@ -12,6 +12,7 @@ export type SiteSeoSettings = {
   siteName: string
   siteUrl: string
   defaultOgImage: string
+  portfolioDefaultOgImage?: string
   phone: string
   email: string
   address: string
@@ -54,11 +55,15 @@ export const getSiteSeoSettings = cache(async (): Promise<SiteSeoSettings> => {
 
     const siteUrl = normalizeSiteUrl(global?.canonicalDomain ?? fallbackUrl)
     const ogFromMedia = getMediaUrl(global?.defaultOgImage, 'hero')
+    const portfolioOgFromMedia = getMediaUrl(global?.portfolioDefaultOgImage, 'hero')
 
     return {
       siteName: global?.companyName ?? defaultSiteInfo.name,
       siteUrl,
       defaultOgImage: toAbsoluteAssetUrl(siteUrl, ogFromMedia),
+      portfolioDefaultOgImage: portfolioOgFromMedia
+        ? toAbsoluteAssetUrl(siteUrl, portfolioOgFromMedia)
+        : undefined,
       phone: global?.phone ?? defaultSiteInfo.phone,
       email: global?.email ?? defaultSiteInfo.email,
       address: global?.address ?? defaultSiteInfo.address,
@@ -73,6 +78,7 @@ export const getSiteSeoSettings = cache(async (): Promise<SiteSeoSettings> => {
       siteName: defaultSiteInfo.name,
       siteUrl: fallbackUrl,
       defaultOgImage: `${fallbackUrl}/og-image.png`,
+      portfolioDefaultOgImage: `${fallbackUrl}/og/portofoliu-exemplu.jpg`,
       phone: defaultSiteInfo.phone,
       email: defaultSiteInfo.email,
       address: defaultSiteInfo.address,

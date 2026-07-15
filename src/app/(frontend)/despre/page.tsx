@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 
-import { AboutPage } from '@/components/pages/AllPages'
+import { SafeAboutPage } from '@/components/pages/SafeAboutPage'
 import { JsonLd } from '@/components/seo/JsonLd'
 import { getStaticPages } from '@/lib/queries'
 import { createStaticPageMetadata } from '@/lib/seo/metadata'
@@ -19,7 +19,7 @@ export default async function Page() {
   return (
     <>
       <JsonLd data={buildAboutPageSchema(settings)} />
-      <AboutPage content={staticPages.despre} />
+      <SafeAboutPage content={staticPages.despre} />
     </>
   )
 }

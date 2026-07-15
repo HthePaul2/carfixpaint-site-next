@@ -247,7 +247,7 @@ export function mapService(doc: Service): ServiceView {
 }
 
 export function mapPortfolioProject(doc: PortfolioProject): PortfolioProjectView {
-  const coverOg = getMediaUrl(doc.beforeImage, 'hero')
+  const dedicatedOg = getMediaUrl(doc.ogImage, 'hero')
 
   return {
     slug: doc.slug,
@@ -260,7 +260,8 @@ export function mapPortfolioProject(doc: PortfolioProject): PortfolioProjectView
     duration: doc.duration ?? '',
     seoTitle: doc.seoTitle ?? undefined,
     seoDescription: doc.seoDescription ?? undefined,
-    ogImage: coverOg ?? doc.legacyBeforeImageUrl ?? undefined,
+    // Dedicated only — page metadata falls back to portfolioDefaultOgImage, then site default.
+    ogImage: dedicatedOg,
   }
 }
 

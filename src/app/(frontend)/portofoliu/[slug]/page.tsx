@@ -41,7 +41,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       description: project.seoDescription ?? project.description,
       path: `/portofoliu/${project.slug}`,
       keywords: STATIC_PAGE_SEO.portofoliu.keywords,
-      ogImage: project.ogImage ?? project.afterImage,
+      ogImage: project.ogImage ?? settings.portfolioDefaultOgImage,
     },
     settings,
   )
