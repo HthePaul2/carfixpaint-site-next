@@ -195,17 +195,22 @@ export function AboutPage({ content }: { content: DesprePageView }) {
 
           <div className="prose prose-lg max-w-none">
             <p className="text-lg text-muted-foreground mb-6">{content.intro}</p>
+          </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 my-12">
-              {content.stats.map((stat, idx) => (
-                <Card key={idx}>
-                  <CardContent className="p-6 text-center">
-                    <div className="text-4xl font-bold text-accent mb-2">{stat.value}</div>
-                    <p className="text-sm text-muted-foreground">{stat.label}</p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 my-12 max-w-4xl mx-auto">
+            {content.stats.map((stat, idx) => (
+              <Card key={idx} className="min-w-0">
+                <CardContent className="p-6 text-center">
+                  <div className="text-2xl sm:text-3xl font-bold text-accent mb-2 leading-tight break-words">
+                    {stat.value}
+                  </div>
+                  <p className="text-sm text-muted-foreground leading-snug">{stat.label}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          <div className="prose prose-lg max-w-none">
 
             <h2 className="text-2xl font-bold mb-4">{content.whyTitle}</h2>
             <ul className="space-y-3 mb-8">
