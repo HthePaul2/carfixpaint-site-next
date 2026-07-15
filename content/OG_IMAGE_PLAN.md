@@ -1,51 +1,37 @@
 # Plan OG images — CarFix Paint
 
-Format recomandat pentru toate imaginile: **1200 × 630 px**, JPG/WebP optimizat, cu text puțin și lizibil, logo CarFix Paint și accentele roșu/negru ale site-ului.
+Format recomandat: **~1200 × 630** (sau apropiat), JPG optimizat.
 
-## Acoperire existentă
+## Acoperire curentă
 
-- `/og-image.png` — imagine implicită folosită de homepage și de paginile fără imagine dedicată.
-- Cele 6 articole de blog folosesc deja cover-ul propriu drept OG image.
-- Cele 6 pagini individuale de portofoliu folosesc momentan imaginea „după”. Deoarece acestea sunt concepte AI ilustrative, este preferabilă ulterior o imagine OG neutră, branduită, care să nu sugereze că lucrarea a fost executată efectiv.
+| Asset | Destinație CMS |
+|-------|----------------|
+| `/og/home.jpg` | Homepage → `ogImage` |
+| `/og/servicii.jpg` | Static pages → Servicii |
+| `/og/daune-rca-casco.jpg` | Static pages → Daune |
+| `/og/portofoliu.jpg` | Static pages → Portofoliu (index) |
+| `/og/despre.jpg` | Static pages → Despre |
+| `/og/recenzii.jpg` | Static pages → Recenzii |
+| `/og/faq.jpg` | Static pages → FAQ |
+| `/og/blog.jpg` | Static pages → Blog (index) |
+| `/og/contact.jpg` | Static pages → Contact |
+| `/og/portofoliu-exemplu.jpg` | Site settings → `portfolioDefaultOgImage` |
+| `/og-image.png` | Site settings → `defaultOgImage` (fallback global) |
 
-## Prioritate mare
+Sursă fișiere: `content-assets/carfix-paint-og-images/`.
 
-1. `public/og/home.jpg` — homepage; poate înlocui imaginea implicită actuală.
-2. `public/og/servicii.jpg` — pagina `/servicii`.
-3. `public/og/daune-rca-casco.jpg` — pagina `/daune`.
-4. `public/og/portofoliu.jpg` — pagina `/portofoliu`, etichetată vizual ca „exemple ilustrative”.
-5. `public/og/despre.jpg` — pagina `/despre`.
-6. `public/og/recenzii.jpg` — pagina `/recenzii`, ideal cu ratingul public și fără texte atribuite artificial clienților.
-7. `public/og/faq.jpg` — pagina `/faq`.
-8. `public/og/blog.jpg` — pagina index `/blog`; articolele individuale sunt deja acoperite.
-9. `public/og/contact.jpg` — pagina `/contact`.
+## Fallback pe proiecte portofoliu
 
-## Prioritate mică / opțional
+1. `ogImage` dedicat pe proiect (dacă e setat în admin)
+2. `portfolioDefaultOgImage` (`portofoliu-exemplu`)
+3. `defaultOgImage` (site-wide)
 
-10. `public/og/politica-confidentialitate.jpg`.
-11. `public/og/politica-cookies.jpg`.
-12. `public/og/termeni-conditii.jpg`.
+**Nu** se folosesc before/after ca OG.
 
-Paginile legale pot folosi fără probleme imaginea implicită a site-ului; imaginile dedicate au valoare redusă.
+## Blog
 
-## Pagini dinamice
+Articole: `ogImage` dedicat → cover → `defaultOgImage`.
 
-### Blog
+## Legal
 
-Nu sunt necesare imagini OG suplimentare: fiecare dintre cele 6 articole folosește deja cover-ul propriu.
-
-### Portofoliu
-
-Fiecare proiect are câmp dedicat `ogImage` în CMS, seed-uit din composite-ul before/after (`public/portfolio/*-og.jpg`, sursă `content-assets/carfix_portfolio_zip/`).
-
-Fallback dacă lipsește: after → before → `defaultOgImage` din site-settings.
-
-Când există fotografii reale confirmate, înlocuiește OG-urile ilustrative din admin.
-
-### Servicii
-
-În prezent există o singură pagină index `/servicii`, fără rute individuale pentru fiecare serviciu. Este suficient un singur `og-servicii.jpg`. Dacă se adaugă ulterior pagini precum `/servicii/vopsitorie` sau `/servicii/tinichigerie`, fiecare ar trebui să primească o imagine dedicată.
-
-## Ordine recomandată de generare
-
-Pentru următoarea etapă, generează mai întâi cele 9 imagini din secțiunea „Prioritate mare”, apoi imaginea neutră pentru paginile individuale de portofoliu. Imaginile legale pot rămâne pe default.
+Paginile legale pot rămâne pe `defaultOgImage`.

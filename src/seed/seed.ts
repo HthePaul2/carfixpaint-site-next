@@ -122,6 +122,30 @@ async function seed() {
     }),
   ])
 
+  console.log('→ Uploading page OG images into Payload Media...')
+  const pageOgAlts: Record<string, string> = {
+    home: 'Acasă — imagine Open Graph',
+    servicii: 'Servicii — imagine Open Graph',
+    'daune-rca-casco': 'Daune RCA/CASCO — imagine Open Graph',
+    portofoliu: 'Portofoliu — imagine Open Graph',
+    'portofoliu-exemplu': 'Portofoliu proiect — imagine Open Graph implicită',
+    despre: 'Despre — imagine Open Graph',
+    recenzii: 'Recenzii — imagine Open Graph',
+    faq: 'FAQ — imagine Open Graph',
+    blog: 'Blog — imagine Open Graph',
+    contact: 'Contact — imagine Open Graph',
+  }
+
+  const pageOgIds = new Map<string, number>()
+  for (const key of Object.keys(pageOgAlts)) {
+    const media = await upsertMedia(payload, {
+      absolutePath: publicAssetPath('og', `${key}.jpg`),
+      alt: `Car Fix & Paint — ${pageOgAlts[key]}`,
+      category: 'general',
+    })
+    pageOgIds.set(key, media.id as number)
+  }
+
   console.log('→ Seeding site-settings...')
   await upsertGlobal(payload, 'site-settings', {
     companyName: SITE_SETTINGS.companyName,
@@ -134,6 +158,7 @@ async function seed() {
     whatsappMessage: SITE_SETTINGS.whatsappMessage,
     canonicalDomain: SITE_SETTINGS.canonicalDomain,
     defaultOgImage: ogMedia.id,
+    portfolioDefaultOgImage: pageOgIds.get('portofoliu-exemplu'),
     ctaPhoneLabel: SITE_SETTINGS.ctaPhoneLabel,
     ctaQuoteLabel: SITE_SETTINGS.ctaQuoteLabel,
     logoAbbreviation: SITE_SETTINGS.logoAbbreviation,
@@ -170,27 +195,48 @@ async function seed() {
     seoKeywords: HOMEPAGE_CONTENT.seoKeywords,
     ogTitle: HOMEPAGE_CONTENT.ogTitle,
     ogDescription: HOMEPAGE_CONTENT.ogDescription,
+    ogImage: pageOgIds.get('home'),
   })
 
   console.log('→ Seeding static pages...')
   await upsertGlobal(payload, 'static-pages', {
-    servicii: STATIC_PAGES_CONTENT.servicii,
+    servicii: {
+      ...STATIC_PAGES_CONTENT.servicii,
+      ogImage: pageOgIds.get('servicii'),
+    },
     daune: {
       ...STATIC_PAGES_CONTENT.daune,
       highlights: STATIC_PAGES_CONTENT.daune.highlights,
       processSteps: STATIC_PAGES_CONTENT.daune.processSteps,
+      ogImage: pageOgIds.get('daune-rca-casco'),
     },
-    portofoliu: STATIC_PAGES_CONTENT.portofoliu,
+    portofoliu: {
+      ...STATIC_PAGES_CONTENT.portofoliu,
+      ogImage: pageOgIds.get('portofoliu'),
+    },
     despre: {
       ...STATIC_PAGES_CONTENT.despre,
       stats: STATIC_PAGES_CONTENT.despre.stats,
       whyItems: STATIC_PAGES_CONTENT.despre.whyItems.map((item) => ({ item })),
       valuesContent: null,
+      ogImage: pageOgIds.get('despre'),
     },
-    recenzii: STATIC_PAGES_CONTENT.recenzii,
-    faq: STATIC_PAGES_CONTENT.faq,
-    blog: STATIC_PAGES_CONTENT.blog,
-    contact: STATIC_PAGES_CONTENT.contact,
+    recenzii: {
+      ...STATIC_PAGES_CONTENT.recenzii,
+      ogImage: pageOgIds.get('recenzii'),
+    },
+    faq: {
+      ...STATIC_PAGES_CONTENT.faq,
+      ogImage: pageOgIds.get('faq'),
+    },
+    blog: {
+      ...STATIC_PAGES_CONTENT.blog,
+      ogImage: pageOgIds.get('blog'),
+    },
+    contact: {
+      ...STATIC_PAGES_CONTENT.contact,
+      ogImage: pageOgIds.get('contact'),
+    },
   })
 
   console.log('→ Seeding legal page titles and SEO...')
@@ -239,7 +285,6 @@ async function seed() {
 
     const beforePath = publicUrlToAbsolute(project.beforeImage)
     const afterPath = publicUrlToAbsolute(project.afterImage)
-    const ogPath = publicUrlToAbsolute(project.ogImage)
 
     const beforeMedia = beforePath
       ? await upsertMedia(payload, {
@@ -255,13 +300,6 @@ async function seed() {
           category: 'portfolio-after',
         })
       : null
-    const ogMedia = ogPath
-      ? await upsertMedia(payload, {
-          absolutePath: ogPath,
-          alt: `${project.title} — imagine Open Graph`,
-          category: 'general',
-        })
-      : null
 
     await upsertBySlug(
       payload,
@@ -274,7 +312,7 @@ async function seed() {
         services: serviceIds,
         beforeImage: beforeMedia?.id,
         afterImage: afterMedia?.id,
-        ogImage: ogMedia?.id,
+        ogImage: null,
         legacyBeforeImageUrl: project.beforeImage,
         legacyAfterImageUrl: project.afterImage,
         duration: project.duration,

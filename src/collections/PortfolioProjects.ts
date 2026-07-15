@@ -125,7 +125,7 @@ export const PortfolioProjects: CollectionConfig = {
       label: 'Imagine Open Graph (og:image)',
       admin: {
         description:
-          'Imagine pentru share. Dacă e goală, se folosește after, apoi before, apoi OG-ul implicit din Setări site.',
+          'Imagine pentru share. Dacă e goală, se folosește OG-ul implicit pentru proiecte portofoliu din Setări site, apoi imaginea Open Graph implicită.',
       },
     },
   ],

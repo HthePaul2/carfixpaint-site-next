@@ -287,7 +287,7 @@ export interface PortfolioProject {
   seoTitle?: string | null;
   seoDescription?: string | null;
   /**
-   * Imagine pentru share. Dacă e goală, se folosește after, apoi before, apoi OG-ul implicit din Setări site.
+   * Imagine pentru share. Dacă e goală, se folosește OG-ul implicit pentru proiecte portofoliu din Setări site, apoi imaginea Open Graph implicită.
    */
   ogImage?: (number | null) | Media;
   updatedAt: string;
@@ -827,6 +827,10 @@ export interface SiteSetting {
    * Imagine folosită la share pe rețele sociale când o pagină nu are imagine OG proprie.
    */
   defaultOgImage?: (number | null) | Media;
+  /**
+   * Folosită pe paginile de proiect dacă proiectul nu are og:image propriu. Dacă lipsește, se folosește imaginea Open Graph implicită.
+   */
+  portfolioDefaultOgImage?: (number | null) | Media;
   ctaPhoneLabel?: string | null;
   ctaQuoteLabel?: string | null;
   /**
@@ -1178,6 +1182,7 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   instagram?: T;
   canonicalDomain?: T;
   defaultOgImage?: T;
+  portfolioDefaultOgImage?: T;
   ctaPhoneLabel?: T;
   ctaQuoteLabel?: T;
   logoAbbreviation?: T;
