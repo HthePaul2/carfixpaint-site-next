@@ -48,6 +48,12 @@ const googleReviews = [
   ...googleReviews112148,
 ]
 
+const orderedGoogleReviews = [...googleReviews].sort((left, right) => {
+  const featuredDifference = Number(Boolean(right.featured)) - Number(Boolean(left.featured))
+  if (featuredDifference !== 0) return featuredDifference
+  return left.order - right.order
+})
+
 export const SITE_SETTINGS = siteSettingsJson
 export const HOMEPAGE_CONTENT = homepageJson as HomepageView
 export const STATIC_PAGES_CONTENT = {
@@ -60,11 +66,12 @@ export const STATIC_PAGES_CONTENT = {
 export const SERVICES = servicesJson as SeedService[]
 export const PORTFOLIO_PROJECTS = portfolioJson as SeedPortfolioProject[]
 export const BLOG_POSTS = blogPostsJson as SeedBlogPost[]
-export const REVIEWS = googleReviews.map((review) => ({
+export const REVIEWS = orderedGoogleReviews.map((review, index) => ({
   ...review,
   text:
     review.text?.trim() ||
     `[Evaluare Google de ${review.rating} stele, fără comentariu.]`,
+  order: index,
 })) as SeedReview[]
 export const FAQ_ITEMS = faqsJson as SeedFaqItem[]
 export const LEGAL_PAGES_CONTENT = legalPagesJson as LegalPagesContent
