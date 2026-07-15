@@ -4,12 +4,17 @@ import { sendContactNotification } from '@/lib/contact-email'
 import { getPayloadClient } from '@/lib/payload'
 import { contactSchema, normalizeContactInput } from '@/lib/validation'
 
+const MAX_REQUEST_BYTES = 16 * 1024
+const RATE_LIMIT_MAX_REQUESTS = 5
+const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000
+
 const SERVICE_LABELS: Record<string, string> = {
   tinichigerie: 'Tinichigerie & Caroserie',
   vopsitorie: 'Vopsitorie',
   mecanica: 'Mecanică Auto',
   diagnoza: 'Diagnoză Computerizată',
   daune: 'Daune RCA/CASCO',
+  'daune-rca-casco': 'Daune RCA/CASCO',
   altele: 'Altele',
 }
 
@@ -19,9 +24,42 @@ function getClientIp(request: Request): string {
   return request.headers.get('x-real-ip') ?? 'unknown'
 }
 
+async function parseRequestBody(request: Request): Promise<unknown> {
+  const rawBody = await request.text()
+  const bodySize = new TextEncoder().encode(rawBody).byteLength
+
+  if (bodySize > MAX_REQUEST_BYTES) {
+    throw new Error('request_too_large')
+  }
+
+  try {
+    return JSON.parse(rawBody) as unknown
+  } catch {
+    throw new Error('invalid_json')
+  }
+}
+
 export async function POST(request: Request) {
   try {
-    const body = await request.json()
+    let body: unknown
+
+    try {
+      body = await parseRequestBody(request)
+    } catch (error) {
+      const reason = error instanceof Error ? error.message : 'invalid_json'
+
+      return NextResponse.json(
+        {
+          success: false,
+          message:
+            reason === 'request_too_large'
+              ? 'Cererea trimisă este prea mare.'
+              : 'Datele trimise nu sunt valide.',
+        },
+        { status: reason === 'request_too_large' ? 413 : 400 },
+      )
+    }
+
     const parsed = contactSchema.safeParse(body)
 
     if (!parsed.success) {
@@ -40,6 +78,46 @@ export async function POST(request: Request) {
 
     const data = normalizeContactInput(parsed.data)
     const payload = await getPayloadClient()
+    const clientIp = getClientIp(request)
+
+    if (clientIp !== 'unknown') {
+      const submittedAfter = new Date(Date.now() - RATE_LIMIT_WINDOW_MS).toISOString()
+      const recentRequests = await payload.find({
+        collection: 'contact-requests',
+        depth: 0,
+        limit: 1,
+        overrideAccess: true,
+        where: {
+          and: [
+            {
+              ip: {
+                equals: clientIp,
+              },
+            },
+            {
+              submittedAt: {
+                greater_than: submittedAfter,
+              },
+            },
+          ],
+        },
+      })
+
+      if (recentRequests.totalDocs >= RATE_LIMIT_MAX_REQUESTS) {
+        return NextResponse.json(
+          {
+            success: false,
+            message: 'Ai trimis prea multe cereri. Încearcă din nou peste câteva minute.',
+          },
+          {
+            status: 429,
+            headers: {
+              'Retry-After': String(Math.ceil(RATE_LIMIT_WINDOW_MS / 1000)),
+            },
+          },
+        )
+      }
+    }
 
     let serviceId: number | undefined
     let serviceLabel = SERVICE_LABELS[data.serviceType] ?? data.serviceType
@@ -78,7 +156,7 @@ export async function POST(request: Request) {
         status: 'new',
         source: 'website',
         submittedAt: new Date().toISOString(),
-        ip: getClientIp(request),
+        ip: clientIp,
         userAgent: request.headers.get('user-agent') ?? '',
       },
       overrideAccess: true,
