@@ -200,7 +200,7 @@ async function seed() {
     serviceIdBySlug.set(service.id, doc.id as number)
   }
 
-  console.log('→ Seeding portfolio projects as drafts until real photos are available...')
+  console.log('→ Seeding portfolio projects...')
   for (const [index, project] of PORTFOLIO_PROJECTS.entries()) {
     const slug = project.slug ?? slugify(project.title)
     const serviceIds = project.services

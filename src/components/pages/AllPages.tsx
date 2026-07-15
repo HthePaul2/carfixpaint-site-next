@@ -151,16 +151,16 @@ export function PortfolioPage({
                       <p className="text-xs text-muted-foreground mb-2">Înainte</p>
                       <img
                         src={project.beforeImage}
-                        alt="Before"
-                        className="rounded-md w-full h-48 object-cover"
+                        alt={`${project.title} — înainte`}
+                        className="rounded-md w-full aspect-[3/4] object-cover bg-muted"
                       />
                     </div>
                     <div>
                       <p className="text-xs text-muted-foreground mb-2">După</p>
                       <img
                         src={project.afterImage}
-                        alt="After"
-                        className="rounded-md w-full h-48 object-cover"
+                        alt={`${project.title} — după`}
+                        className="rounded-md w-full aspect-[3/4] object-cover bg-muted"
                       />
                     </div>
                   </div>

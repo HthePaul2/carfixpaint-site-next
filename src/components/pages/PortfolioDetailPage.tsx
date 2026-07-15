@@ -34,10 +34,10 @@ export function PortfolioDetailPage({ project }: PortfolioDetailPageProps) {
               <div className="p-4 border-b">
                 <p className="text-sm font-semibold text-muted-foreground">ÎNAINTE</p>
               </div>
-              <div className="aspect-video">
+              <div className="aspect-[3/4] bg-muted">
                 <img
                   src={project.beforeImage}
-                  alt="Înainte de reparație"
+                  alt={`${project.title} — înainte de reparație`}
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -49,10 +49,10 @@ export function PortfolioDetailPage({ project }: PortfolioDetailPageProps) {
               <div className="p-4 border-b">
                 <p className="text-sm font-semibold text-muted-foreground">DUPĂ</p>
               </div>
-              <div className="aspect-video">
+              <div className="aspect-[3/4] bg-muted">
                 <img
                   src={project.afterImage}
-                  alt="După reparație"
+                  alt={`${project.title} — după reparație`}
                   className="w-full h-full object-cover"
                 />
               </div>
