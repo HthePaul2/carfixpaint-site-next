@@ -1,15 +1,17 @@
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 
-import { defaultHomepage, defaultSiteInfo, defaultStaticPages } from '@/lib/defaults'
 import {
   BLOG_POSTS,
-  COMPANY_INFO,
   FAQ_ITEMS,
+  HOMEPAGE_CONTENT,
+  LEGAL_PAGES_CONTENT,
   PORTFOLIO_PROJECTS,
   REVIEWS,
   SERVICES,
-} from '@/seed/legacy-data'
+  SITE_SETTINGS,
+  STATIC_PAGES_CONTENT,
+} from '@/seed/content'
 import { faqSeedKey, reviewSeedKey, slugify } from '@/seed/slugify'
 import { upsertByField, upsertBySlug, upsertGlobal } from '@/seed/upsert'
 
@@ -18,9 +20,12 @@ const SERVICE_LABEL_MAP: Record<string, string> = {
   vopsitorie: 'vopsitorie',
   mecanica: 'mecanica',
   'mecanică auto': 'mecanica',
+  diagnoza: 'diagnoza',
+  diagnoză: 'diagnoza',
   'daune rca': 'daune-rca-casco',
   'daune casco': 'daune-rca-casco',
   'daune rca/casco': 'daune-rca-casco',
+  'mașină la schimb': 'masina-schimb',
 }
 
 function resolveServiceSlug(label: string): string | undefined {
@@ -40,75 +45,115 @@ function resolveServiceSlug(label: string): string | undefined {
   return undefined
 }
 
+async function removeLegacySeedReviews(payload: Awaited<ReturnType<typeof getPayload>>) {
+  const seededReviews = await payload.find({
+    collection: 'reviews',
+    depth: 0,
+    limit: 1000,
+    overrideAccess: true,
+    where: {
+      seedKey: {
+        exists: true,
+      },
+    },
+  })
+
+  for (const review of seededReviews.docs) {
+    await payload.delete({
+      collection: 'reviews',
+      id: review.id,
+      overrideAccess: true,
+    })
+  }
+}
+
 async function seed() {
   const payload = await getPayload({ config: configPromise })
   const serviceIdBySlug = new Map<string, number>()
 
   console.log('→ Seeding site-settings...')
   await upsertGlobal(payload, 'site-settings', {
-    companyName: COMPANY_INFO.name,
-    tagline: COMPANY_INFO.tagline,
-    phone: COMPANY_INFO.phone,
-    email: COMPANY_INFO.email,
-    address: COMPANY_INFO.address,
-    schedule: COMPANY_INFO.schedule,
-    whatsappNumber: COMPANY_INFO.whatsappNumber,
-    whatsappMessage: COMPANY_INFO.whatsappMessage,
-    ctaPhoneLabel: 'Sună Acum',
-    ctaQuoteLabel: 'Cere Ofertă Gratuită',
-    logoAbbreviation: defaultSiteInfo.logoAbbreviation,
-    footerDescription: defaultSiteInfo.footerDescription,
-    footerServices: defaultSiteInfo.footerServices.map((label) => ({ label })),
-    navigationItems: defaultSiteInfo.navigationItems,
-    copyrightText: defaultSiteInfo.copyrightText,
+    companyName: SITE_SETTINGS.companyName,
+    tagline: SITE_SETTINGS.tagline,
+    phone: SITE_SETTINGS.phone,
+    email: SITE_SETTINGS.email,
+    address: SITE_SETTINGS.address,
+    schedule: SITE_SETTINGS.schedule,
+    whatsappNumber: SITE_SETTINGS.whatsappNumber,
+    whatsappMessage: SITE_SETTINGS.whatsappMessage,
+    canonicalDomain: SITE_SETTINGS.canonicalDomain,
+    ctaPhoneLabel: SITE_SETTINGS.ctaPhoneLabel,
+    ctaQuoteLabel: SITE_SETTINGS.ctaQuoteLabel,
+    logoAbbreviation: SITE_SETTINGS.logoAbbreviation,
+    footerDescription: SITE_SETTINGS.footerDescription,
+    footerServices: SITE_SETTINGS.footerServices.map((label) => ({ label })),
+    navigationItems: SITE_SETTINGS.navigationItems,
+    copyrightText: SITE_SETTINGS.copyrightText,
   })
 
   console.log('→ Seeding homepage...')
   await upsertGlobal(payload, 'homepage', {
-    heroBadge: defaultHomepage.heroBadge,
-    heroTitle: defaultHomepage.heroTitle,
-    heroAccentText: defaultHomepage.heroAccentText,
-    heroDescription: defaultHomepage.heroDescription,
-    heroCtaPhoneLabel: defaultHomepage.heroCtaPhoneLabel,
-    heroCtaQuoteLabel: defaultHomepage.heroCtaQuoteLabel,
-    benefits: defaultHomepage.benefits,
-    servicesSectionTitle: defaultHomepage.servicesSectionTitle,
-    servicesSectionSubtitle: defaultHomepage.servicesSectionSubtitle,
-    portfolioSectionTitle: defaultHomepage.portfolioSectionTitle,
-    reviewsSectionTitle: defaultHomepage.reviewsSectionTitle,
-    servicesLimit: defaultHomepage.servicesLimit,
-    portfolioLimit: defaultHomepage.portfolioLimit,
-    reviewsLimit: defaultHomepage.reviewsLimit,
-    damageProcessTitle: defaultHomepage.damageProcessTitle,
-    damageProcessSteps: defaultHomepage.damageProcessSteps,
-    finalCtaTitle: defaultHomepage.finalCtaTitle,
-    finalCtaDescription: defaultHomepage.finalCtaDescription,
-    finalCtaButtonLabel: defaultHomepage.finalCtaButtonLabel,
-    seoTitle: defaultHomepage.seoTitle,
-    seoDescription: defaultHomepage.seoDescription,
-    seoKeywords: defaultHomepage.seoKeywords,
-    ogTitle: defaultHomepage.ogTitle,
-    ogDescription: defaultHomepage.ogDescription,
+    heroBadge: HOMEPAGE_CONTENT.heroBadge,
+    heroTitle: HOMEPAGE_CONTENT.heroTitle,
+    heroAccentText: HOMEPAGE_CONTENT.heroAccentText,
+    heroDescription: HOMEPAGE_CONTENT.heroDescription,
+    heroCtaPhoneLabel: HOMEPAGE_CONTENT.heroCtaPhoneLabel,
+    heroCtaQuoteLabel: HOMEPAGE_CONTENT.heroCtaQuoteLabel,
+    benefits: HOMEPAGE_CONTENT.benefits,
+    servicesSectionTitle: HOMEPAGE_CONTENT.servicesSectionTitle,
+    servicesSectionSubtitle: HOMEPAGE_CONTENT.servicesSectionSubtitle,
+    portfolioSectionTitle: HOMEPAGE_CONTENT.portfolioSectionTitle,
+    reviewsSectionTitle: HOMEPAGE_CONTENT.reviewsSectionTitle,
+    servicesLimit: HOMEPAGE_CONTENT.servicesLimit,
+    portfolioLimit: HOMEPAGE_CONTENT.portfolioLimit,
+    reviewsLimit: HOMEPAGE_CONTENT.reviewsLimit,
+    damageProcessTitle: HOMEPAGE_CONTENT.damageProcessTitle,
+    damageProcessSteps: HOMEPAGE_CONTENT.damageProcessSteps,
+    finalCtaTitle: HOMEPAGE_CONTENT.finalCtaTitle,
+    finalCtaDescription: HOMEPAGE_CONTENT.finalCtaDescription,
+    finalCtaButtonLabel: HOMEPAGE_CONTENT.finalCtaButtonLabel,
+    seoTitle: HOMEPAGE_CONTENT.seoTitle,
+    seoDescription: HOMEPAGE_CONTENT.seoDescription,
+    seoKeywords: HOMEPAGE_CONTENT.seoKeywords,
+    ogTitle: HOMEPAGE_CONTENT.ogTitle,
+    ogDescription: HOMEPAGE_CONTENT.ogDescription,
   })
 
   console.log('→ Seeding static pages...')
   await upsertGlobal(payload, 'static-pages', {
-    servicii: defaultStaticPages.servicii,
+    servicii: STATIC_PAGES_CONTENT.servicii,
     daune: {
-      ...defaultStaticPages.daune,
-      highlights: defaultStaticPages.daune.highlights,
-      processSteps: defaultStaticPages.daune.processSteps,
+      ...STATIC_PAGES_CONTENT.daune,
+      highlights: STATIC_PAGES_CONTENT.daune.highlights,
+      processSteps: STATIC_PAGES_CONTENT.daune.processSteps,
     },
-    portofoliu: defaultStaticPages.portofoliu,
+    portofoliu: STATIC_PAGES_CONTENT.portofoliu,
     despre: {
-      ...defaultStaticPages.despre,
-      stats: defaultStaticPages.despre.stats,
-      whyItems: defaultStaticPages.despre.whyItems.map((item) => ({ item })),
+      ...STATIC_PAGES_CONTENT.despre,
+      stats: STATIC_PAGES_CONTENT.despre.stats,
+      whyItems: STATIC_PAGES_CONTENT.despre.whyItems.map((item) => ({ item })),
+      valuesContent: null,
     },
-    recenzii: defaultStaticPages.recenzii,
-    faq: defaultStaticPages.faq,
-    blog: defaultStaticPages.blog,
-    contact: defaultStaticPages.contact,
+    recenzii: STATIC_PAGES_CONTENT.recenzii,
+    faq: STATIC_PAGES_CONTENT.faq,
+    blog: STATIC_PAGES_CONTENT.blog,
+    contact: STATIC_PAGES_CONTENT.contact,
+  })
+
+  console.log('→ Seeding legal page titles and SEO...')
+  await upsertGlobal(payload, 'legal-pages', {
+    privacyTitle: LEGAL_PAGES_CONTENT.privacyTitle,
+    privacySeoTitle: LEGAL_PAGES_CONTENT.privacySeoTitle,
+    privacySeoDescription: LEGAL_PAGES_CONTENT.privacySeoDescription,
+    privacyContent: null,
+    cookiesTitle: LEGAL_PAGES_CONTENT.cookiesTitle,
+    cookiesSeoTitle: LEGAL_PAGES_CONTENT.cookiesSeoTitle,
+    cookiesSeoDescription: LEGAL_PAGES_CONTENT.cookiesSeoDescription,
+    cookiesContent: null,
+    termsTitle: LEGAL_PAGES_CONTENT.termsTitle,
+    termsSeoTitle: LEGAL_PAGES_CONTENT.termsSeoTitle,
+    termsSeoDescription: LEGAL_PAGES_CONTENT.termsSeoDescription,
+    termsContent: null,
   })
 
   console.log('→ Seeding services...')
@@ -117,24 +162,27 @@ async function seed() {
       name: service.name,
       icon: service.icon,
       description: service.description,
-      shortDescription: service.description.slice(0, 180),
+      shortDescription: service.shortDescription ?? service.description.slice(0, 180),
       features: service.features.map((feature) => ({ feature })),
-      active: true,
-      featured: index < 3,
-      order: index,
+      active: service.active ?? true,
+      featured: service.featured ?? index < 3,
+      order: service.order ?? index,
+      seoTitle: service.seoTitle,
+      seoDescription: service.seoDescription,
     })
 
     serviceIdBySlug.set(service.id, doc.id as number)
   }
 
-  console.log('→ Seeding portfolio projects...')
+  console.log('→ Seeding portfolio projects as drafts until real photos are available...')
   for (const [index, project] of PORTFOLIO_PROJECTS.entries()) {
-    const slug = slugify(project.title)
+    const slug = project.slug ?? slugify(project.title)
     const serviceIds = project.services
       .map((label) => resolveServiceSlug(label))
       .filter((value): value is string => Boolean(value))
       .map((serviceSlug) => serviceIdBySlug.get(serviceSlug))
       .filter((value): value is number => typeof value === 'number')
+    const published = project.published ?? false
 
     await upsertBySlug(
       payload,
@@ -148,18 +196,22 @@ async function seed() {
         legacyBeforeImageUrl: project.beforeImage,
         legacyAfterImageUrl: project.afterImage,
         duration: project.duration,
-        featured: index < 3,
-        order: index,
-        publishedAt: new Date(Date.now() - index * 86_400_000).toISOString(),
-        _status: 'published',
+        vehicleBrand: project.vehicleBrand,
+        vehicleModel: project.vehicleModel,
+        featured: project.featured ?? index < 3,
+        order: project.order ?? index,
+        publishedAt: published ? new Date().toISOString() : undefined,
+        seoTitle: project.seoTitle,
+        seoDescription: project.seoDescription,
+        _status: published ? 'published' : 'draft',
       },
-      { draft: false },
+      { draft: !published },
     )
   }
 
   console.log('→ Seeding blog posts...')
   for (const [index, post] of BLOG_POSTS.entries()) {
-    const slug = slugify(post.title)
+    const slug = post.slug ?? slugify(post.title)
 
     await upsertBySlug(
       payload,
@@ -172,8 +224,10 @@ async function seed() {
         legacyMarkdown: post.content ?? '',
         legacyCoverImageUrl: post.image,
         readTime: post.readTime,
-        category: 'general',
-        featured: index === 0,
+        category: post.category ?? 'general',
+        featured: post.featured ?? index === 0,
+        seoTitle: post.seoTitle,
+        seoDescription: post.seoDescription,
         publishedAt: new Date(post.date).toISOString(),
         _status: 'published',
       },
@@ -181,7 +235,10 @@ async function seed() {
     )
   }
 
-  console.log('→ Seeding reviews...')
+  console.log('→ Removing legacy demo reviews...')
+  await removeLegacySeedReviews(payload)
+
+  console.log('→ Seeding verified reviews, if provided...')
   for (const [index, review] of REVIEWS.entries()) {
     const seedKey = reviewSeedKey(review.name, review.date)
     const serviceSlug = resolveServiceSlug(review.service)
@@ -195,9 +252,9 @@ async function seed() {
       date: new Date(review.date).toISOString(),
       service: serviceId,
       serviceLabel: review.service,
-      approved: true,
-      featured: index < 3,
-      order: index,
+      approved: review.approved ?? false,
+      featured: review.featured ?? false,
+      order: review.order ?? index,
     })
   }
 
@@ -209,8 +266,9 @@ async function seed() {
       seedKey,
       question: item.question,
       answer: item.answer,
-      published: true,
-      order: index,
+      category: item.category ?? 'general',
+      published: item.published ?? true,
+      order: item.order ?? index,
     })
   }
 
