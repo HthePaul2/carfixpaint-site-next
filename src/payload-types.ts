@@ -286,6 +286,10 @@ export interface PortfolioProject {
   order?: number | null;
   seoTitle?: string | null;
   seoDescription?: string | null;
+  /**
+   * Imagine pentru share. Dacă e goală, se folosește after, apoi before, apoi OG-ul implicit din Setări site.
+   */
+  ogImage?: (number | null) | Media;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -662,6 +666,7 @@ export interface PortfolioProjectsSelect<T extends boolean = true> {
   order?: T;
   seoTitle?: T;
   seoDescription?: T;
+  ogImage?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;

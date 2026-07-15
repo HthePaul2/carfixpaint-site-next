@@ -36,9 +36,11 @@ Nu sunt necesare imagini OG suplimentare: fiecare dintre cele 6 articole folose�
 
 ### Portofoliu
 
-Pentru demo, recomand o singură imagine neutră `public/og/portofoliu-exemplu.jpg` pentru toate cele 6 pagini individuale, cu formularea vizuală „Exemplu ilustrativ de intervenție auto”. Aceasta este mai sigură decât folosirea imaginilor „după”, care ar putea fi interpretate ca fotografii ale unor lucrări reale.
+Fiecare proiect are câmp dedicat `ogImage` în CMS, seed-uit din composite-ul before/after (`public/portfolio/*-og.jpg`, sursă `content-assets/carfix_portfolio_zip/`).
 
-Când sunt adăugate fotografii reale și confirmate, fiecare proiect poate primi propriul OG image.
+Fallback dacă lipsește: after → before → `defaultOgImage` din site-settings.
+
+Când există fotografii reale confirmate, înlocuiește OG-urile ilustrative din admin.
 
 ### Servicii
 

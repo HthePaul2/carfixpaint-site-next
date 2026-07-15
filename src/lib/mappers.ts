@@ -247,7 +247,9 @@ export function mapService(doc: Service): ServiceView {
 }
 
 export function mapPortfolioProject(doc: PortfolioProject): PortfolioProjectView {
-  const coverOg = getMediaUrl(doc.beforeImage, 'hero')
+  const dedicatedOg = getMediaUrl(doc.ogImage, 'hero')
+  const afterOg = getMediaUrl(doc.afterImage, 'hero')
+  const beforeOg = getMediaUrl(doc.beforeImage, 'hero')
 
   return {
     slug: doc.slug,
@@ -260,7 +262,13 @@ export function mapPortfolioProject(doc: PortfolioProject): PortfolioProjectView
     duration: doc.duration ?? '',
     seoTitle: doc.seoTitle ?? undefined,
     seoDescription: doc.seoDescription ?? undefined,
-    ogImage: coverOg ?? doc.legacyBeforeImageUrl ?? undefined,
+    ogImage:
+      dedicatedOg ??
+      afterOg ??
+      beforeOg ??
+      doc.legacyAfterImageUrl ??
+      doc.legacyBeforeImageUrl ??
+      undefined,
   }
 }
 

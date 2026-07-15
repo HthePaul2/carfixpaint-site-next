@@ -239,6 +239,7 @@ async function seed() {
 
     const beforePath = publicUrlToAbsolute(project.beforeImage)
     const afterPath = publicUrlToAbsolute(project.afterImage)
+    const ogPath = publicUrlToAbsolute(project.ogImage)
 
     const beforeMedia = beforePath
       ? await upsertMedia(payload, {
@@ -254,6 +255,13 @@ async function seed() {
           category: 'portfolio-after',
         })
       : null
+    const ogMedia = ogPath
+      ? await upsertMedia(payload, {
+          absolutePath: ogPath,
+          alt: `${project.title} — imagine Open Graph`,
+          category: 'general',
+        })
+      : null
 
     await upsertBySlug(
       payload,
@@ -266,6 +274,7 @@ async function seed() {
         services: serviceIds,
         beforeImage: beforeMedia?.id,
         afterImage: afterMedia?.id,
+        ogImage: ogMedia?.id,
         legacyBeforeImageUrl: project.beforeImage,
         legacyAfterImageUrl: project.afterImage,
         duration: project.duration,
@@ -303,6 +312,7 @@ async function seed() {
         legacyId: post.id,
         excerpt: post.excerpt,
         coverImage: coverMedia?.id,
+        ogImage: coverMedia?.id,
         legacyMarkdown: post.content ?? '',
         legacyCoverImageUrl: post.image,
         readTime: post.readTime,

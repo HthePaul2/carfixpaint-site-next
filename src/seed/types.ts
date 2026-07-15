@@ -54,6 +54,7 @@ export interface SeedPortfolioProject {
   services: string[]
   beforeImage?: string
   afterImage?: string
+  ogImage?: string
   duration: string
   vehicleBrand?: string
   vehicleModel?: string
