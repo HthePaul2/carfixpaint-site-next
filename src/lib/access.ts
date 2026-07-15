@@ -30,9 +30,18 @@ export const publicReadApprovedReviews: Access = ({ req: { user } }) => {
   if (user) return true
 
   return {
-    approved: {
-      equals: true,
-    },
+    and: [
+      {
+        approved: {
+          equals: true,
+        },
+      },
+      {
+        verified: {
+          equals: true,
+        },
+      },
+    ],
   }
 }
 
