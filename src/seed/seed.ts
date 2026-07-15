@@ -261,11 +261,13 @@ async function seed() {
     )
   }
 
-  console.log('→ Seeding verified reviews, if provided...')
+  console.log('→ Seeding sourced reviews, if provided...')
   for (const [index, review] of REVIEWS.entries()) {
     const seedKey = reviewSeedKey(review.name, review.date)
     const serviceSlug = resolveServiceSlug(review.service)
     const serviceId = serviceSlug ? serviceIdBySlug.get(serviceSlug) : undefined
+    const verified = review.verified ?? false
+    const approved = verified && (review.approved ?? false)
 
     await upsertByField(payload, 'reviews', 'seedKey', seedKey, {
       seedKey,
@@ -275,8 +277,13 @@ async function seed() {
       date: new Date(review.date).toISOString(),
       service: serviceId,
       serviceLabel: review.service,
-      approved: review.approved ?? false,
-      featured: review.featured ?? false,
+      source: review.source,
+      sourceUrl: review.sourceUrl,
+      consentConfirmed: review.consentConfirmed ?? false,
+      verified,
+      verifiedAt: verified ? new Date().toISOString() : undefined,
+      approved,
+      featured: approved && (review.featured ?? false),
       order: review.order ?? index,
     })
   }

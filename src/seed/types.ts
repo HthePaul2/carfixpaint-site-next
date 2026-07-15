@@ -12,13 +12,35 @@ export interface SeedService {
   seoDescription?: string
 }
 
+export interface SeedGoogleReview {
+  id: string
+  name: string
+  rating: number
+  text?: string
+  date: string
+  sourceDateLabel?: string
+  service: string
+  source: 'google' | 'facebook' | 'direct' | 'other'
+  sourceUrl?: string
+  consentConfirmed?: boolean
+  verified?: boolean
+  approved?: boolean
+  featured?: boolean
+  order?: number
+}
+
 export interface SeedReview {
   id: string
   name: string
   rating: number
   text: string
   date: string
+  sourceDateLabel?: string
   service: string
+  source: 'google' | 'facebook' | 'direct' | 'other'
+  sourceUrl?: string
+  consentConfirmed?: boolean
+  verified?: boolean
   approved?: boolean
   featured?: boolean
   order?: number

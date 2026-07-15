@@ -33,6 +33,9 @@ export const publicReadApprovedReviews: Access = ({ req: { user } }) => {
     approved: {
       equals: true,
     },
+    verified: {
+      equals: true,
+    },
   }
 }
 

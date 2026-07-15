@@ -90,56 +90,7 @@ export const SERVICES: SeedService[] = [
   }
 ]
 
-export const REVIEWS: SeedReview[] = [
-  {
-    id: '1',
-    name: 'Andrei Popescu',
-    rating: 5,
-    text: 'Am avut un accident destul de serios și eram disperat. Băieții de la CarFix Paint m-au ajutat cu toată procedura de asigurare, au comunicat direct cu asiguratorul și mi-au dat și mașină la schimb. Mașina a fost reparată impecabil, nu se vede deloc unde a fost lovită. Recomand cu încredere!',
-    date: '2026-01-15',
-    service: 'Daune RCA/CASCO'
-  },
-  {
-    id: '2',
-    name: 'Maria Ionescu',
-    rating: 5,
-    text: 'Cel mai profesionist service din Brașov! Am dat mașina la vopsit capota și bara față. Culoarea e perfectă, nu se deosebește deloc de restul mașinii. Lucrare foarte îngrijită și echipa super prietenoasă. Prețuri corecte și transparent.',
-    date: '2026-01-08',
-    service: 'Vopsitorie'
-  },
-  {
-    id: '3',
-    name: 'Cosmin Dobre',
-    rating: 5,
-    text: 'Am apelat la CarFix pentru îndreptare caroserie după ce am lovit un stâlp în parcare. Mi-au făcut o evaluare corectă, au lucrat rapid și calitativ. M-au ținut la curent în fiecare zi cu stadiul lucrărilor. Foarte mulțumit de rezultat!',
-    date: '2025-12-22',
-    service: 'Tinichigerie'
-  },
-  {
-    id: '4',
-    name: 'Elena Georgescu',
-    rating: 5,
-    text: 'Service auto de încredere! Am avut o problemă la motor și m-am dus direct la ei după recomandarea unui prieten. Au diagnosticat repede problema, mi-au explicat tot ce trebuie făcut și au rezolvat în 2 zile. Prețul a fost exact cât mi-au zis inițial, fără surprize.',
-    date: '2025-12-10',
-    service: 'Mecanică Auto'
-  },
-  {
-    id: '5',
-    name: 'Radu Constantinescu',
-    rating: 5,
-    text: 'Mașina mea avea nevoie de vopsire completă după ce a stat în soare ani de zile. Echipa CarFix Paint a făcut o treabă extraordinară - arată ca nouă! Au folosit vopsea de calitate și se vede diferența. Mulțumit maxim de serviciile lor!',
-    date: '2025-11-28',
-    service: 'Vopsitorie'
-  },
-  {
-    id: '6',
-    name: 'Cristina Mureșan',
-    rating: 5,
-    text: 'Am fost implicată într-un accident și nu știam ce să fac. CarFix Paint s-a ocupat de tot - de la constatare până la finalizarea reparațiilor. Comunicare excelentă, profesionalism și rezultat impecabil. Nu pot să îi recomand destul!',
-    date: '2025-11-15',
-    service: 'Daune CASCO'
-  }
-]
+export const REVIEWS: SeedReview[] = []
 
 export const PORTFOLIO_PROJECTS: SeedPortfolioProject[] = [
   {
