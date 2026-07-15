@@ -3,7 +3,10 @@ import faqsJson from '../../content/faqs.json'
 import homepageJson from '../../content/homepage.json'
 import legalPagesJson from '../../content/legal-pages.json'
 import portfolioJson from '../../content/portfolio.json'
-import reviewsJson from '../../content/reviews.json'
+import googleReviews001037 from '../../content/reviews/google-001-037.json'
+import googleReviews038074 from '../../content/reviews/google-038-074.json'
+import googleReviews075111 from '../../content/reviews/google-075-111.json'
+import googleReviews112148 from '../../content/reviews/google-112-148.json'
 import servicesJson from '../../content/services.json'
 import siteSettingsJson from '../../content/site-settings.json'
 import staticPagesJson from '../../content/static-pages.json'
@@ -49,6 +52,11 @@ export const STATIC_PAGES_CONTENT = {
 export const SERVICES = servicesJson as SeedService[]
 export const PORTFOLIO_PROJECTS = portfolioJson as SeedPortfolioProject[]
 export const BLOG_POSTS = blogPostsJson as SeedBlogPost[]
-export const REVIEWS = reviewsJson as SeedReview[]
+export const REVIEWS = [
+  ...googleReviews001037,
+  ...googleReviews038074,
+  ...googleReviews075111,
+  ...googleReviews112148,
+] as SeedReview[]
 export const FAQ_ITEMS = faqsJson as SeedFaqItem[]
 export const LEGAL_PAGES_CONTENT = legalPagesJson as LegalPagesContent
