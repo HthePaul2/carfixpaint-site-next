@@ -1,5 +1,5 @@
 import configPromise from '@payload-config'
-import { getPayload } from 'payload'
+import { getPayload, type Payload } from 'payload'
 
 import {
   BLOG_POSTS,
@@ -31,10 +31,7 @@ const SERVICE_LABEL_MAP: Record<string, string> = {
 function resolveServiceSlug(label: string): string | undefined {
   const normalized = label.trim().toLowerCase()
 
-  if (SERVICE_LABEL_MAP[normalized]) {
-    return SERVICE_LABEL_MAP[normalized]
-  }
-
+  if (SERVICE_LABEL_MAP[normalized]) return SERVICE_LABEL_MAP[normalized]
   if (normalized.includes('tinichigerie')) return 'tinichigerie'
   if (normalized.includes('vopsitor')) return 'vopsitorie'
   if (normalized.includes('mecanic')) return 'mecanica'
@@ -45,31 +42,60 @@ function resolveServiceSlug(label: string): string | undefined {
   return undefined
 }
 
-async function removeLegacySeedReviews(payload: Awaited<ReturnType<typeof getPayload>>) {
-  const seededReviews = await payload.find({
-    collection: 'reviews',
-    depth: 0,
-    limit: 1000,
-    overrideAccess: true,
-    where: {
-      seedKey: {
-        exists: true,
-      },
-    },
-  })
-
-  for (const review of seededReviews.docs) {
-    await payload.delete({
-      collection: 'reviews',
-      id: review.id,
+async function removeStaleDemoContent(payload: Payload) {
+  const [demoBlogPosts, demoPortfolioProjects, seededReviews, seededFaqs] = await Promise.all([
+    payload.find({
+      collection: 'blog-posts',
+      depth: 0,
+      limit: 1000,
       overrideAccess: true,
-    })
-  }
+      where: { legacyCoverImageUrl: { contains: 'images.unsplash.com' } },
+    }),
+    payload.find({
+      collection: 'portfolio-projects',
+      depth: 0,
+      limit: 1000,
+      overrideAccess: true,
+      where: { legacyBeforeImageUrl: { contains: 'images.unsplash.com' } },
+    }),
+    payload.find({
+      collection: 'reviews',
+      depth: 0,
+      limit: 1000,
+      overrideAccess: true,
+      where: { seedKey: { exists: true } },
+    }),
+    payload.find({
+      collection: 'faqs',
+      depth: 0,
+      limit: 1000,
+      overrideAccess: true,
+      where: { seedKey: { exists: true } },
+    }),
+  ])
+
+  await Promise.all([
+    ...demoBlogPosts.docs.map((doc) =>
+      payload.delete({ collection: 'blog-posts', id: doc.id, overrideAccess: true }),
+    ),
+    ...demoPortfolioProjects.docs.map((doc) =>
+      payload.delete({ collection: 'portfolio-projects', id: doc.id, overrideAccess: true }),
+    ),
+    ...seededReviews.docs.map((doc) =>
+      payload.delete({ collection: 'reviews', id: doc.id, overrideAccess: true }),
+    ),
+    ...seededFaqs.docs.map((doc) =>
+      payload.delete({ collection: 'faqs', id: doc.id, overrideAccess: true }),
+    ),
+  ])
 }
 
 async function seed() {
   const payload = await getPayload({ config: configPromise })
   const serviceIdBySlug = new Map<string, number>()
+
+  console.log('→ Removing stale demo content...')
+  await removeStaleDemoContent(payload)
 
   console.log('→ Seeding site-settings...')
   await upsertGlobal(payload, 'site-settings', {
@@ -225,7 +251,7 @@ async function seed() {
         legacyCoverImageUrl: post.image,
         readTime: post.readTime,
         category: post.category ?? 'general',
-        featured: post.featured ?? index === 0,
+        featured: post.featureured ?? post.featured ?? index === 0,
         seoTitle: post.seoTitle,
         seoDescription: post.seoDescription,
         publishedAt: new Date(post.date).toISOString(),
@@ -234,9 +260,6 @@ async function seed() {
       { draft: false },
     )
   }
-
-  console.log('→ Removing legacy demo reviews...')
-  await removeLegacySeedReviews(payload)
 
   console.log('→ Seeding verified reviews, if provided...')
   for (const [index, review] of REVIEWS.entries()) {
