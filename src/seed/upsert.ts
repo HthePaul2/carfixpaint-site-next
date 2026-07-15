@@ -1,7 +1,7 @@
-import type { Payload, CollectionSlug } from 'payload'
+import type { CollectionSlug, Payload } from 'payload'
 
 type UpsertOptions = {
-  draft?: false
+  draft?: boolean
 }
 
 export async function upsertBySlug(
@@ -23,7 +23,8 @@ export async function upsertBySlug(
   })
 
   const doc = existing.docs[0]
-  const publishOptions = options?.draft === false ? ({ draft: false } as const) : {}
+  const draftOptions =
+    typeof options?.draft === 'boolean' ? ({ draft: options.draft } as const) : {}
 
   if (doc) {
     return payload.update({
@@ -31,7 +32,7 @@ export async function upsertBySlug(
       id: doc.id,
       data: data as never,
       overrideAccess: true,
-      ...publishOptions,
+      ...draftOptions,
     })
   }
 
@@ -42,7 +43,7 @@ export async function upsertBySlug(
       ...data,
     } as never,
     overrideAccess: true,
-    ...publishOptions,
+    ...draftOptions,
   })
 }
 
