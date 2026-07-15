@@ -11,13 +11,14 @@ Acest folder este sursa editorială pentru seed și fallback-urile site-ului.
 - `portfolio.json` — 6 studii de caz în draft
 - `blog-posts.json` — 6 articole complete în limba română
 - `faqs.json` — întrebări frecvente
-- `reviews.json` — intenționat gol; nu se publică testimoniale inventate
+- `reviews.json` — recenzii reale, cu proveniență și verificare
+- `REVIEWS_IMPORT.md` — formatul și regulile pentru importarea recenziilor
 - `legal-pages.json` — conținut legal orientativ și SEO
 
 ## Reguli editoriale
 
 1. Nu publica portofoliul ca lucrare reală până când există fotografii reale și detalii confirmate.
 2. Imaginile generate cu AI trebuie marcate ca ilustrative și nu trebuie prezentate drept fotografii ale unor lucrări executate.
-3. În `reviews.json` se introduc doar recenzii reale, cu acord pentru publicare.
+3. În `reviews.json` se introduc doar recenzii reale, cu sursă verificabilă sau acord direct pentru publicare.
 4. Textele legale trebuie completate cu denumirea juridică, CUI, sediul și furnizorii reali, apoi revizuite de un consultant.
 5. Nu promite termene, garanții, decontare directă sau disponibilitatea mașinii la schimb fără confirmarea situației concrete.
