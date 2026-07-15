@@ -12,6 +12,7 @@ import {
   SITE_SETTINGS,
   STATIC_PAGES_CONTENT,
 } from '@/seed/content'
+import { publicAssetPath, upsertMedia } from '@/seed/media'
 import { faqSeedKey, reviewSeedKey, slugify } from '@/seed/slugify'
 import { upsertByField, upsertBySlug, upsertGlobal } from '@/seed/upsert'
 
@@ -90,12 +91,36 @@ async function removeStaleDemoContent(payload: Payload) {
   ])
 }
 
+function publicUrlToAbsolute(url?: string) {
+  if (!url?.startsWith('/')) return null
+  return publicAssetPath(...url.slice(1).split('/'))
+}
+
 async function seed() {
   const payload = await getPayload({ config: configPromise })
   const serviceIdBySlug = new Map<string, number>()
 
   console.log('→ Removing stale demo content...')
   await removeStaleDemoContent(payload)
+
+  console.log('→ Uploading brand media into Payload Media...')
+  const [logoMedia, ogMedia, heroMedia] = await Promise.all([
+    upsertMedia(payload, {
+      absolutePath: publicAssetPath('logo.svg'),
+      alt: 'Logo Car Fix & Paint',
+      category: 'general',
+    }),
+    upsertMedia(payload, {
+      absolutePath: publicAssetPath('og-image.png'),
+      alt: 'Car Fix & Paint — imagine Open Graph',
+      category: 'general',
+    }),
+    upsertMedia(payload, {
+      absolutePath: publicAssetPath('hero.png'),
+      alt: 'Car Fix & Paint — imagine hero homepage',
+      category: 'general',
+    }),
+  ])
 
   console.log('→ Seeding site-settings...')
   await upsertGlobal(payload, 'site-settings', {
@@ -108,6 +133,7 @@ async function seed() {
     whatsappNumber: SITE_SETTINGS.whatsappNumber,
     whatsappMessage: SITE_SETTINGS.whatsappMessage,
     canonicalDomain: SITE_SETTINGS.canonicalDomain,
+    defaultOgImage: ogMedia.id,
     ctaPhoneLabel: SITE_SETTINGS.ctaPhoneLabel,
     ctaQuoteLabel: SITE_SETTINGS.ctaQuoteLabel,
     logoAbbreviation: SITE_SETTINGS.logoAbbreviation,
@@ -117,6 +143,7 @@ async function seed() {
     copyrightText: SITE_SETTINGS.copyrightText,
   })
 
+  console.log(`  brand media: logo#${logoMedia.id}, hero#${heroMedia.id}, og#${ogMedia.id}`)
   console.log('→ Seeding homepage...')
   await upsertGlobal(payload, 'homepage', {
     heroBadge: HOMEPAGE_CONTENT.heroBadge,
@@ -200,7 +227,7 @@ async function seed() {
     serviceIdBySlug.set(service.id, doc.id as number)
   }
 
-  console.log('→ Seeding portfolio projects...')
+  console.log('→ Uploading portfolio media and seeding projects...')
   for (const [index, project] of PORTFOLIO_PROJECTS.entries()) {
     const slug = project.slug ?? slugify(project.title)
     const serviceIds = project.services
@@ -209,6 +236,24 @@ async function seed() {
       .map((serviceSlug) => serviceIdBySlug.get(serviceSlug))
       .filter((value): value is number => typeof value === 'number')
     const published = project.published ?? false
+
+    const beforePath = publicUrlToAbsolute(project.beforeImage)
+    const afterPath = publicUrlToAbsolute(project.afterImage)
+
+    const beforeMedia = beforePath
+      ? await upsertMedia(payload, {
+          absolutePath: beforePath,
+          alt: `${project.title} — concept înainte`,
+          category: 'portfolio-before',
+        })
+      : null
+    const afterMedia = afterPath
+      ? await upsertMedia(payload, {
+          absolutePath: afterPath,
+          alt: `${project.title} — concept după`,
+          category: 'portfolio-after',
+        })
+      : null
 
     await upsertBySlug(
       payload,
@@ -219,6 +264,8 @@ async function seed() {
         legacyId: project.id,
         description: project.description,
         services: serviceIds,
+        beforeImage: beforeMedia?.id,
+        afterImage: afterMedia?.id,
         legacyBeforeImageUrl: project.beforeImage,
         legacyAfterImageUrl: project.afterImage,
         duration: project.duration,
@@ -235,9 +282,17 @@ async function seed() {
     )
   }
 
-  console.log('→ Seeding blog posts...')
+  console.log('→ Uploading blog covers and seeding posts...')
   for (const [index, post] of BLOG_POSTS.entries()) {
     const slug = post.slug ?? slugify(post.title)
+    const coverPath = publicUrlToAbsolute(post.image)
+    const coverMedia = coverPath
+      ? await upsertMedia(payload, {
+          absolutePath: coverPath,
+          alt: post.title,
+          category: 'blog',
+        })
+      : null
 
     await upsertBySlug(
       payload,
@@ -247,6 +302,7 @@ async function seed() {
         title: post.title,
         legacyId: post.id,
         excerpt: post.excerpt,
+        coverImage: coverMedia?.id,
         legacyMarkdown: post.content ?? '',
         legacyCoverImageUrl: post.image,
         readTime: post.readTime,
