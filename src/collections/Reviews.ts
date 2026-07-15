@@ -97,27 +97,16 @@ export const Reviews: CollectionConfig = {
     {
       name: 'text',
       type: 'textarea',
+      required: true,
       admin: {
         description:
-          'Lasă gol pentru evaluările fără comentariu. Nu completa artificial un testimonial.',
+          'Pentru o evaluare fără comentariu folosește doar marcajul editorial dintre paranteze drepte; nu inventa un testimonial.',
       },
     },
     {
       name: 'date',
       type: 'date',
       required: true,
-      admin: {
-        description: 'Dată aproximativă, calculată din eticheta relativă exportată de Google.',
-      },
-    },
-    {
-      name: 'sourceDateLabel',
-      type: 'text',
-      label: 'Eticheta originală a datei',
-      admin: {
-        readOnly: true,
-        description: 'Valoarea originală din export, de exemplu „acum 9 luni”.',
-      },
     },
     {
       name: 'service',
