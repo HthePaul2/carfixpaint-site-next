@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Phone, List, X } from '@phosphor-icons/react'
 import { Button } from '@/components/ui/button'
+import { BrandLogo } from '@/components/layout/BrandLogo'
 import { useSiteSettings } from '@/components/providers/SiteSettingsProvider'
 import { motion, AnimatePresence } from 'framer-motion'
 
@@ -22,19 +23,8 @@ export function Header() {
   return (
     <>
       <header className="sticky top-0 z-40 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center justify-between">
-          <Link
-            href="/"
-            className="flex items-center space-x-2 hover:opacity-80 transition-opacity"
-          >
-            <div className="h-8 w-8 rounded-md bg-accent flex items-center justify-center">
-              <span className="text-white font-bold text-lg">{company.logoAbbreviation}</span>
-            </div>
-            <div className="flex flex-col">
-              <span className="font-bold text-lg leading-none">{company.name}</span>
-              <span className="text-xs text-muted-foreground">{company.tagline}</span>
-            </div>
-          </Link>
+        <div className="container flex h-16 items-center justify-between gap-4">
+          <BrandLogo height={36} priority />
 
           <nav className="hidden lg:flex items-center gap-6">
             {navItems.map((item) => (
@@ -61,6 +51,7 @@ export function Header() {
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="lg:hidden"
+              aria-label={mobileMenuOpen ? 'Închide meniul' : 'Deschide meniul'}
             >
               {mobileMenuOpen ? (
                 <X size={28} weight="bold" />

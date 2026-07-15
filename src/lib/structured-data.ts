@@ -17,7 +17,7 @@ export function buildAutoRepairSchema(settings: SiteSeoSettings) {
     telephone: getSchemaPhone(settings),
     email: settings.email,
     image: settings.defaultOgImage,
-    logo: settings.defaultOgImage,
+    logo: absoluteUrl(settings, '/logo.svg'),
     priceRange: '$$',
     address: {
       '@type': 'PostalAddress',
@@ -209,7 +209,7 @@ export function buildBlogPostingSchema(
       name: settings.siteName,
       logo: {
         '@type': 'ImageObject',
-        url: settings.defaultOgImage,
+        url: absoluteUrl(settings, '/logo.svg'),
       },
     },
     mainEntityOfPage: {

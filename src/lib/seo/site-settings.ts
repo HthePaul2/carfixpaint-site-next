@@ -28,7 +28,7 @@ function resolveDefaultSiteUrl(): string {
 }
 
 function toAbsoluteAssetUrl(siteUrl: string, asset?: string): string {
-  if (!asset) return `${siteUrl}/og-image.jpg`
+  if (!asset) return `${siteUrl}/og-image.png`
   if (asset.startsWith('http://') || asset.startsWith('https://')) return asset
   return `${siteUrl}${asset.startsWith('/') ? asset : `/${asset}`}`
 }
@@ -72,7 +72,7 @@ export const getSiteSeoSettings = cache(async (): Promise<SiteSeoSettings> => {
     return {
       siteName: defaultSiteInfo.name,
       siteUrl: fallbackUrl,
-      defaultOgImage: `${fallbackUrl}/og-image.jpg`,
+      defaultOgImage: `${fallbackUrl}/og-image.png`,
       phone: defaultSiteInfo.phone,
       email: defaultSiteInfo.email,
       address: defaultSiteInfo.address,

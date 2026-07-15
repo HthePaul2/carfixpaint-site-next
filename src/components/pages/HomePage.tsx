@@ -3,6 +3,7 @@
 import * as Icons from '@phosphor-icons/react'
 import { ArrowRight, CheckCircle, Clock, Phone } from '@phosphor-icons/react'
 import { motion } from 'framer-motion'
+import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 
 import { useSiteSettings } from '@/components/providers/SiteSettingsProvider'
@@ -52,11 +53,19 @@ export function HomePage({ homepage, services, portfolioProjects, reviews }: Hom
 
   return (
     <div>
-      <section className="relative overflow-hidden bg-primary text-primary-foreground">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(226,76,45,0.1),transparent_50%)]" />
-        <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.03)_25%,rgba(255,255,255,0.03)_50%,transparent_50%,transparent_75%,rgba(255,255,255,0.03)_75%)] bg-[length:20px_20px]" />
+      <section className="relative min-h-[70vh] overflow-hidden bg-primary text-primary-foreground md:min-h-[78vh]">
+        <Image
+          src="/hero.png"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/55 to-black/25" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/20" />
 
-        <div className="container relative py-20 md:py-32">
+        <div className="container relative flex min-h-[70vh] items-center py-20 md:min-h-[78vh] md:py-28">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -69,7 +78,7 @@ export function HomePage({ homepage, services, portfolioProjects, reviews }: Hom
               <br />
               <span className="text-accent">{homepage.heroAccentText}</span>
             </h1>
-            <p className="mb-8 text-lg leading-relaxed opacity-90 md:text-xl">
+            <p className="mb-8 text-lg leading-relaxed text-white/90 md:text-xl">
               {homepage.heroDescription}
             </p>
             <div className="flex flex-col gap-4 sm:flex-row">

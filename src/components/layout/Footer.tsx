@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { Phone, EnvelopeSimple, MapPin, Clock, FacebookLogo, InstagramLogo } from '@phosphor-icons/react'
+import { BrandLogo } from '@/components/layout/BrandLogo'
 import { Separator } from '@/components/ui/separator'
 import { useSiteSettings } from '@/components/providers/SiteSettingsProvider'
 
@@ -14,14 +15,8 @@ export function Footer() {
       <div className="container py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div>
-            <div className="flex items-center space-x-2 mb-4">
-              <div className="h-10 w-10 rounded-md bg-accent flex items-center justify-center">
-                <span className="text-white font-bold text-xl">{company.logoAbbreviation}</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="font-bold text-lg leading-none">{company.name}</span>
-                <span className="text-xs opacity-80">{company.tagline}</span>
-              </div>
+            <div className="mb-4">
+              <BrandLogo height={40} variant="onDark" />
             </div>
             <p className="text-sm opacity-80 mb-4">{company.footerDescription}</p>
             <div className="flex gap-3">
