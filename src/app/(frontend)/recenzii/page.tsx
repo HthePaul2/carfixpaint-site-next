@@ -15,7 +15,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function Page() {
   const [reviews, staticPages, settings] = await Promise.all([
-    getApprovedReviews(),
+    getApprovedReviews(250),
     getStaticPages(),
     getSiteSeoSettings(),
   ])
