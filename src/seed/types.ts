@@ -2,8 +2,14 @@ export interface SeedService {
   id: string
   name: string
   icon: string
+  shortDescription?: string
   description: string
   features: string[]
+  featured?: boolean
+  active?: boolean
+  order?: number
+  seoTitle?: string
+  seoDescription?: string
 }
 
 export interface SeedReview {
@@ -13,29 +19,48 @@ export interface SeedReview {
   text: string
   date: string
   service: string
+  approved?: boolean
+  featured?: boolean
+  order?: number
 }
 
 export interface SeedPortfolioProject {
   id: string
+  slug?: string
   title: string
   description: string
   services: string[]
-  beforeImage: string
-  afterImage: string
+  beforeImage?: string
+  afterImage?: string
   duration: string
+  vehicleBrand?: string
+  vehicleModel?: string
+  featured?: boolean
+  published?: boolean
+  order?: number
+  seoTitle?: string
+  seoDescription?: string
 }
 
 export interface SeedBlogPost {
   id: string
+  slug?: string
   title: string
   excerpt: string
   content?: string
   date: string
   readTime: string
   image?: string
+  category?: 'guides' | 'tips' | 'insurance' | 'maintenance' | 'general'
+  featured?: boolean
+  seoTitle?: string
+  seoDescription?: string
 }
 
 export interface SeedFaqItem {
   question: string
   answer: string
+  category?: 'services' | 'insurance' | 'pricing' | 'general'
+  published?: boolean
+  order?: number
 }

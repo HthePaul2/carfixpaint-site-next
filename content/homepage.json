@@ -1,0 +1,37 @@
+{
+  "heroBadge": "Service auto în Brașov",
+  "heroTitle": "Reparații de caroserie făcute corect",
+  "heroAccentText": "de la evaluare până la predarea mașinii",
+  "heroDescription": "Tinichigerie, vopsitorie, mecanică și diagnoză pentru autoturisme multimarcă. Pentru daune RCA sau CASCO, te ajutăm să înțelegi pașii, să pregătești documentele și să urmărești reparația fără drumuri inutile.",
+  "heroCtaPhoneLabel": "Sună pentru evaluare",
+  "heroCtaQuoteLabel": "Trimite detaliile mașinii",
+  "benefits": [
+    { "icon": "CheckCircle", "title": "Evaluare clară", "description": "Îți explicăm ce trebuie reparat și ce opțiuni ai înainte de începerea lucrării." },
+    { "icon": "PaintBrush", "title": "Finisaj atent", "description": "Pregătire corectă a suprafeței, potrivirea nuanței și controlul rezultatului final." },
+    { "icon": "Shield", "title": "Sprijin pentru daune", "description": "Te ajutăm cu documentele și comunicarea necesară pentru dosarele RCA/CASCO." },
+    { "icon": "Car", "title": "Mobilitate", "description": "Mașină la schimb, când este disponibilă și când condițiile dosarului permit." }
+  ],
+  "servicesSectionTitle": "Servicii auto într-un singur loc",
+  "servicesSectionSubtitle": "De la o zgârietură sau o problemă de diagnoză până la reparații complexe de caroserie.",
+  "portfolioSectionTitle": "Tipuri de lucrări pe care le realizăm",
+  "reviewsSectionTitle": "Experiența clienților",
+  "servicesLimit": 6,
+  "portfolioLimit": 3,
+  "reviewsLimit": 3,
+  "damageProcessTitle": "Cum abordăm o daună auto",
+  "damageProcessSteps": [
+    { "title": "Discuție și evaluare", "description": "Ne trimiți fotografii sau vii cu mașina pentru o primă evaluare a daunelor." },
+    { "title": "Documente și constatare", "description": "Verificăm actele disponibile și stabilim ce mai este necesar pentru dosarul de daună." },
+    { "title": "Deviz și aprobare", "description": "Pregătim estimarea lucrărilor și așteptăm acordurile necesare înainte de intervenție." },
+    { "title": "Reparație și actualizări", "description": "Executăm lucrările aprobate și te informăm dacă apar elemente suplimentare." },
+    { "title": "Control final și predare", "description": "Verificăm funcționarea, alinierea și finisajul înainte să îți predăm mașina." }
+  ],
+  "finalCtaTitle": "Ai o daună, o zgârietură sau o problemă tehnică?",
+  "finalCtaDescription": "Trimite-ne câteva fotografii și datele mașinii. Îți spunem ce putem verifica de la distanță și când este nevoie de o constatare în service.",
+  "finalCtaButtonLabel": "Cere o evaluare",
+  "seoTitle": "Service auto Brașov | Tinichigerie, vopsitorie și daune | CarFix Paint",
+  "seoDescription": "CarFix Paint oferă în Brașov servicii de tinichigerie, vopsitorie, mecanică, diagnoză și sprijin pentru dosare de daună RCA/CASCO.",
+  "seoKeywords": "service auto Brașov, tinichigerie Brașov, vopsitorie auto Brașov, daune RCA Brașov, daune CASCO, diagnoză auto Brașov",
+  "ogTitle": "CarFix Paint — service auto în Brașov",
+  "ogDescription": "Tinichigerie, vopsitorie, mecanică, diagnoză și gestionarea reparațiilor pentru daune RCA/CASCO."
+}
