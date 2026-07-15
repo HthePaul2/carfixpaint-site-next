@@ -1,3 +1,4 @@
+import aboutPageJson from '../../content/about-page.json'
 import blogPostsJson from '../../content/blog-posts.json'
 import faqsJson from '../../content/faqs.json'
 import homepageJson from '../../content/homepage.json'
@@ -40,23 +41,30 @@ export type LegalPagesContent = {
   termsSections: LegalSection[]
 }
 
+const googleReviews = [
+  ...googleReviews001037,
+  ...googleReviews038074,
+  ...googleReviews075111,
+  ...googleReviews112148,
+]
+
 export const SITE_SETTINGS = siteSettingsJson
 export const HOMEPAGE_CONTENT = homepageJson as HomepageView
 export const STATIC_PAGES_CONTENT = {
   ...staticPagesJson,
   despre: {
-    ...staticPagesJson.despre,
+    ...aboutPageJson,
     valuesContent: null,
   },
 } as StaticPagesView
 export const SERVICES = servicesJson as SeedService[]
 export const PORTFOLIO_PROJECTS = portfolioJson as SeedPortfolioProject[]
 export const BLOG_POSTS = blogPostsJson as SeedBlogPost[]
-export const REVIEWS = [
-  ...googleReviews001037,
-  ...googleReviews038074,
-  ...googleReviews075111,
-  ...googleReviews112148,
-] as SeedReview[]
+export const REVIEWS = googleReviews.map((review) => ({
+  ...review,
+  text:
+    review.text?.trim() ||
+    `[Evaluare Google de ${review.rating} stele, fără comentariu.]`,
+})) as SeedReview[]
 export const FAQ_ITEMS = faqsJson as SeedFaqItem[]
 export const LEGAL_PAGES_CONTENT = legalPagesJson as LegalPagesContent
