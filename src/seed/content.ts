@@ -16,6 +16,7 @@ import type { HomepageView, StaticPagesView } from '@/lib/cms-types'
 import type {
   SeedBlogPost,
   SeedFaqItem,
+  SeedGoogleReview,
   SeedPortfolioProject,
   SeedReview,
   SeedService,
@@ -46,12 +47,12 @@ const googleReviews = [
   ...googleReviews038074,
   ...googleReviews075111,
   ...googleReviews112148,
-]
+] as SeedGoogleReview[]
 
 const orderedGoogleReviews = [...googleReviews].sort((left, right) => {
   const featuredDifference = Number(Boolean(right.featured)) - Number(Boolean(left.featured))
   if (featuredDifference !== 0) return featuredDifference
-  return left.order - right.order
+  return (left.order ?? 0) - (right.order ?? 0)
 })
 
 export const SITE_SETTINGS = siteSettingsJson

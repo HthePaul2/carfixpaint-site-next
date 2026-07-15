@@ -348,8 +348,14 @@ export interface Review {
    * Cheie stabilă pentru seed idempotent
    */
   seedKey?: string | null;
+  /**
+   * Folosește numele public din sursă sau inițiale dacă persoana a cerut anonimizarea.
+   */
   name: string;
   rating: number;
+  /**
+   * Pentru o evaluare fără comentariu folosește doar marcajul editorial dintre paranteze drepte; nu inventa un testimonial.
+   */
   text: string;
   date: string;
   service?: (number | null) | Service;
@@ -357,6 +363,26 @@ export interface Review {
    * Etichetă liberă dacă relationship-ul lipsește (ex. la seed)
    */
   serviceLabel?: string | null;
+  /**
+   * Locul din care poate fi verificat feedbackul.
+   */
+  source?: ('google' | 'facebook' | 'direct' | 'other') | null;
+  /**
+   * Obligatoriu pentru Google, Facebook sau altă sursă publică. Poate fi linkul profilului dacă nu există link direct către recenzie.
+   */
+  sourceUrl?: string | null;
+  /**
+   * Bifează doar pentru feedback primit direct, după ce clientul a acceptat publicarea.
+   */
+  consentConfirmed?: boolean | null;
+  /**
+   * Confirmă că ratingul, autorul și textul corespund unei surse reale sau feedbackului autorizat.
+   */
+  verified?: boolean | null;
+  verifiedAt?: string | null;
+  /**
+   * Devine publică numai dacă este bifată și „Sursă verificată”.
+   */
   approved?: boolean | null;
   featured?: boolean | null;
   order?: number | null;
@@ -676,6 +702,11 @@ export interface ReviewsSelect<T extends boolean = true> {
   date?: T;
   service?: T;
   serviceLabel?: T;
+  source?: T;
+  sourceUrl?: T;
+  consentConfirmed?: T;
+  verified?: T;
+  verifiedAt?: T;
   approved?: T;
   featured?: T;
   order?: T;
