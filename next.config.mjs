@@ -3,6 +3,10 @@ import { withPayload } from '@payloadcms/next/withPayload'
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'standalone',
+  experimental: {
+    // Needed for a custom global 404 with multiple root layouts ((frontend) + (payload)).
+    globalNotFound: true,
+  },
   images: {
     remotePatterns: [
       {
