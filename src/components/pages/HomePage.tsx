@@ -30,7 +30,7 @@ type IconComponent = React.ComponentType<{
 }>
 
 function resolveIcon(iconName: string): IconComponent {
-  return (Icons[iconName as keyof typeof Icons] as IconComponent | undefined) ?? CheckCircle
+  return (Icons[iconName as keyof typeof Icons] ?? CheckCircle) as IconComponent
 }
 
 export function HomePage({ homepage, services, portfolioProjects, reviews }: HomePageProps) {
