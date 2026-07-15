@@ -1,6 +1,6 @@
 import { s3Storage } from '@payloadcms/storage-s3'
-import type { Plugin } from 'payload'
 import type { S3ClientConfig } from '@aws-sdk/client-s3'
+import type { Plugin } from 'payload'
 
 export function isS3StorageEnabled(): boolean {
   return Boolean(
@@ -27,11 +27,21 @@ export function getStoragePlugins(): Plugin[] {
     config.forcePathStyle = process.env.S3_FORCE_PATH_STYLE !== 'false'
   }
 
+  const publicUrl = process.env.S3_PUBLIC_URL?.replace(/\/+$/, '')
+
   return [
     s3Storage({
       enabled: true,
       collections: {
-        media: true,
+        media: publicUrl
+          ? {
+              disablePayloadAccessControl: true,
+              generateFileURL: ({ filename, prefix }) => {
+                const key = prefix ? `${prefix}/${filename}` : filename
+                return `${publicUrl}/${key}`
+              },
+            }
+          : true,
       },
       bucket: process.env.S3_BUCKET!,
       config,
