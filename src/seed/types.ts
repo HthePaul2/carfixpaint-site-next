@@ -19,6 +19,10 @@ export interface SeedReview {
   text: string
   date: string
   service: string
+  source: 'google' | 'facebook' | 'direct' | 'other'
+  sourceUrl?: string
+  consentConfirmed?: boolean
+  verified?: boolean
   approved?: boolean
   featured?: boolean
   order?: number
