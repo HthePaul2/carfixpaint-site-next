@@ -251,7 +251,7 @@ async function seed() {
         legacyCoverImageUrl: post.image,
         readTime: post.readTime,
         category: post.category ?? 'general',
-        featured: post.featureured ?? post.featured ?? index === 0,
+        featured: post.featured ?? index === 0,
         seoTitle: post.seoTitle,
         seoDescription: post.seoDescription,
         publishedAt: new Date(post.date).toISOString(),
