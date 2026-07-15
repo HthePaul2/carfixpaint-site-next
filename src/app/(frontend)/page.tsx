@@ -19,7 +19,7 @@ export default async function Page() {
   return (
     <>
       <JsonLd data={buildAutoRepairSchema(settings)} />
-      <HomePage {...data} />
+      <HomePage {...data} portfolioProjects={[]} />
     </>
   )
 }

@@ -2,8 +2,8 @@
   {
     "id": "1",
     "slug": "reparatie-aripa-audi-vopsitorie",
-    "title": "Audi — reparație aripă și vopsitorie",
-    "description": "Reparație locală pe aripa față stângă: corectarea deformărilor, pregătirea suprafeței și potrivirea nuanței pentru un finisaj uniform cu restul caroseriei.",
+    "title": "Audi — exemplu pentru repararea unei aripi",
+    "description": "Concept vizual generat pentru a ilustra o posibilă intervenție locală pe aripa față: evaluarea deformării, pregătirea suprafeței și refacerea finisajului. Soluția reală se stabilește numai după verificarea mașinii.",
     "services": ["Tinichigerie", "Vopsitorie"],
     "beforeImage": "/portfolio/audi-reparatie-aripa-before.jpg",
     "afterImage": "/portfolio/audi-reparatie-aripa-after.jpg",
@@ -13,14 +13,14 @@
     "featured": true,
     "published": true,
     "order": 0,
-    "seoTitle": "Reparație aripă Audi și vopsitorie | CarFix Paint",
-    "seoDescription": "Reparație și vopsitorie pe aripa unui Audi — rezultat before/after."
+    "seoTitle": "Exemplu reparație aripă Audi | CarFix Paint",
+    "seoDescription": "Concept vizual ilustrativ pentru repararea și vopsirea unei aripi Audi."
   },
   {
     "id": "2",
     "slug": "dauna-rca-bmw-bara-far",
-    "title": "BMW — daună frontală la bară și far",
-    "description": "Intervenție pe zona frontală după impact: verificați bara, farul și elementele adiacente, apoi reparație, montaj și aliniere pentru un aspect curat.",
+    "title": "BMW — exemplu pentru o daună frontală",
+    "description": "Concept vizual pentru o daună în zona barei și a farului. Într-un caz real sunt verificate prinderile, senzorii și elementele din spatele barei înainte de stabilirea operațiunilor și pieselor necesare.",
     "services": ["Daune RCA", "Tinichigerie", "Vopsitorie"],
     "beforeImage": "/portfolio/bmw-dauna-rca-bara-far-before.jpg",
     "afterImage": "/portfolio/bmw-dauna-rca-bara-far-after.jpg",
@@ -30,14 +30,14 @@
     "featured": true,
     "published": true,
     "order": 1,
-    "seoTitle": "Reparație daună RCA BMW | CarFix Paint",
-    "seoDescription": "Reparație daună frontală BMW la bară și far — before/after."
+    "seoTitle": "Exemplu daună frontală BMW | CarFix Paint",
+    "seoDescription": "Concept vizual ilustrativ pentru o daună frontală BMW la bară și far."
   },
   {
     "id": "3",
     "slug": "tinichigerie-usa-mercedes",
-    "title": "Mercedes — reparație ușă",
-    "description": "Lucrare pe ușa afectată lateral: îndreptare sau înlocuire după evaluare, aliniere cu panourile vecine și refacerea finisajului.",
+    "title": "Mercedes — exemplu pentru repararea unei uși",
+    "description": "Concept vizual pentru o ușă afectată lateral. Evaluarea reală urmărește tabla, rama, balamalele, sistemul de închidere și alinierea cu elementele vecine înainte de alegerea reparației sau înlocuirii.",
     "services": ["Tinichigerie", "Vopsitorie"],
     "beforeImage": "/portfolio/mercedes-reparatie-usa-before.jpg",
     "afterImage": "/portfolio/mercedes-reparatie-usa-after.jpg",
@@ -47,14 +47,14 @@
     "featured": true,
     "published": true,
     "order": 2,
-    "seoTitle": "Tinichigerie ușă Mercedes | CarFix Paint",
-    "seoDescription": "Reparație ușă Mercedes — rezultat before/after."
+    "seoTitle": "Exemplu tinichigerie ușă Mercedes | CarFix Paint",
+    "seoDescription": "Concept vizual ilustrativ pentru repararea unei uși Mercedes."
   },
   {
     "id": "4",
     "slug": "vopsitorie-completa-volkswagen",
-    "title": "Volkswagen — refacerea vopselei",
-    "description": "Refacere extinsă a finisajului pe zone cu lac degradat sau diferențe de nuanță: pregătire, maskare, vopsire etapizată și control final al finisajului.",
+    "title": "Volkswagen — exemplu pentru refacerea vopselei",
+    "description": "Concept vizual care ilustrează refacerea unui finisaj cu lac degradat sau diferențe de nuanță. În practică, suprafața și intervențiile anterioare trebuie inspectate înainte de alegerea procesului de vopsire.",
     "services": ["Vopsitorie"],
     "beforeImage": "/portfolio/volkswagen-refacere-vopsea-before.jpg",
     "afterImage": "/portfolio/volkswagen-refacere-vopsea-after.jpg",
@@ -64,14 +64,14 @@
     "featured": false,
     "published": true,
     "order": 3,
-    "seoTitle": "Vopsitorie Volkswagen | CarFix Paint",
-    "seoDescription": "Refacere vopsea Volkswagen — before/after."
+    "seoTitle": "Exemplu refacere vopsea Volkswagen | CarFix Paint",
+    "seoDescription": "Concept vizual ilustrativ pentru refacerea finisajului unui Volkswagen."
   },
   {
     "id": "5",
     "slug": "reparatie-hayon-senzori-toyota",
-    "title": "Toyota — reparație hayon și senzori",
-    "description": "Reparație pe zona posterioară: hayon, bară și verificarea senzorilor de parcare, urmată de aliniere și test funcțional după montaj.",
+    "title": "Toyota — exemplu pentru o daună la hayon",
+    "description": "Concept vizual pentru o lovitură în zona posterioară. O constatare reală include hayonul, bara, prinderile, cablajele, închiderea și senzorii, urmate de verificarea alinierii și funcțiilor afectate.",
     "services": ["Tinichigerie", "Vopsitorie", "Diagnoză"],
     "beforeImage": "/portfolio/toyota-reparatie-hayon-before.jpg",
     "afterImage": "/portfolio/toyota-reparatie-hayon-after.jpg",
@@ -81,14 +81,14 @@
     "featured": false,
     "published": true,
     "order": 4,
-    "seoTitle": "Reparație hayon Toyota | CarFix Paint",
-    "seoDescription": "Reparație hayon Toyota și verificare senzori — before/after."
+    "seoTitle": "Exemplu daună hayon Toyota | CarFix Paint",
+    "seoDescription": "Concept vizual ilustrativ pentru o daună în zona posterioară a unei Toyota."
   },
   {
     "id": "6",
     "slug": "dauna-casco-ford-multiple-zone",
-    "title": "Ford — daună CASCO pe mai multe zone",
-    "description": "Reparație pe mai multe elemente afectate: documentare pe zone, ordinea intervențiilor și finisaj unitar după tinichigerie și vopsitorie.",
+    "title": "Ford — exemplu pentru o daună în mai multe zone",
+    "description": "Concept vizual pentru daune distribuite pe mai multe elemente. Într-un dosar real, fiecare zonă este documentată separat și se stabilește ordinea intervențiilor după constatare și aprobarea operațiunilor.",
     "services": ["Daune CASCO", "Tinichigerie", "Vopsitorie"],
     "beforeImage": "/portfolio/ford-dauna-casco-before.jpg",
     "afterImage": "/portfolio/ford-dauna-casco-after.jpg",
@@ -98,7 +98,7 @@
     "featured": false,
     "published": true,
     "order": 5,
-    "seoTitle": "Reparație daună CASCO Ford | CarFix Paint",
-    "seoDescription": "Daună CASCO Ford pe mai multe zone — before/after."
+    "seoTitle": "Exemplu daună CASCO Ford | CarFix Paint",
+    "seoDescription": "Concept vizual ilustrativ pentru o daună Ford în mai multe zone."
   }
 ]

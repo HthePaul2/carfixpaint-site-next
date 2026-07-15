@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 
-import { PortfolioPage } from '@/components/pages/AllPages'
+import { IllustrativePortfolioPage } from '@/components/pages/IllustrativePortfolioPage'
 import { getPortfolioProjects, getStaticPages } from '@/lib/queries'
 import { createStaticPageMetadata } from '@/lib/seo/metadata'
 
@@ -12,5 +12,6 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function Page() {
   const [projects, staticPages] = await Promise.all([getPortfolioProjects(), getStaticPages()])
-  return <PortfolioPage content={staticPages.portofoliu} projects={projects} />
+
+  return <IllustrativePortfolioPage content={staticPages.portofoliu} projects={projects} />
 }
