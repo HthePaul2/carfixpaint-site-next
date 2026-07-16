@@ -1,6 +1,5 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useMemo } from 'react'
 
@@ -139,11 +138,8 @@ export function ReviewsPage({ content, result }: ReviewsPageProps) {
         ) : (
           <div className="mx-auto grid max-w-6xl grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {docs.map((review) => (
-              <motion.div
+              <div
                 key={review.id}
-                initial={{ opacity: 0, scale: 0.97 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
               >
                 <Card className="h-full">
                   <CardContent className="p-6">
@@ -167,7 +163,7 @@ export function ReviewsPage({ content, result }: ReviewsPageProps) {
                     </div>
                   </CardContent>
                 </Card>
-              </motion.div>
+              </div>
             ))}
           </div>
         )}

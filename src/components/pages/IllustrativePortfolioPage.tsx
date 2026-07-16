@@ -1,7 +1,6 @@
 'use client'
 
 import { Info } from '@phosphor-icons/react'
-import { motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 
 import { Badge } from '@/components/ui/badge'
@@ -45,11 +44,8 @@ export function IllustrativePortfolioPage({
         ) : (
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
             {projects.map((project) => (
-              <motion.div
+              <div
                 key={project.slug}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
               >
                 <Card
                   className="cursor-pointer overflow-hidden transition-shadow hover:shadow-lg"
@@ -89,7 +85,7 @@ export function IllustrativePortfolioPage({
                     </div>
                   </CardContent>
                 </Card>
-              </motion.div>
+              </div>
             ))}
           </div>
         )}

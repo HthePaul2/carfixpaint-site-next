@@ -1,31 +1,20 @@
 'use client'
 
-import * as Icons from '@phosphor-icons/react'
 import { ArrowRight, CheckCircle } from '@phosphor-icons/react'
-import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
 import { Button } from '@/components/ui/button'
 import type { ServiceView } from '@/lib/cms-types'
+import { resolvePhosphorIcon } from '@/lib/phosphor-icons'
 
 type ServiceDetailPageProps = {
   service: ServiceView
 }
 
-type IconComponent = React.ComponentType<{
-  size?: number
-  weight?: string
-  className?: string
-}>
-
-function resolveIcon(iconName: string): IconComponent {
-  return (Icons[iconName as keyof typeof Icons] ?? CheckCircle) as IconComponent
-}
-
 export function ServiceDetailPage({ service }: ServiceDetailPageProps) {
   const router = useRouter()
-  const ServiceIcon = resolveIcon(service.icon)
+  const ServiceIcon = resolvePhosphorIcon(service.icon)
 
   return (
     <div>
@@ -121,14 +110,7 @@ export function ServiceDetailPage({ service }: ServiceDetailPageProps) {
             <h2 className="mb-10 text-3xl font-bold">{service.processTitle}</h2>
             <ol className="space-y-8">
               {service.processSteps.map((step, index) => (
-                <motion.li
-                  key={step.title}
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.08 }}
-                  className="flex gap-4"
-                >
+                <li key={step.title} className="flex gap-4">
                   <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-accent text-xl font-bold text-accent-foreground">
                     {index + 1}
                   </div>
@@ -136,7 +118,7 @@ export function ServiceDetailPage({ service }: ServiceDetailPageProps) {
                     <h3 className="mb-2 text-xl font-semibold">{step.title}</h3>
                     <p className="text-muted-foreground">{step.description}</p>
                   </div>
-                </motion.li>
+                </li>
               ))}
             </ol>
           </div>
