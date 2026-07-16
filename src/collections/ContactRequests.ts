@@ -67,8 +67,20 @@ export const ContactRequests: CollectionConfig = {
     {
       name: 'photos',
       type: 'relationship',
-      relationTo: 'media',
+      relationTo: 'contact-attachments',
       hasMany: true,
+      admin: {
+        description: 'Fotografii private atașate la cerere.',
+      },
+    },
+    {
+      name: 'photoCount',
+      type: 'number',
+      defaultValue: 0,
+      admin: {
+        readOnly: true,
+        description: 'Număr de fotografii (pentru listare rapidă).',
+      },
     },
     {
       name: 'status',

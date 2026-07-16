@@ -6,6 +6,7 @@ import * as migration_20260716_001200_portfolio_og_image from './20260716_001200
 import * as migration_20260716_003000_portfolio_default_og from './20260716_003000_portfolio_default_og'
 import * as migration_20260716_070000_service_landing_pages from './20260716_070000_service_landing_pages'
 import * as migration_20260716_073000_reviews_has_comment from './20260716_073000_reviews_has_comment'
+import * as migration_20260716_080000_contact_attachments from './20260716_080000_contact_attachments'
 
 export const migrations = [
   {
@@ -47,5 +48,10 @@ export const migrations = [
     up: migration_20260716_073000_reviews_has_comment.up,
     down: migration_20260716_073000_reviews_has_comment.down,
     name: '20260716_073000_reviews_has_comment',
+  },
+  {
+    up: migration_20260716_080000_contact_attachments.up,
+    down: migration_20260716_080000_contact_attachments.down,
+    name: '20260716_080000_contact_attachments',
   },
 ]
