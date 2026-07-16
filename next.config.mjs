@@ -6,6 +6,8 @@ const nextConfig = {
   experimental: {
     // Needed for a custom global 404 with multiple root layouts ((frontend) + (payload)).
     globalNotFound: true,
+    // Inline CSS into HTML to remove render-blocking stylesheet round-trips (PSI cold load).
+    inlineCss: true,
   },
   images: {
     remotePatterns: [
@@ -20,6 +22,22 @@ const nextConfig = {
       {
         source: '/admin/:path*',
         headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }],
+      },
+      {
+        source: '/hero.webp',
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
+      },
+      {
+        source: '/hero.avif',
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
+      },
+      {
+        source: '/hero-mobile.webp',
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
+      },
+      {
+        source: '/hero-mobile.avif',
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
       },
     ]
   },

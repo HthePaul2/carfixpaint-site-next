@@ -14,7 +14,7 @@ export function Header({ company }: { company: SiteInfoView }) {
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between gap-3">
-        <BrandLogo height={36} priority />
+          <BrandLogo height={36} />
 
         <nav className="hidden items-center gap-4 xl:flex 2xl:gap-5">
           {navItems.map((item) => (
