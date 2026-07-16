@@ -4,15 +4,15 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { WhatsappLogo, List, X } from '@phosphor-icons/react'
-import { Button } from '@/components/ui/button'
+
 import { BrandLogo } from '@/components/layout/BrandLogo'
-import { useSiteSettings } from '@/components/providers/SiteSettingsProvider'
+import { Button } from '@/components/ui/button'
+import type { SiteInfoView } from '@/lib/cms-types'
 import { buildWhatsAppLink } from '@/lib/whatsapp'
 
-export function Header() {
+export function Header({ company }: { company: SiteInfoView }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const pathname = usePathname()
-  const company = useSiteSettings()
   const navItems = company.navigationItems.filter((item) => item.path !== '/')
   const whatsappHref = buildWhatsAppLink(company.whatsappNumber, company.whatsappMessage)
 

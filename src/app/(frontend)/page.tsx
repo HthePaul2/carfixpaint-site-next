@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 
 import { HomePage } from '@/components/pages/HomePage'
 import { JsonLd } from '@/components/seo/JsonLd'
-import { getHomepageData } from '@/lib/queries'
+import { getHomepageData, getSiteSettings } from '@/lib/queries'
 import { createStaticPageMetadata } from '@/lib/seo/metadata'
 import { getSiteSeoSettings } from '@/lib/seo/site-settings'
 import { buildAutoRepairSchema } from '@/lib/structured-data'
@@ -14,12 +14,16 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Page() {
-  const [data, settings] = await Promise.all([getHomepageData(), getSiteSeoSettings()])
+  const [data, settings, company] = await Promise.all([
+    getHomepageData(),
+    getSiteSeoSettings(),
+    getSiteSettings(),
+  ])
 
   return (
     <>
       <JsonLd data={buildAutoRepairSchema(settings)} />
-      <HomePage {...data} portfolioProjects={[]} />
+      <HomePage {...data} portfolioProjects={[]} company={company} />
     </>
   )
 }
