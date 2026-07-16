@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import Image from 'next/image'
 import { ArrowRight, CheckCircle, Clock, WhatsappLogo } from '@phosphor-icons/react/ssr'
 
 import { Badge } from '@/components/ui/badge'
@@ -35,15 +34,28 @@ export function HomePage({
   return (
     <div>
       <section className="relative min-h-[70vh] overflow-hidden bg-primary text-primary-foreground md:min-h-[78vh]">
-        <Image
-          src="/hero.webp"
-          alt="Service auto CarFix Paint în Brașov"
-          fill
-          priority
-          fetchPriority="high"
-          sizes="100vw"
-          className="object-cover object-center"
-        />
+        <picture>
+          <source
+            media="(max-width: 768px)"
+            srcSet="/hero-mobile.avif"
+            type="image/avif"
+          />
+          <source
+            media="(max-width: 768px)"
+            srcSet="/hero-mobile.webp"
+            type="image/webp"
+          />
+          <source srcSet="/hero.avif" type="image/avif" />
+          <img
+            src="/hero.webp"
+            alt="Service auto CarFix Paint în Brașov"
+            width={1916}
+            height={821}
+            fetchPriority="high"
+            decoding="async"
+            className="absolute inset-0 h-full w-full object-cover object-center"
+          />
+        </picture>
         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/55 to-black/25" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/20" />
 

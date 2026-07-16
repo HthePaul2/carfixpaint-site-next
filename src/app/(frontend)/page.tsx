@@ -7,7 +7,8 @@ import { createStaticPageMetadata } from '@/lib/seo/metadata'
 import { getSiteSeoSettings } from '@/lib/seo/site-settings'
 import { buildAutoRepairSchema } from '@/lib/structured-data'
 
-export const dynamic = 'force-dynamic'
+/** ISR — avoid force-dynamic so TTFB stays low under PageSpeed throttling. */
+export const revalidate = 300
 
 export async function generateMetadata(): Promise<Metadata> {
   return createStaticPageMetadata('home')
@@ -22,6 +23,23 @@ export default async function Page() {
 
   return (
     <>
+      {/* Preload LCP image early — static file, no /_next/image hop */}
+      <link
+        rel="preload"
+        as="image"
+        href="/hero-mobile.avif"
+        type="image/avif"
+        fetchPriority="high"
+        media="(max-width: 768px)"
+      />
+      <link
+        rel="preload"
+        as="image"
+        href="/hero-mobile.webp"
+        type="image/webp"
+        fetchPriority="high"
+        media="(max-width: 768px)"
+      />
       <JsonLd data={buildAutoRepairSchema(settings)} />
       <HomePage {...data} portfolioProjects={[]} company={company} />
     </>

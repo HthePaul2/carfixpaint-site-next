@@ -1,3 +1,5 @@
+import { unstable_cache } from 'next/cache'
+
 import { getPayloadClient } from '@/lib/payload'
 import { defaultHomepage, defaultSiteInfo, defaultStaticPages } from '@/lib/defaults'
 import type {
@@ -30,28 +32,36 @@ import type { Where } from 'payload'
 
 const PUBLIC_READ = { overrideAccess: false as const }
 
-export async function getSiteSettings(): Promise<SiteInfoView> {
-  const payload = await getPayloadClient()
-  const global = await payload.findGlobal({
-    slug: 'site-settings',
-    depth: 1,
-    ...PUBLIC_READ,
-  })
+export const getSiteSettings = unstable_cache(
+  async (): Promise<SiteInfoView> => {
+    const payload = await getPayloadClient()
+    const global = await payload.findGlobal({
+      slug: 'site-settings',
+      depth: 1,
+      ...PUBLIC_READ,
+    })
 
-  if (!global?.phone) return defaultSiteInfo
-  return mapSiteSettings(global, defaultSiteInfo)
-}
+    if (!global?.phone) return defaultSiteInfo
+    return mapSiteSettings(global, defaultSiteInfo)
+  },
+  ['site-settings'],
+  { revalidate: 300, tags: ['site-settings'] },
+)
 
-export async function getHomepage(): Promise<HomepageView> {
-  const payload = await getPayloadClient()
-  const global = await payload.findGlobal({
-    slug: 'homepage',
-    depth: 1,
-    ...PUBLIC_READ,
-  })
+export const getHomepage = unstable_cache(
+  async (): Promise<HomepageView> => {
+    const payload = await getPayloadClient()
+    const global = await payload.findGlobal({
+      slug: 'homepage',
+      depth: 1,
+      ...PUBLIC_READ,
+    })
 
-  return mapHomepage(global, defaultHomepage)
-}
+    return mapHomepage(global, defaultHomepage)
+  },
+  ['homepage'],
+  { revalidate: 300, tags: ['homepage'] },
+)
 
 export async function getStaticPages(): Promise<StaticPagesView> {
   const payload = await getPayloadClient()
@@ -389,23 +399,27 @@ export async function getLegalPages(): Promise<LegalPagesView> {
   return mapLegalPages(global)
 }
 
-export async function getHomepageData() {
-  const [siteSettings, homepage] = await Promise.all([getSiteSettings(), getHomepage()])
+export const getHomepageData = unstable_cache(
+  async () => {
+    const [siteSettings, homepage] = await Promise.all([getSiteSettings(), getHomepage()])
 
-  const [services, portfolioProjects, reviews] = await Promise.all([
-    getServices(homepage.servicesLimit ?? 6),
-    getPortfolioProjects(homepage.portfolioLimit ?? 3),
-    getFeaturedReviews(Math.min(6, homepage.reviewsLimit ?? 6)),
-  ])
+    const [services, portfolioProjects, reviews] = await Promise.all([
+      getServices(homepage.servicesLimit ?? 6),
+      getPortfolioProjects(homepage.portfolioLimit ?? 3),
+      getFeaturedReviews(Math.min(6, homepage.reviewsLimit ?? 6)),
+    ])
 
-  return {
-    siteSettings,
-    homepage,
-    services,
-    portfolioProjects,
-    reviews,
-  }
-}
+    return {
+      siteSettings,
+      homepage,
+      services,
+      portfolioProjects,
+      reviews,
+    }
+  },
+  ['homepage-data'],
+  { revalidate: 300, tags: ['homepage'] },
+)
 
 export async function getResolvedPageSeo(page: StaticPageKey) {
   const defaults = DEFAULT_PAGE_SEO[page]
