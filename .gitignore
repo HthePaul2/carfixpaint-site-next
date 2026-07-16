@@ -28,6 +28,7 @@ dist-ssr
 
 .env
 media
+private
 **/agent-eval-report*
 packages
 pids

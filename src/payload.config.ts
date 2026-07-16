@@ -13,6 +13,7 @@ import { BlogPosts } from './collections/BlogPosts'
 import { Reviews } from './collections/Reviews'
 import { FAQs } from './collections/FAQs'
 import { ContactRequests } from './collections/ContactRequests'
+import { ContactAttachments } from './collections/ContactAttachments'
 import { SiteSettings } from './globals/SiteSettings'
 import { Homepage } from './globals/Homepage'
 import { LegalPages } from './globals/LegalPages'
@@ -47,6 +48,7 @@ export default buildConfig({
     Reviews,
     FAQs,
     ContactRequests,
+    ContactAttachments,
   ],
   globals: [SiteSettings, Homepage, StaticPages, LegalPages],
   plugins: [...getStoragePlugins()],

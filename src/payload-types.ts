@@ -75,6 +75,7 @@ export interface Config {
     reviews: Review;
     faqs: Faq;
     'contact-requests': ContactRequest;
+    'contact-attachments': ContactAttachment;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -90,6 +91,7 @@ export interface Config {
     reviews: ReviewsSelect<false> | ReviewsSelect<true>;
     faqs: FaqsSelect<false> | FaqsSelect<true>;
     'contact-requests': ContactRequestsSelect<false> | ContactRequestsSelect<true>;
+    'contact-attachments': ContactAttachmentsSelect<false> | ContactAttachmentsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -463,7 +465,14 @@ export interface ContactRequest {
   serviceType?: string | null;
   message?: string | null;
   gdprConsent: boolean;
-  photos?: (number | Media)[] | null;
+  /**
+   * Fotografii private atașate la cerere.
+   */
+  photos?: (number | ContactAttachment)[] | null;
+  /**
+   * Număr de fotografii (pentru listare rapidă).
+   */
+  photoCount?: number | null;
   status: 'new' | 'contacted' | 'scheduled' | 'closed' | 'spam';
   source?: string | null;
   submittedAt: string;
@@ -471,6 +480,44 @@ export interface ContactRequest {
   userAgent?: string | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * Fotografii private din formularul de contact. Nu sunt publice.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-attachments".
+ */
+export interface ContactAttachment {
+  id: number;
+  contactRequest?: (number | null) | ContactRequest;
+  originalFilename?: string | null;
+  sizeBytes?: number | null;
+  uploadedAt: string;
+  /**
+   * Dată estimată pentru ștergere conform politicii de retenție.
+   */
+  retentionUntil?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+  sizes?: {
+    thumbnail?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+  };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -527,6 +574,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'contact-requests';
         value: number | ContactRequest;
+      } | null)
+    | ({
+        relationTo: 'contact-attachments';
+        value: number | ContactAttachment;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -806,6 +857,7 @@ export interface ContactRequestsSelect<T extends boolean = true> {
   message?: T;
   gdprConsent?: T;
   photos?: T;
+  photoCount?: T;
   status?: T;
   source?: T;
   submittedAt?: T;
@@ -813,6 +865,42 @@ export interface ContactRequestsSelect<T extends boolean = true> {
   userAgent?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-attachments_select".
+ */
+export interface ContactAttachmentsSelect<T extends boolean = true> {
+  contactRequest?: T;
+  originalFilename?: T;
+  sizeBytes?: T;
+  uploadedAt?: T;
+  retentionUntil?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+  sizes?:
+    | T
+    | {
+        thumbnail?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+      };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

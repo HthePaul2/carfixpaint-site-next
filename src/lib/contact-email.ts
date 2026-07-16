@@ -7,6 +7,7 @@ type ContactNotificationData = {
   email?: string
   serviceType: string
   message?: string
+  photoCount?: number
 }
 
 export async function sendContactNotification(data: ContactNotificationData) {
@@ -36,6 +37,9 @@ export async function sendContactNotification(data: ContactNotificationData) {
         data.email ? `Email: ${data.email}` : undefined,
         `Serviciu: ${data.serviceType}`,
         data.message ? `Mesaj: ${data.message}` : undefined,
+        typeof data.photoCount === 'number'
+          ? `Fotografii: ${data.photoCount} (vezi în admin, nu sunt atașate în email)`
+          : undefined,
         adminUrl ? `Admin: ${adminUrl}` : undefined,
       ]
         .filter(Boolean)

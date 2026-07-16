@@ -42,6 +42,8 @@ export function getStoragePlugins(): Plugin[] {
               },
             }
           : true,
+        // Private: keep Payload access control (auth required).
+        'contact-attachments': true,
       },
       bucket: process.env.S3_BUCKET!,
       config,
