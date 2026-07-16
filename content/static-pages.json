@@ -9,8 +9,8 @@
     "ogDescription": "Soluții pentru caroserie, vopsitorie, mecanică, diagnoză și daune auto."
   },
   "programare": {
-    "pageTitle": "Solicită o programare pentru constatare",
-    "pageSubtitle": "Alege serviciul, ziua și intervalul preferat. Cererea este verificată de echipă, iar programarea devine valabilă după confirmarea telefonică sau prin email.",
+    "pageTitle": "Programare service auto în Brașov",
+    "pageSubtitle": "Alege serviciul, ziua și intervalul preferat la CarFix Paint Brașov. Cererea este verificată de echipă, iar programarea devine valabilă după confirmarea telefonică sau prin email.",
     "seoTitle": "Programare service auto Brașov | Car Fix & Paint",
     "seoDescription": "Solicită online o programare pentru constatare, diagnoză sau evaluarea mașinii la Car Fix & Paint Brașov.",
     "seoKeywords": "programare service auto Brașov, constatare auto, programare CarFix Paint",
@@ -18,18 +18,18 @@
     "ogDescription": "Alege serviciul și intervalul preferat. Confirmăm programarea telefonic sau pe email."
   },
   "daune": {
-    "pageTitle": "Consiliere gratuită pentru daune RCA și CASCO",
-    "pageSubtitle": "Te consiliem gratis pentru constatarea amiabilă și deschiderea dosarului. Pentru dosarele RCA oferim mașină la schimb pe durata reparației, când este disponibilă.",
+    "pageTitle": "Consiliere gratuită pentru daune RCA și CASCO în Brașov",
+    "pageSubtitle": "Te consiliem gratis pentru constatarea amiabilă și deschiderea dosarului. Pentru dosarele RCA din Brașov oferim mașină la schimb pe durata reparației, când este disponibilă.",
     "highlights": [
       {
         "icon": "Shield",
         "title": "Consiliere gratuită",
-        "description": "Te ghidăm la constatarea amiabilă și la deschiderea dosarului de daune, fără cost pentru această etapă."
+        "description": "În Brașov te ghidăm la constatarea amiabilă și la deschiderea dosarului de daune, fără cost pentru această etapă."
       },
       {
         "icon": "Car",
         "title": "Mașină la schimb RCA",
-        "description": "Pentru dosarele RCA poți primi mașină la schimb pe durata reparației, în funcție de disponibilitate."
+        "description": "Pentru dosarele RCA din Brașov poți primi mașină la schimb pe durata reparației, în funcție de disponibilitate."
       },
       {
         "icon": "CheckCircle",
@@ -37,11 +37,11 @@
         "description": "Primești informații clare despre piesele, operațiunile și aprobările necesare."
       }
     ],
-    "processTitle": "Pașii după o daună",
+    "processTitle": "Pașii după o daună în Brașov",
     "processSteps": [
       {
         "title": "Contact pe WhatsApp",
-        "description": "Ne trimiți fotografiile și ne spui ce s-a întâmplat. Te consiliem gratuit pentru următorii pași."
+        "description": "Ne trimiți fotografiile și ne spui ce s-a întâmplat. Te consiliem gratuit pentru următorii pași, din Brașov."
       },
       {
         "title": "Constatare amiabilă și dosar",
@@ -57,17 +57,17 @@
       },
       {
         "title": "Reparație și predare",
-        "description": "Executăm lucrările aprobate, facem verificarea finală și îți predăm mașina."
+        "description": "Executăm lucrările aprobate în service-ul din Brașov, facem verificarea finală și îți predăm mașina."
       }
     ],
-    "ctaTitle": "Ai o daună și ai nevoie de îndrumare?",
+    "ctaTitle": "Ai o daună în Brașov și ai nevoie de îndrumare?",
     "ctaDescription": "Scrie-ne pe WhatsApp. Te consiliem gratuit pentru constatarea amiabilă și deschiderea dosarului.",
     "ctaContactLabel": "Scrie-ne pe WhatsApp",
     "seoTitle": "Consiliere daune RCA Brașov | Constatare amiabilă și mașină la schimb | CarFix Paint",
     "seoDescription": "Consiliere gratuită pentru constatarea amiabilă și deschiderea dosarului de daune în Brașov. Mașină la schimb pentru dosarele RCA.",
     "seoKeywords": "consiliere daune RCA, constatare amiabilă Brașov, deschidere dosar daune, mașină la schimb RCA",
-    "ogTitle": "Consiliere gratuită daune + mașină la schimb RCA",
-    "ogDescription": "Te ghidăm la constatarea amiabilă și deschiderea dosarului. Pentru RCA, mașină la schimb pe durata reparației."
+    "ogTitle": "Consiliere daune + mașină la schimb RCA în Brașov",
+    "ogDescription": "Te ghidăm la constatarea amiabilă și deschiderea dosarului în Brașov. Pentru RCA, mașină la schimb pe durata reparației."
   },
   "portofoliu": {
     "pageTitle": "Lucrări și studii de caz",
@@ -143,7 +143,7 @@
     "ogDescription": "Informații clare pentru șoferi, de la constatarea unei daune până la întreținerea vopselei."
   },
   "contact": {
-    "pageTitle": "Trimite detaliile și fotografiile mașinii",
+    "pageTitle": "Contact service auto Brașov",
     "pageSubtitle": "Descrie problema și încarcă până la 5 fotografii clare ale zonei afectate. Imaginile ne ajută la o primă orientare, dar soluția finală se stabilește după verificarea mașinii.",
     "contactCardTitle": "Date de contact",
     "fastResponseTitle": "Cum primești un răspuns mai util",

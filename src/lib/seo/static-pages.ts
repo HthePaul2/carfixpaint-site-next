@@ -31,9 +31,9 @@ export const STATIC_PAGE_SEO: Record<StaticPageKey, StaticPageSeo> = {
       'Consiliere gratuită pentru constatarea amiabilă și deschiderea dosarului de daune în Brașov. Mașină la schimb pentru dosarele RCA. Tinichigerie, vopsitorie și service auto.',
     keywords:
       'consiliere daune RCA Brașov, constatare amiabilă, deschidere dosar daune, mașină la schimb RCA, service auto Brașov, tinichigerie Brașov',
-    ogTitle: 'Consiliere gratuită daune + mașină la schimb RCA | CarFix Paint',
+    ogTitle: 'Consiliere daune + mașină la schimb RCA în Brașov | CarFix Paint',
     ogDescription:
-      'Te ghidăm la constatarea amiabilă și deschiderea dosarului. Pentru RCA, mașină la schimb pe durata reparației.',
+      'Te ghidăm la constatarea amiabilă și deschiderea dosarului în Brașov. Pentru RCA, mașină la schimb pe durata reparației.',
   },
   servicii: {
     path: '/servicii',
@@ -63,9 +63,9 @@ export const STATIC_PAGE_SEO: Record<StaticPageKey, StaticPageSeo> = {
       'Consiliere gratuită pentru constatarea amiabilă și deschiderea dosarului de daune în Brașov. Mașină la schimb pentru dosarele RCA.',
     keywords:
       'consiliere daune RCA, constatare amiabilă Brașov, deschidere dosar daune, mașină la schimb RCA',
-    ogTitle: 'Consiliere gratuită daune + mașină la schimb RCA',
+    ogTitle: 'Consiliere daune + mașină la schimb RCA în Brașov',
     ogDescription:
-      'Te ghidăm la constatarea amiabilă și deschiderea dosarului. Pentru RCA, mașină la schimb pe durata reparației.',
+      'Te ghidăm la constatarea amiabilă și deschiderea dosarului în Brașov. Pentru RCA, mașină la schimb pe durata reparației.',
   },
   portofoliu: {
     path: '/portofoliu',

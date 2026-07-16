@@ -110,7 +110,7 @@
     "pageSlug": "mecanica-diagnoza-climatizare-brasov",
     "name": "Mecanică, diagnoză și climatizare",
     "icon": "Wrench",
-    "shortDescription": "Mecanică auto, diagnoză computerizată și intervenții la instalația de climatizare, într-un singur serviciu.",
+    "shortDescription": "Mecanică auto, diagnoză computerizată și climatizare în Brașov, într-un singur serviciu.",
     "description": "Verificăm simptomele, citim erorile și intervenim pe sistemele mecanice sau pe climatizare când este nevoie. Pornim de la constatare, nu de la înlocuirea la întâmplare a pieselor, și îți explicăm ce este urgent, ce poate fi monitorizat și ce operațiuni sunt necesare.",
     "features": [
       "Verificări mecanice: frâne, suspensie, direcție, răcire",
@@ -120,8 +120,8 @@
       "Recomandări clare, fără înlocuiri inutile"
     ],
     "heroTitle": "Mecanică, diagnoză și climatizare în Brașov",
-    "heroSubtitle": "Un serviciu pentru probleme mecanice, erori pe bord și instalația de climatizare.",
-    "intro": "Martorii aprinși, zgomotele, vibrațiile sau o climatizare care nu răcește trebuie analizate în context. Combinăm verificarea mecanică, diagnoza computerizată și intervențiile pe climatizare ca să identificăm cauza și să propunem pașii corecți.",
+    "heroSubtitle": "Probleme mecanice, erori pe bord și climatizare — verificate în service-ul din Brașov.",
+    "intro": "Martorii aprinși, zgomotele, vibrațiile sau o climatizare care nu răcește trebuie analizate în context. În Brașov combinăm verificarea mecanică, diagnoza computerizată și intervențiile pe climatizare ca să identificăm cauza și să propunem pașii corecți.",
     "whenNeededTitle": "Când este recomandat acest serviciu",
     "whenNeededItems": [
       "Zgomote, vibrații sau probleme la frâne, suspensie și direcție",
@@ -148,7 +148,7 @@
         "description": "Executăm lucrările agreate și verificăm rezultatul înainte de predare."
       }
     ],
-    "ctaTitle": "Ai o problemă mecanică, de diagnoză sau la climatizare?",
+    "ctaTitle": "Ai o problemă mecanică, de diagnoză sau la climatizare în Brașov?",
     "ctaDescription": "Descrie simptomele sau martorii de pe bord și solicită o programare pentru verificare.",
     "ctaPrimaryLabel": "Trimite poze pentru evaluare",
     "ctaSecondaryLabel": "Solicită o programare",
@@ -214,9 +214,9 @@
   {
     "id": "daune-rca-casco",
     "pageSlug": "daune-rca-casco-brasov",
-    "name": "Gestionare daune RCA/CASCO",
+    "name": "Gestionare daune RCA/CASCO Brașov",
     "icon": "Shield",
-    "shortDescription": "Consiliere gratuită pentru constatarea amiabilă și deschiderea dosarului, plus sprijin pe durata reparației.",
+    "shortDescription": "Consiliere gratuită în Brașov pentru constatarea amiabilă și deschiderea dosarului, plus sprijin pe durata reparației.",
     "description": "Te consiliem gratuit pentru constatarea amiabilă și deschiderea dosarului de daune. Apoi te ajutăm să organizezi documentele, evaluarea și reparația. Pentru dosarele RCA putem oferi mașină la schimb, în funcție de disponibilitate și de condițiile confirmate.",
     "features": [
       "Consiliere gratuită pentru constatarea amiabilă și deschiderea dosarului",
@@ -227,7 +227,7 @@
     ],
     "heroTitle": "Consiliere gratuită pentru daune auto în Brașov",
     "heroSubtitle": "Te ghidăm la constatarea amiabilă, deschiderea dosarului și reparație. Pentru RCA, mașină la schimb când este disponibilă.",
-    "intro": "Punctul nostru principal de sprijin: consiliere gratuită pentru constatarea amiabilă și deschiderea dosarului de daune. Continuăm cu documentarea tehnică și reparația. Mașina la schimb este disponibilă pentru dosarele RCA, nu ca promisiune generală pe CASCO.",
+    "intro": "În Brașov, punctul nostru principal de sprijin este consilierea gratuită pentru constatarea amiabilă și deschiderea dosarului de daune. Continuăm cu documentarea tehnică și reparația. Mașina la schimb este disponibilă pentru dosarele RCA, nu ca promisiune generală pe CASCO.",
     "whenNeededTitle": "Când este recomandat acest serviciu",
     "whenNeededItems": [
       "Ai nevoie de consiliere pentru constatarea amiabilă sau deschiderea dosarului",
@@ -254,7 +254,7 @@
         "description": "Predăm mașina și documentele aferente lucrărilor executate."
       }
     ],
-    "ctaTitle": "Ai o daună și nu știi de unde să începi?",
+    "ctaTitle": "Ai o daună în Brașov și nu știi de unde să începi?",
     "ctaDescription": "Scrie-ne pe WhatsApp: te consiliem gratuit pentru constatarea amiabilă și deschiderea dosarului.",
     "ctaPrimaryLabel": "Trimite poze pentru evaluare",
     "ctaSecondaryLabel": "Solicită o programare",
@@ -267,7 +267,7 @@
   {
     "id": "masina-schimb",
     "pageSlug": "masina-la-schimb-brasov",
-    "name": "Mașină la schimb",
+    "name": "Mașină la schimb RCA Brașov",
     "icon": "Car",
     "shortDescription": "Mașină la schimb pentru dosarele RCA, pe durata reparației, în funcție de disponibilitate.",
     "description": "Pentru dosarele RCA putem pune la dispoziție un autoturism de înlocuire pe durata reparației. Disponibilitatea, perioada și condițiile se confirmă înainte de predare. Nu promitem mașină la schimb ca standard pentru dosarele CASCO.",
@@ -278,9 +278,9 @@
       "Proces-verbal de predare-primire",
       "Perioadă corelată cu lucrarea din dosarul RCA"
     ],
-    "heroTitle": "Mașină la schimb pentru dosarele RCA",
-    "heroSubtitle": "Mobilitate pe durata reparației în dosarele RCA, când mașina de schimb este disponibilă.",
-    "intro": "Punctul nostru de vânzare pe mobilitate: mașină la schimb pentru dosarele RCA. Confirmăm în scris perioada, regulile de utilizare și eventualele costuri înainte de predare.",
+    "heroTitle": "Mașină la schimb pentru dosarele RCA în Brașov",
+    "heroSubtitle": "Mobilitate pe durata reparației în dosarele RCA, când mașina de schimb este disponibilă în Brașov.",
+    "intro": "Punctul nostru de vânzare pe mobilitate în Brașov: mașină la schimb pentru dosarele RCA. Confirmăm în scris perioada, regulile de utilizare și eventualele costuri înainte de predare.",
     "whenNeededTitle": "Când este utilă mașina la schimb",
     "whenNeededItems": [
       "Ai un dosar RCA și reparația durează mai multe zile",
@@ -306,7 +306,7 @@
         "description": "La finalul reparației restituim mașina la schimb și predăm autoturismul reparat."
       }
     ],
-    "ctaTitle": "Ai un dosar RCA și ai nevoie de mașină la schimb?",
+    "ctaTitle": "Ai un dosar RCA în Brașov și ai nevoie de mașină la schimb?",
     "ctaDescription": "Scrie-ne pe WhatsApp cu numărul dosarului și perioada estimată a reparației.",
     "ctaPrimaryLabel": "Trimite poze pentru evaluare",
     "ctaSecondaryLabel": "Solicită o programare",
