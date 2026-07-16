@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/button'
 import { BrandLogo } from '@/components/layout/BrandLogo'
 import { useSiteSettings } from '@/components/providers/SiteSettingsProvider'
 import { buildWhatsAppLink } from '@/lib/whatsapp'
-import { motion, AnimatePresence } from 'framer-motion'
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -73,42 +72,35 @@ export function Header() {
         </div>
       </header>
 
-      <AnimatePresence>
-        {mobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="border-b border-border bg-background xl:hidden"
-          >
-            <nav className="container flex flex-col gap-1 py-4">
-              {company.navigationItems.map((item) => (
-                <Link
-                  key={item.path}
-                  href={item.path}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={`rounded-md px-2 py-2.5 text-sm font-medium transition-colors hover:bg-secondary hover:text-accent ${
-                    isActive(item.path) ? 'bg-secondary text-accent' : 'text-foreground'
-                  }`}
-                >
-                  {item.label}
-                </Link>
-              ))}
-              <a
-                href={whatsappHref}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="pt-3 md:hidden"
+      {mobileMenuOpen ? (
+        <div className="border-b border-border bg-background xl:hidden">
+          <nav className="container flex flex-col gap-1 py-4">
+            {company.navigationItems.map((item) => (
+              <Link
+                key={item.path}
+                href={item.path}
+                onClick={() => setMobileMenuOpen(false)}
+                className={`rounded-md px-2 py-2.5 text-sm font-medium transition-colors hover:bg-secondary hover:text-accent ${
+                  isActive(item.path) ? 'bg-secondary text-accent' : 'text-foreground'
+                }`}
               >
-                <Button className="w-full gap-2">
-                  <WhatsappLogo weight="fill" size={18} />
-                  WhatsApp — {company.phone}
-                </Button>
-              </a>
-            </nav>
-          </motion.div>
-        )}
-      </AnimatePresence>
+                {item.label}
+              </Link>
+            ))}
+            <a
+              href={whatsappHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="pt-3 md:hidden"
+            >
+              <Button className="w-full gap-2">
+                <WhatsappLogo weight="fill" size={18} />
+                WhatsApp — {company.phone}
+              </Button>
+            </a>
+          </nav>
+        </div>
+      ) : null}
     </>
   )
 }

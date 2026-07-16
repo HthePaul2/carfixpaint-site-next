@@ -1,8 +1,7 @@
 'use client'
 
-import * as Icons from '@phosphor-icons/react'
 import { ArrowRight, CheckCircle, Clock, WhatsappLogo } from '@phosphor-icons/react'
-import { motion } from 'framer-motion'
+import { resolvePhosphorIcon } from '@/lib/phosphor-icons'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 
@@ -25,33 +24,10 @@ type HomePageProps = {
   reviews: ReviewView[]
 }
 
-type IconComponent = React.ComponentType<{
-  size?: number
-  weight?: string
-  className?: string
-}>
-
-function resolveIcon(iconName: string): IconComponent {
-  return (Icons[iconName as keyof typeof Icons] ?? CheckCircle) as IconComponent
-}
-
 export function HomePage({ homepage, services, portfolioProjects, reviews }: HomePageProps) {
   const router = useRouter()
   const company = useSiteSettings()
   const whatsappHref = buildWhatsAppLink(company.whatsappNumber, company.whatsappMessage)
-
-  const container = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: { staggerChildren: 0.1 },
-    },
-  }
-
-  const item = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0 },
-  }
 
   return (
     <div>
@@ -68,12 +44,7 @@ export function HomePage({ homepage, services, portfolioProjects, reviews }: Hom
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/20" />
 
         <div className="container relative flex min-h-[70vh] items-center py-20 md:min-h-[78vh] md:py-28">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="max-w-3xl"
-          >
+          <div className="max-w-3xl">
             <Badge className="mb-4 bg-accent text-accent-foreground">{homepage.heroBadge}</Badge>
             <h1 className="mb-6 text-4xl font-bold leading-tight md:text-5xl lg:text-6xl">
               {homepage.heroTitle}
@@ -104,23 +75,17 @@ export function HomePage({ homepage, services, portfolioProjects, reviews }: Hom
                 </a>
               </Button>
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
       <section className="bg-secondary/30 py-12">
         <div className="container">
-          <motion.div
-            variants={container}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
-            className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4"
-          >
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
             {homepage.benefits.map((benefit) => {
-              const BenefitIcon = resolveIcon(benefit.icon)
+              const BenefitIcon = resolvePhosphorIcon(benefit.icon)
               return (
-                <motion.div key={benefit.title} variants={item}>
+                <div key={benefit.title}>
                   <Card className="h-full text-center transition-shadow hover:shadow-md">
                     <CardContent className="pt-6">
                       <BenefitIcon size={48} weight="duotone" className="mx-auto mb-4 text-accent" />
@@ -128,10 +93,10 @@ export function HomePage({ homepage, services, portfolioProjects, reviews }: Hom
                       <p className="text-sm text-muted-foreground">{benefit.description}</p>
                     </CardContent>
                   </Card>
-                </motion.div>
+                </div>
               )
             })}
-          </motion.div>
+          </div>
         </div>
       </section>
 
@@ -144,16 +109,9 @@ export function HomePage({ homepage, services, portfolioProjects, reviews }: Hom
 
           <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {services.map((service) => {
-              const ServiceIcon = resolveIcon(service.icon)
+              const ServiceIcon = resolvePhosphorIcon(service.icon)
               return (
-                <motion.div
-                  key={service.slug}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  whileHover={{ y: -4 }}
-                  transition={{ duration: 0.3 }}
-                >
+                <div key={service.slug} className="transition-transform hover:-translate-y-1">
                   <Card className="h-full transition-shadow hover:shadow-lg">
                     <CardContent className="flex h-full flex-col p-6">
                       <ServiceIcon size={40} weight="duotone" className="mb-4 text-accent" />
@@ -183,7 +141,7 @@ export function HomePage({ homepage, services, portfolioProjects, reviews }: Hom
                       </Button>
                     </CardContent>
                   </Card>
-                </motion.div>
+                </div>
               )
             })}
           </div>
@@ -209,14 +167,7 @@ export function HomePage({ homepage, services, portfolioProjects, reviews }: Hom
           <div className="mx-auto max-w-5xl">
             <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-5">
               {homepage.damageProcessSteps.map((step, index) => (
-                <motion.div
-                  key={step.title}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  className="relative"
-                >
+                <div key={step.title} className="relative">
                   <Card className="h-full text-center">
                     <CardContent className="p-4">
                       <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-accent text-xl font-bold text-accent-foreground">
@@ -233,7 +184,7 @@ export function HomePage({ homepage, services, portfolioProjects, reviews }: Hom
                       className="absolute -right-5 top-1/2 hidden -translate-y-1/2 text-accent md:block"
                     />
                   )}
-                </motion.div>
+                </div>
               ))}
             </div>
 
@@ -261,14 +212,7 @@ export function HomePage({ homepage, services, portfolioProjects, reviews }: Hom
 
             <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
               {portfolioProjects.map((project) => (
-                <motion.div
-                  key={project.slug}
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  whileHover={{ scale: 1.02 }}
-                  transition={{ duration: 0.3 }}
-                >
+                <div key={project.slug} className="transition-transform hover:scale-[1.02]">
                   <Card
                     className="cursor-pointer overflow-hidden transition-shadow hover:shadow-xl"
                     onClick={() => router.push(`/portofoliu/${project.slug}`)}
@@ -293,7 +237,7 @@ export function HomePage({ homepage, services, portfolioProjects, reviews }: Hom
                       </div>
                     </CardContent>
                   </Card>
-                </motion.div>
+                </div>
               ))}
             </div>
 
@@ -324,12 +268,7 @@ export function HomePage({ homepage, services, portfolioProjects, reviews }: Hom
 
             <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
               {reviews.map((review) => (
-                <motion.div
-                  key={review.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                >
+                <div key={review.id}>
                   <Card className="h-full">
                     <CardContent className="p-6">
                       <div className="mb-4 flex gap-1">
@@ -353,7 +292,7 @@ export function HomePage({ homepage, services, portfolioProjects, reviews }: Hom
                       </div>
                     </CardContent>
                   </Card>
-                </motion.div>
+                </div>
               ))}
             </div>
 
@@ -374,12 +313,7 @@ export function HomePage({ homepage, services, portfolioProjects, reviews }: Hom
 
       <section className="bg-accent py-20 text-accent-foreground">
         <div className="container text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="mx-auto max-w-3xl"
-          >
+          <div className="mx-auto max-w-3xl">
             <h2 className="mb-6 text-3xl font-bold md:text-4xl">{homepage.finalCtaTitle}</h2>
             <p className="mb-8 text-lg opacity-90">{homepage.finalCtaDescription}</p>
             <div className="flex flex-col justify-center gap-4 sm:flex-row">
@@ -403,7 +337,7 @@ export function HomePage({ homepage, services, portfolioProjects, reviews }: Hom
               <Clock size={20} weight="bold" />
               <span>{company.schedule}</span>
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
     </div>

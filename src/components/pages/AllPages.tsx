@@ -2,11 +2,11 @@
 
 import { useRouter } from 'next/navigation'
 import { ArrowRight, CheckCircle, Shield, WhatsappLogo, Car } from '@phosphor-icons/react'
-import * as Icons from '@phosphor-icons/react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { useSiteSettings } from '@/components/providers/SiteSettingsProvider'
+import { resolvePhosphorIcon } from '@/lib/phosphor-icons'
 import { buildWhatsAppLink } from '@/lib/whatsapp'
 import type {
   BlogPageView,
@@ -21,19 +21,10 @@ import type {
   RecenziiPageView,
   ReviewView,
 } from '@/lib/cms-types'
-import { motion } from 'framer-motion'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { EmptyState } from '@/components/ui/empty-state'
 import { RichTextContent } from '@/components/cms/RichTextContent'
 import { DefaultLegalPrivacy, DefaultLegalCookies, DefaultLegalTerms } from '@/components/pages/DefaultLegalContent'
-
-function resolveIcon(iconName: string) {
-  return Icons[iconName as keyof typeof Icons] as React.ComponentType<{
-    size?: number
-    weight?: string
-    className?: string
-  }>
-}
 
 export function DaunePage({ content }: { content: DaunePageView }) {
   const router = useRouter()
@@ -50,7 +41,7 @@ export function DaunePage({ content }: { content: DaunePageView }) {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12">
           {content.highlights.map((item, idx) => {
-            const IconComponent = resolveIcon(item.icon)
+            const IconComponent = resolvePhosphorIcon(item.icon)
             return (
               <Card key={idx}>
                 <CardContent className="p-6 text-center">
@@ -67,12 +58,8 @@ export function DaunePage({ content }: { content: DaunePageView }) {
           <h2 className="text-3xl font-bold mb-8 text-center">{content.processTitle}</h2>
           <div className="space-y-6">
             {content.processSteps.map((item, idx) => (
-              <motion.div
+              <div
                 key={idx}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.1 }}
               >
                 <Card>
                   <CardContent className="p-6 flex gap-4">
@@ -85,7 +72,7 @@ export function DaunePage({ content }: { content: DaunePageView }) {
                     </div>
                   </CardContent>
                 </Card>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
@@ -138,11 +125,8 @@ export function PortfolioPage({
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {projects.map((project) => (
-              <motion.div
+              <div
                 key={project.slug}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
               >
                 <Card
                   className="overflow-hidden cursor-pointer hover:shadow-lg transition-shadow"
@@ -179,7 +163,7 @@ export function PortfolioPage({
                     </div>
                   </CardContent>
                 </Card>
-              </motion.div>
+              </div>
             ))}
           </div>
         )}
@@ -271,11 +255,8 @@ export function ReviewsPage({
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
             {reviews.map((review) => (
-              <motion.div
+              <div
                 key={review.id}
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
               >
                 <Card className="h-full">
                   <CardContent className="p-6">
@@ -302,7 +283,7 @@ export function ReviewsPage({
                     </div>
                   </CardContent>
                 </Card>
-              </motion.div>
+              </div>
             ))}
           </div>
         )}
@@ -355,11 +336,8 @@ export function BlogPage({ content, posts }: { content: BlogPageView; posts: Blo
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
             {posts.map((post) => (
-              <motion.div
+              <div
                 key={post.slug}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
               >
                 <Card
                   className="h-full hover:shadow-lg transition-shadow cursor-pointer"
@@ -382,7 +360,7 @@ export function BlogPage({ content, posts }: { content: BlogPageView; posts: Blo
                     <p className="text-sm text-muted-foreground line-clamp-3">{post.excerpt}</p>
                   </CardContent>
                 </Card>
-              </motion.div>
+              </div>
             ))}
           </div>
         )}
