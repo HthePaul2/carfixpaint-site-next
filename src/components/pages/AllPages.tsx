@@ -284,7 +284,14 @@ export function ReviewsPage({
                         </span>
                       ))}
                     </div>
-                    <p className="text-sm mb-4 italic">&quot;{review.text}&quot;</p>
+                    {review.hasComment ? (
+                      <p className="text-sm mb-4">{review.text}</p>
+                    ) : (
+                      <p className="text-sm mb-4 text-muted-foreground">
+                        Evaluare de {review.rating}{' '}
+                        {review.rating === 1 ? 'stea' : 'stele'} fără comentariu public.
+                      </p>
+                    )}
                     <div className="border-t pt-4">
                       <p className="font-semibold">{review.name}</p>
                       <p className="text-xs text-muted-foreground">

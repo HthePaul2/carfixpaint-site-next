@@ -318,11 +318,15 @@ export function mapBlogPostDetail(doc: BlogPost): BlogPostDetailView {
 }
 
 export function mapReview(doc: Review): ReviewView {
+  const text = doc.text?.trim() ?? ''
+  const hasComment = Boolean(doc.hasComment ?? text.length > 0)
+
   return {
     id: String(doc.id),
     name: doc.name,
     rating: doc.rating,
-    text: doc.text,
+    text,
+    hasComment,
     date: formatDate(doc.date),
     service: mapReviewService(doc),
   }

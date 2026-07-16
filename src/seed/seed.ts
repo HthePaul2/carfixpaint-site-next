@@ -384,12 +384,15 @@ async function seed() {
     const serviceId = serviceSlug ? serviceIdBySlug.get(serviceSlug) : undefined
     const verified = review.verified ?? false
     const approved = verified && (review.approved ?? false)
+    const comment = review.text?.trim() ?? ''
+    const hasComment = review.hasComment ?? comment.length > 0
 
     await upsertByField(payload, 'reviews', 'seedKey', seedKey, {
       seedKey,
       name: review.name,
       rating: review.rating,
-      text: review.text,
+      text: hasComment ? comment : null,
+      hasComment,
       date: new Date(review.date).toISOString(),
       service: serviceId,
       serviceLabel: review.service,

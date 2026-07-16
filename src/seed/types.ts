@@ -45,7 +45,8 @@ export interface SeedReview {
   id: string
   name: string
   rating: number
-  text: string
+  text?: string
+  hasComment?: boolean
   date: string
   sourceDateLabel?: string
   service: string

@@ -37,6 +37,14 @@ export const Reviews: CollectionConfig = {
         const sourceUrl =
           typeof current.sourceUrl === 'string' ? current.sourceUrl.trim() : undefined
         const consentConfirmed = Boolean(current.consentConfirmed)
+        const text = typeof current.text === 'string' ? current.text.trim() : ''
+
+        if (Object.prototype.hasOwnProperty.call(data, 'text') || data.hasComment === undefined) {
+          data.hasComment = text.length > 0
+          if (Object.prototype.hasOwnProperty.call(data, 'text')) {
+            data.text = text || null
+          }
+        }
 
         if (approved && !verified) {
           throw new Error('O recenzie poate fi publicată doar după verificarea sursei.')
@@ -97,10 +105,18 @@ export const Reviews: CollectionConfig = {
     {
       name: 'text',
       type: 'textarea',
-      required: true,
       admin: {
         description:
-          'Pentru o evaluare fără comentariu folosește doar marcajul editorial dintre paranteze drepte; nu inventa un testimonial.',
+          'Lasă gol dacă evaluarea nu are comentariu public. Nu inventa un testimonial.',
+      },
+    },
+    {
+      name: 'hasComment',
+      type: 'checkbox',
+      defaultValue: false,
+      index: true,
+      admin: {
+        description: 'Bifat automat când există text real; folosit pentru filtre și sortare.',
       },
     },
     {

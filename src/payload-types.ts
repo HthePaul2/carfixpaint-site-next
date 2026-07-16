@@ -388,9 +388,13 @@ export interface Review {
   name: string;
   rating: number;
   /**
-   * Pentru o evaluare fără comentariu folosește doar marcajul editorial dintre paranteze drepte; nu inventa un testimonial.
+   * Lasă gol dacă evaluarea nu are comentariu public. Nu inventa un testimonial.
    */
-  text: string;
+  text?: string | null;
+  /**
+   * Bifat automat când există text real; folosit pentru filtre și sortare.
+   */
+  hasComment?: boolean | null;
   date: string;
   service?: (number | null) | Service;
   /**
@@ -758,6 +762,7 @@ export interface ReviewsSelect<T extends boolean = true> {
   name?: T;
   rating?: T;
   text?: T;
+  hasComment?: T;
   date?: T;
   service?: T;
   serviceLabel?: T;

@@ -5,6 +5,7 @@ import * as migration_20260715_194500_review_verification from './20260715_19450
 import * as migration_20260716_001200_portfolio_og_image from './20260716_001200_portfolio_og_image'
 import * as migration_20260716_003000_portfolio_default_og from './20260716_003000_portfolio_default_og'
 import * as migration_20260716_070000_service_landing_pages from './20260716_070000_service_landing_pages'
+import * as migration_20260716_073000_reviews_has_comment from './20260716_073000_reviews_has_comment'
 
 export const migrations = [
   {
@@ -41,5 +42,10 @@ export const migrations = [
     up: migration_20260716_070000_service_landing_pages.up,
     down: migration_20260716_070000_service_landing_pages.down,
     name: '20260716_070000_service_landing_pages',
+  },
+  {
+    up: migration_20260716_073000_reviews_has_comment.up,
+    down: migration_20260716_073000_reviews_has_comment.down,
+    name: '20260716_073000_reviews_has_comment',
   },
 ]

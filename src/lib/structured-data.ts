@@ -73,28 +73,43 @@ export function buildFaqPageSchema(faqs: FAQView[]) {
   }
 }
 
-export function buildReviewsSchema(settings: SiteSeoSettings, reviews: ReviewView[]) {
-  if (!reviews.length) return null
+export function buildReviewsSchema(
+  settings: SiteSeoSettings,
+  reviews: ReviewView[],
+  aggregate?: { averageRating: number; reviewCount: number },
+) {
+  if (!aggregate?.reviewCount && !reviews.length) return null
 
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: settings.siteName,
     url: settings.siteUrl,
-    review: reviews.map((review) => ({
-      '@type': 'Review',
-      author: {
-        '@type': 'Person',
-        name: review.name,
-      },
-      reviewRating: {
-        '@type': 'Rating',
-        ratingValue: String(review.rating),
-        bestRating: '5',
-      },
-      reviewBody: review.text,
-      datePublished: review.date || undefined,
-    })),
+    aggregateRating: aggregate?.reviewCount
+      ? {
+          '@type': 'AggregateRating',
+          ratingValue: aggregate.averageRating.toFixed(1),
+          reviewCount: String(aggregate.reviewCount),
+          bestRating: '5',
+          worstRating: '1',
+        }
+      : undefined,
+    review: reviews
+      .filter((review) => review.hasComment)
+      .map((review) => ({
+        '@type': 'Review',
+        author: {
+          '@type': 'Person',
+          name: review.name,
+        },
+        reviewRating: {
+          '@type': 'Rating',
+          ratingValue: String(review.rating),
+          bestRating: '5',
+        },
+        reviewBody: review.text,
+        datePublished: review.date || undefined,
+      })),
   }
 }
 
