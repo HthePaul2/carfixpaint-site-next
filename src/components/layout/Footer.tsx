@@ -1,7 +1,8 @@
 'use client'
 
 import Link from 'next/link'
-import { Phone, EnvelopeSimple, MapPin, Clock, FacebookLogo, InstagramLogo } from '@phosphor-icons/react'
+import { WhatsappLogo, EnvelopeSimple, MapPin, Clock, FacebookLogo, InstagramLogo } from '@phosphor-icons/react'
+import { buildWhatsAppLink } from '@/lib/whatsapp'
 import { BrandLogo } from '@/components/layout/BrandLogo'
 import { Separator } from '@/components/ui/separator'
 import { useSiteSettings } from '@/components/providers/SiteSettingsProvider'
@@ -9,6 +10,7 @@ import { useSiteSettings } from '@/components/providers/SiteSettingsProvider'
 export function Footer() {
   const company = useSiteSettings()
   const navItems = company.navigationItems.filter((item) => item.path !== '/')
+  const whatsappHref = buildWhatsAppLink(company.whatsappNumber, company.whatsappMessage)
 
   return (
     <footer className="bg-primary text-primary-foreground">
@@ -77,11 +79,13 @@ export function Footer() {
               </li>
               <li>
                 <a
-                  href={`tel:${company.phone.replace(/\s/g, '')}`}
-                  className="flex items-center gap-2 opacity-80 hover:opacity-100 hover:text-accent transition-all"
+                  href={whatsappHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 opacity-80 transition-all hover:opacity-100 hover:text-accent"
                 >
-                  <Phone size={18} weight="bold" />
-                  {company.phone}
+                  <WhatsappLogo size={18} weight="fill" />
+                  WhatsApp — {company.phone}
                 </a>
               </li>
               <li>

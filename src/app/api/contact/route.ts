@@ -18,11 +18,11 @@ const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000
 const SERVICE_LABELS: Record<string, string> = {
   tinichigerie: 'Tinichigerie & Caroserie',
   vopsitorie: 'Vopsitorie',
-  mecanica: 'Mecanică Auto',
-  diagnoza: 'Diagnoză Computerizată',
+  mecanica: 'Mecanică, diagnoză și climatizare',
+  diagnoza: 'Mecanică, diagnoză și climatizare',
   daune: 'Daune RCA/CASCO',
   'daune-rca-casco': 'Daune RCA/CASCO',
-  'masina-schimb': 'Mașină la schimb',
+  'masina-schimb': 'Mașină la schimb RCA',
   altele: 'Altele',
 }
 

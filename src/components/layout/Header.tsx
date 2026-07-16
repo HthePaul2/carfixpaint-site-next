@@ -3,10 +3,11 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Phone, List, X } from '@phosphor-icons/react'
+import { WhatsappLogo, List, X } from '@phosphor-icons/react'
 import { Button } from '@/components/ui/button'
 import { BrandLogo } from '@/components/layout/BrandLogo'
 import { useSiteSettings } from '@/components/providers/SiteSettingsProvider'
+import { buildWhatsAppLink } from '@/lib/whatsapp'
 import { motion, AnimatePresence } from 'framer-motion'
 
 export function Header() {
@@ -14,6 +15,7 @@ export function Header() {
   const pathname = usePathname()
   const company = useSiteSettings()
   const navItems = company.navigationItems.filter((item) => item.path !== '/')
+  const whatsappHref = buildWhatsAppLink(company.whatsappNumber, company.whatsappMessage)
 
   const isActive = (path: string) => {
     if (path === '/') return pathname === '/'
@@ -41,11 +43,16 @@ export function Header() {
           </nav>
 
           <div className="flex items-center gap-2 sm:gap-3">
-            <a href={`tel:${company.phone.replace(/\s/g, '')}`} className="hidden md:block">
+            <a
+              href={whatsappHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden md:block"
+            >
               <Button className="gap-2">
-                <Phone weight="bold" size={18} />
+                <WhatsappLogo weight="fill" size={18} />
                 <span className="hidden 2xl:inline">{company.phone}</span>
-                <span className="2xl:hidden">Sună</span>
+                <span className="2xl:hidden">WhatsApp</span>
               </Button>
             </a>
 
@@ -87,10 +94,15 @@ export function Header() {
                   {item.label}
                 </Link>
               ))}
-              <a href={`tel:${company.phone.replace(/\s/g, '')}`} className="pt-3 md:hidden">
+              <a
+                href={whatsappHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="pt-3 md:hidden"
+              >
                 <Button className="w-full gap-2">
-                  <Phone weight="bold" size={18} />
-                  {company.phone}
+                  <WhatsappLogo weight="fill" size={18} />
+                  WhatsApp — {company.phone}
                 </Button>
               </a>
             </nav>

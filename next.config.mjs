@@ -23,6 +23,20 @@ const nextConfig = {
       },
     ]
   },
+  async redirects() {
+    return [
+      {
+        source: '/servicii/mecanica-auto-brasov',
+        destination: '/servicii/mecanica-diagnoza-climatizare-brasov',
+        permanent: true,
+      },
+      {
+        source: '/servicii/diagnoza-auto-brasov',
+        destination: '/servicii/mecanica-diagnoza-climatizare-brasov',
+        permanent: true,
+      },
+    ]
+  },
 }
 
 export default withPayload(nextConfig)

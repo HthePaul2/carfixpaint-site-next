@@ -1,7 +1,7 @@
 'use client'
 
 import * as Icons from '@phosphor-icons/react'
-import { ArrowRight, CheckCircle, Clock, Phone } from '@phosphor-icons/react'
+import { ArrowRight, CheckCircle, Clock, WhatsappLogo } from '@phosphor-icons/react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
@@ -16,6 +16,7 @@ import type {
   ReviewView,
   ServiceView,
 } from '@/lib/cms-types'
+import { buildWhatsAppLink } from '@/lib/whatsapp'
 
 type HomePageProps = {
   homepage: HomepageView
@@ -37,6 +38,7 @@ function resolveIcon(iconName: string): IconComponent {
 export function HomePage({ homepage, services, portfolioProjects, reviews }: HomePageProps) {
   const router = useRouter()
   const company = useSiteSettings()
+  const whatsappHref = buildWhatsAppLink(company.whatsappNumber, company.whatsappMessage)
 
   const container = {
     hidden: { opacity: 0 },
@@ -93,10 +95,13 @@ export function HomePage({ homepage, services, portfolioProjects, reviews }: Hom
               <Button
                 size="lg"
                 variant="outline"
-                onClick={() => router.push('/programare')}
-                className="w-full gap-2 border-white/20 bg-white/10 text-lg text-white hover:bg-white/20 sm:w-auto"
+                asChild
+                className="w-full border-white/20 bg-white/10 text-lg text-white hover:bg-white/20 sm:w-auto"
               >
-                {homepage.heroCtaPhoneLabel}
+                <a href={whatsappHref} target="_blank" rel="noopener noreferrer" className="gap-2">
+                  <WhatsappLogo weight="fill" size={20} />
+                  {homepage.heroCtaPhoneLabel}
+                </a>
               </Button>
             </div>
           </motion.div>
@@ -378,10 +383,10 @@ export function HomePage({ homepage, services, portfolioProjects, reviews }: Hom
             <h2 className="mb-6 text-3xl font-bold md:text-4xl">{homepage.finalCtaTitle}</h2>
             <p className="mb-8 text-lg opacity-90">{homepage.finalCtaDescription}</p>
             <div className="flex flex-col justify-center gap-4 sm:flex-row">
-              <a href={`tel:${company.phone.replace(/\s/g, '')}`}>
+              <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
                 <Button size="lg" variant="secondary" className="w-full gap-2 text-lg sm:w-auto">
-                  <Phone weight="bold" size={22} />
-                  {company.phone}
+                  <WhatsappLogo weight="fill" size={22} />
+                  Scrie-ne pe WhatsApp
                 </Button>
               </a>
               <Button

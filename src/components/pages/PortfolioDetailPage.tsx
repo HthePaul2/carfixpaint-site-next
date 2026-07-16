@@ -1,6 +1,6 @@
 'use client'
 
-import { ArrowLeft, Info, Phone } from '@phosphor-icons/react'
+import { ArrowLeft, Info, WhatsappLogo } from '@phosphor-icons/react'
 import { useRouter } from 'next/navigation'
 
 import { useSiteSettings } from '@/components/providers/SiteSettingsProvider'
@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import type { PortfolioProjectView } from '@/lib/cms-types'
+import { buildWhatsAppLink } from '@/lib/whatsapp'
 
 type PortfolioDetailPageProps = {
   project: PortfolioProjectView
@@ -16,6 +17,7 @@ type PortfolioDetailPageProps = {
 export function PortfolioDetailPage({ project }: PortfolioDetailPageProps) {
   const router = useRouter()
   const company = useSiteSettings()
+  const whatsappHref = buildWhatsAppLink(company.whatsappNumber, company.whatsappMessage)
 
   return (
     <div className="py-16">
@@ -102,9 +104,9 @@ export function PortfolioDetailPage({ project }: PortfolioDetailPageProps) {
           </p>
           <div className="flex flex-col justify-center gap-4 sm:flex-row">
             <Button size="lg" variant="secondary" asChild>
-              <a href={`tel:${company.phone.replace(/\s/g, '')}`}>
-                <Phone weight="bold" size={20} className="mr-2" />
-                Sună: {company.phone}
+              <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
+                <WhatsappLogo weight="fill" size={20} className="mr-2" />
+                Scrie-ne pe WhatsApp
               </a>
             </Button>
             <Button

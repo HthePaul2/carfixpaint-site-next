@@ -1,11 +1,21 @@
 {
-  "heroBadge": "Service auto în Brașov din 2014",
-  "heroTitle": "Tinichigerie și vopsitorie auto în Brașov",
-  "heroAccentText": "Daune RCA/CASCO, mecanică și diagnoză într-un singur service",
-  "heroDescription": "Te ajutăm de la evaluarea inițială și pregătirea documentelor până la reparație și predarea mașinii. Trimite fotografiile daunei pentru o primă orientare sau solicită o programare pentru constatare.",
-  "heroCtaPhoneLabel": "Solicită o programare",
+  "heroBadge": "Consiliere gratuită pentru daune",
+  "heroTitle": "Consiliere gratuită pentru constatarea amiabilă",
+  "heroAccentText": "și deschiderea dosarului de daune + mașină la schimb pentru RCA",
+  "heroDescription": "Te ghidăm pas cu pas la constatarea amiabilă și la deschiderea dosarului. Pentru dosarele RCA oferim mașină la schimb pe durata reparației, când este disponibilă. Scrie-ne pe WhatsApp cu fotografiile daunei.",
+  "heroCtaPhoneLabel": "Scrie-ne pe WhatsApp",
   "heroCtaQuoteLabel": "Trimite poze pentru evaluare",
   "benefits": [
+    {
+      "icon": "Shield",
+      "title": "Consiliere gratuită",
+      "description": "Te ajutăm gratis la constatarea amiabilă și la deschiderea dosarului de daune."
+    },
+    {
+      "icon": "Car",
+      "title": "Mașină la schimb RCA",
+      "description": "Pentru dosarele RCA poți primi mașină la schimb pe durata reparației, când este disponibilă."
+    },
     {
       "icon": "CheckCircle",
       "title": "Evaluare clară",
@@ -13,56 +23,46 @@
     },
     {
       "icon": "PaintBrush",
-      "title": "Finisaj atent",
-      "description": "Pregătire corectă a suprafeței, potrivirea nuanței și controlul rezultatului final."
-    },
-    {
-      "icon": "Shield",
-      "title": "Sprijin pentru daune",
-      "description": "Te ajutăm cu documentele și comunicarea necesară pentru dosarele RCA/CASCO."
-    },
-    {
-      "icon": "Car",
-      "title": "Mobilitate",
-      "description": "Mașină la schimb, când este disponibilă și când condițiile dosarului permit."
+      "title": "Reparații complete",
+      "description": "Tinichigerie, vopsitorie, mecanică, diagnoză și climatizare într-un singur service."
     }
   ],
   "servicesSectionTitle": "Servicii auto într-un singur loc",
-  "servicesSectionSubtitle": "De la o zgârietură sau o problemă de diagnoză până la reparații complexe de caroserie.",
+  "servicesSectionSubtitle": "De la dosarul de daună și mașina la schimb RCA până la tinichigerie, vopsitorie, mecanică, diagnoză și climatizare.",
   "portfolioSectionTitle": "Tipuri de lucrări pe care le realizăm",
   "reviewsSectionTitle": "Experiența clienților",
   "servicesLimit": 6,
   "portfolioLimit": 3,
   "reviewsLimit": 6,
-  "damageProcessTitle": "Cum abordăm o daună auto",
+  "damageProcessTitle": "Cum te ajutăm după o daună",
   "damageProcessSteps": [
     {
-      "title": "Discuție și evaluare",
-      "description": "Ne trimiți fotografii sau vii cu mașina pentru o primă evaluare a daunelor."
+      "title": "Consiliere inițială",
+      "description": "Îți explicăm gratis pașii pentru constatarea amiabilă și deschiderea dosarului."
     },
     {
       "title": "Documente și constatare",
-      "description": "Verificăm actele disponibile și stabilim ce mai este necesar pentru dosarul de daună."
+      "description": "Verificăm actele și fotografiile, apoi stabilim ce mai este necesar pentru dosar."
     },
     {
       "title": "Deviz și aprobare",
       "description": "Pregătim estimarea lucrărilor și așteptăm acordurile necesare înainte de intervenție."
     },
     {
-      "title": "Reparație și actualizări",
-      "description": "Executăm lucrările aprobate și te informăm dacă apar elemente suplimentare."
+      "title": "Reparație și mașină la schimb",
+      "description": "Executăm lucrările; pentru RCA putem oferi mașină la schimb, dacă este disponibilă."
     },
     {
       "title": "Control final și predare",
-      "description": "Verificăm funcționarea, alinierea și finisajul înainte să îți predăm mașina."
+      "description": "Verificăm finisajul și îți predăm mașina împreună cu documentele lucrării."
     }
   ],
-  "finalCtaTitle": "Ai o daună, o zgârietură sau o problemă tehnică?",
-  "finalCtaDescription": "Trimite-ne câteva fotografii și datele mașinii. Îți spunem ce putem verifica de la distanță și când este nevoie de o constatare în service.",
-  "finalCtaButtonLabel": "Cere o evaluare",
-  "seoTitle": "Service auto Brașov | Tinichigerie, vopsitorie și daune | CarFix Paint",
-  "seoDescription": "CarFix Paint oferă în Brașov servicii de tinichigerie, vopsitorie, mecanică, diagnoză și sprijin pentru dosare de daună RCA/CASCO.",
-  "seoKeywords": "service auto Brașov, tinichigerie Brașov, vopsitorie auto Brașov, daune RCA Brașov, daune CASCO, diagnoză auto Brașov",
-  "ogTitle": "CarFix Paint — service auto în Brașov",
-  "ogDescription": "Tinichigerie, vopsitorie, mecanică, diagnoză și gestionarea reparațiilor pentru daune RCA/CASCO."
+  "finalCtaTitle": "Ai o daună și nu știi de unde să începi?",
+  "finalCtaDescription": "Scrie-ne pe WhatsApp. Te consiliem gratuit pentru constatarea amiabilă și deschiderea dosarului; pentru RCA discutăm și mașina la schimb.",
+  "finalCtaButtonLabel": "Trimite poze pentru evaluare",
+  "seoTitle": "Consiliere daune RCA Brașov | Constatare amiabilă și mașină la schimb | CarFix Paint",
+  "seoDescription": "Consiliere gratuită pentru constatarea amiabilă și deschiderea dosarului de daune în Brașov. Mașină la schimb pentru dosarele RCA. Tinichigerie, vopsitorie și service auto.",
+  "seoKeywords": "consiliere daune RCA Brașov, constatare amiabilă, deschidere dosar daune, mașină la schimb RCA, service auto Brașov",
+  "ogTitle": "Consiliere gratuită daune + mașină la schimb RCA | CarFix Paint",
+  "ogDescription": "Te ghidăm la constatarea amiabilă și deschiderea dosarului. Pentru RCA, mașină la schimb pe durata reparației."
 }

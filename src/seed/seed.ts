@@ -21,8 +21,10 @@ const SERVICE_LABEL_MAP: Record<string, string> = {
   vopsitorie: 'vopsitorie',
   mecanica: 'mecanica',
   'mecanică auto': 'mecanica',
-  diagnoza: 'diagnoza',
-  diagnoză: 'diagnoza',
+  'mecanică, diagnoză și climatizare': 'mecanica',
+  diagnoza: 'mecanica',
+  diagnoză: 'mecanica',
+  climatizare: 'mecanica',
   'daune rca': 'daune-rca-casco',
   'daune casco': 'daune-rca-casco',
   'daune rca/casco': 'daune-rca-casco',
@@ -35,9 +37,10 @@ function resolveServiceSlug(label: string): string | undefined {
   if (SERVICE_LABEL_MAP[normalized]) return SERVICE_LABEL_MAP[normalized]
   if (normalized.includes('tinichigerie')) return 'tinichigerie'
   if (normalized.includes('vopsitor')) return 'vopsitorie'
-  if (normalized.includes('mecanic')) return 'mecanica'
+  if (normalized.includes('mecanic') || normalized.includes('diagnoz') || normalized.includes('climatiz')) {
+    return 'mecanica'
+  }
   if (normalized.includes('daune')) return 'daune-rca-casco'
-  if (normalized.includes('diagnoz')) return 'diagnoza'
   if (normalized.includes('schimb')) return 'masina-schimb'
 
   return undefined
