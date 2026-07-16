@@ -28,21 +28,42 @@ export const Appointments: CollectionConfig = {
   hooks: {
     beforeChange: [
       ({ data, originalDoc, operation }) => {
-        const nextStatus = data.status ?? originalDoc?.status
-        const previousStatus = originalDoc?.status
+        if (operation !== 'update') return data
+
+        const previousStatus = originalDoc?.status ? String(originalDoc.status) : undefined
+        const nextStatus = String(data.status ?? previousStatus ?? '')
+        const statusChanged = Boolean(previousStatus && data.status && previousStatus !== nextStatus)
+        const now = new Date().toISOString()
         const slotKey = data.slotKey ?? originalDoc?.slotKey
+        const blocking = ['pending', 'confirmed', 'reschedule-proposed']
+        const releasing = ['cancelled', 'rejected', 'completed', 'no-show']
+
+        if (statusChanged && nextStatus === 'confirmed') {
+          data.confirmedAt = data.confirmedAt ?? originalDoc?.confirmedAt ?? now
+        }
+
+        if (statusChanged && (nextStatus === 'cancelled' || nextStatus === 'rejected')) {
+          data.cancelledAt = data.cancelledAt ?? originalDoc?.cancelledAt ?? now
+          const existingReason =
+            (typeof data.cancellationReason === 'string' && data.cancellationReason.trim()) ||
+            (typeof originalDoc?.cancellationReason === 'string' &&
+              originalDoc.cancellationReason.trim()) ||
+            ''
+          if (!existingReason) {
+            data.cancellationReason =
+              nextStatus === 'rejected' ? 'Respinsă din admin' : 'Anulată din admin'
+          }
+        }
 
         if (
-          operation === 'update' &&
+          statusChanged &&
           slotKey &&
           previousStatus &&
-          ['pending', 'confirmed', 'reschedule-proposed'].includes(String(previousStatus)) &&
-          ['cancelled', 'rejected', 'completed', 'no-show'].includes(String(nextStatus))
+          blocking.includes(previousStatus) &&
+          releasing.includes(nextStatus) &&
+          !String(slotKey).includes('#released-')
         ) {
           data.slotKey = `${slotKey}#released-${originalDoc?.id ?? Date.now()}`
-          if (!data.cancelledAt && ['cancelled', 'rejected'].includes(String(nextStatus))) {
-            data.cancelledAt = new Date().toISOString()
-          }
         }
 
         return data
@@ -167,14 +188,32 @@ export const Appointments: CollectionConfig = {
     {
       name: 'confirmedAt',
       type: 'date',
+      admin: {
+        readOnly: true,
+        description: 'Se completează automat când statusul trece în „Confirmată”.',
+        date: {
+          pickerAppearance: 'dayAndTime',
+        },
+      },
     },
     {
       name: 'cancelledAt',
       type: 'date',
+      admin: {
+        readOnly: true,
+        description: 'Se completează automat când statusul trece în „Anulată” sau „Respinsă”.',
+        date: {
+          pickerAppearance: 'dayAndTime',
+        },
+      },
     },
     {
       name: 'cancellationReason',
       type: 'text',
+      admin: {
+        description:
+          'Opțional. Dacă lași gol la anulare/respingere, se completează automat („Anulată din admin” / „Respinsă din admin”).',
+      },
     },
     {
       name: 'cancelTokenHash',
