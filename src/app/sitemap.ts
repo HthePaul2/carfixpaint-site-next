@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next'
 
-import { getBlogPosts, getPortfolioProjects } from '@/lib/queries'
+import { getBlogPosts, getPortfolioProjects, getServices } from '@/lib/queries'
 import { getSiteSeoSettings } from '@/lib/seo/site-settings'
 import { SITEMAP_STATIC_PATHS } from '@/lib/seo/static-pages'
 
@@ -12,9 +12,10 @@ function parseDate(value?: string): Date | undefined {
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const settings = await getSiteSeoSettings()
-  const [blogPosts, portfolioProjects] = await Promise.all([
+  const [blogPosts, portfolioProjects, services] = await Promise.all([
     getBlogPosts(200),
     getPortfolioProjects(200),
+    getServices(50),
   ])
 
   const staticEntries: MetadataRoute.Sitemap = SITEMAP_STATIC_PATHS.map((path) => ({
@@ -36,5 +37,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }))
 
-  return [...staticEntries, ...blogEntries, ...portfolioEntries]
+  const serviceEntries: MetadataRoute.Sitemap = services
+    .filter((service) => Boolean(service.pageSlug))
+    .map((service) => ({
+      url: `${settings.siteUrl}/servicii/${service.pageSlug}`,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    }))
+
+  return [...staticEntries, ...blogEntries, ...portfolioEntries, ...serviceEntries]
 }

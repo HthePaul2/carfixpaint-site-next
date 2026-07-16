@@ -247,6 +247,43 @@ export function buildPortfolioProjectSchema(
   }
 }
 
+export function buildServiceSchema(
+  settings: SiteSeoSettings,
+  service: {
+    pageSlug: string
+    name: string
+    heroTitle: string
+    intro: string
+    seoDescription?: string
+    description: string
+  },
+) {
+  const pageUrl = absoluteUrl(settings, `/servicii/${service.pageSlug}`)
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: service.heroTitle || service.name,
+    description: service.seoDescription ?? service.intro ?? service.description,
+    url: pageUrl,
+    provider: {
+      '@type': 'AutoRepair',
+      name: settings.siteName,
+      telephone: getSchemaPhone(settings),
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: settings.address,
+        addressLocality: 'Brașov',
+        addressCountry: 'RO',
+      },
+    },
+    areaServed: {
+      '@type': 'City',
+      name: 'Brașov',
+    },
+  }
+}
+
 export function combineSchemas(...schemas: Array<JsonLdValue | null | undefined>): JsonLdValue {
   const filtered = schemas.filter(Boolean) as Record<string, unknown>[]
 

@@ -82,23 +82,21 @@ export function HomePage({ homepage, services, portfolioProjects, reviews }: Hom
               {homepage.heroDescription}
             </p>
             <div className="flex flex-col gap-4 sm:flex-row">
-              <a href={`tel:${company.phone.replace(/\s/g, '')}`}>
-                <Button
-                  size="lg"
-                  className="w-full gap-2 text-lg shadow-lg transition-shadow hover:shadow-xl sm:w-auto"
-                >
-                  <Phone weight="bold" size={22} />
-                  {homepage.heroCtaPhoneLabel}
-                </Button>
-              </a>
               <Button
                 size="lg"
-                variant="outline"
-                onClick={() => router.push('/contact')}
-                className="w-full gap-2 border-white/20 bg-white/10 text-lg text-white hover:bg-white/20 sm:w-auto"
+                onClick={() => router.push('/contact#evaluare')}
+                className="w-full gap-2 text-lg shadow-lg transition-shadow hover:shadow-xl sm:w-auto"
               >
                 {homepage.heroCtaQuoteLabel}
                 <ArrowRight weight="bold" size={20} />
+              </Button>
+              <Button
+                size="lg"
+                variant="outline"
+                onClick={() => router.push('/contact?intent=programare')}
+                className="w-full gap-2 border-white/20 bg-white/10 text-lg text-white hover:bg-white/20 sm:w-auto"
+              >
+                {homepage.heroCtaPhoneLabel}
               </Button>
             </div>
           </motion.div>
@@ -152,11 +150,13 @@ export function HomePage({ homepage, services, portfolioProjects, reviews }: Hom
                   transition={{ duration: 0.3 }}
                 >
                   <Card className="h-full transition-shadow hover:shadow-lg">
-                    <CardContent className="p-6">
+                    <CardContent className="flex h-full flex-col p-6">
                       <ServiceIcon size={40} weight="duotone" className="mb-4 text-accent" />
                       <h3 className="mb-3 text-xl font-semibold">{service.name}</h3>
-                      <p className="mb-4 text-sm text-muted-foreground">{service.description}</p>
-                      <ul className="space-y-2">
+                      <p className="mb-4 text-sm text-muted-foreground">
+                        {service.shortDescription ?? service.description}
+                      </p>
+                      <ul className="mb-6 space-y-2">
                         {service.features.slice(0, 3).map((feature) => (
                           <li key={feature} className="flex items-start gap-2 text-sm">
                             <CheckCircle
@@ -168,6 +168,14 @@ export function HomePage({ homepage, services, portfolioProjects, reviews }: Hom
                           </li>
                         ))}
                       </ul>
+                      <Button
+                        variant="outline"
+                        className="mt-auto gap-2 self-start"
+                        onClick={() => router.push(`/servicii/${service.pageSlug}`)}
+                      >
+                        Vezi detalii
+                        <ArrowRight weight="bold" size={16} />
+                      </Button>
                     </CardContent>
                   </Card>
                 </motion.div>
@@ -372,7 +380,7 @@ export function HomePage({ homepage, services, portfolioProjects, reviews }: Hom
               <Button
                 size="lg"
                 variant="outline"
-                onClick={() => router.push('/contact')}
+                onClick={() => router.push('/contact#evaluare')}
                 className="w-full gap-2 border-white/20 bg-white/10 text-lg text-white hover:bg-white/20 sm:w-auto"
               >
                 {homepage.finalCtaButtonLabel}

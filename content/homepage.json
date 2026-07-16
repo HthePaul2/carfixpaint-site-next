@@ -1,10 +1,10 @@
 {
   "heroBadge": "Service auto în Brașov din 2014",
-  "heroTitle": "Reparații de caroserie făcute corect",
-  "heroAccentText": "de la evaluare până la predarea mașinii",
-  "heroDescription": "Tinichigerie, vopsitorie, mecanică și diagnoză pentru autoturisme multimarcă. Pentru daune RCA sau CASCO, te ajutăm să înțelegi pașii, să pregătești documentele și să urmărești reparația fără drumuri inutile.",
-  "heroCtaPhoneLabel": "Sună pentru evaluare",
-  "heroCtaQuoteLabel": "Trimite detaliile mașinii",
+  "heroTitle": "Tinichigerie și vopsitorie auto în Brașov",
+  "heroAccentText": "Daune RCA/CASCO, mecanică și diagnoză într-un singur service",
+  "heroDescription": "Te ajutăm de la evaluarea inițială și pregătirea documentelor până la reparație și predarea mașinii. Trimite fotografiile daunei pentru o primă orientare sau solicită o programare pentru constatare.",
+  "heroCtaPhoneLabel": "Solicită o programare",
+  "heroCtaQuoteLabel": "Trimite poze pentru evaluare",
   "benefits": [
     { "icon": "CheckCircle", "title": "Evaluare clară", "description": "Îți explicăm ce trebuie reparat și ce opțiuni ai înainte de începerea lucrării." },
     { "icon": "PaintBrush", "title": "Finisaj atent", "description": "Pregătire corectă a suprafeței, potrivirea nuanței și controlul rezultatului final." },

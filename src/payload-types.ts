@@ -220,7 +220,14 @@ export interface Media {
 export interface Service {
   id: number;
   name: string;
+  /**
+   * Identificator intern (relații, seed). Nu se schimbă după publicare.
+   */
   slug: string;
+  /**
+   * Slug public pentru URL /servicii/{pageSlug}
+   */
+  pageSlug: string;
   icon:
     | 'Hammer'
     | 'PaintBrush'
@@ -240,11 +247,34 @@ export interface Service {
         id?: string | null;
       }[]
     | null;
+  heroTitle?: string | null;
+  heroSubtitle?: string | null;
+  intro?: string | null;
+  whenNeededTitle?: string | null;
+  whenNeededItems?:
+    | {
+        item: string;
+        id?: string | null;
+      }[]
+    | null;
+  processTitle?: string | null;
+  processSteps?:
+    | {
+        title: string;
+        description: string;
+        id?: string | null;
+      }[]
+    | null;
+  ctaTitle?: string | null;
+  ctaDescription?: string | null;
+  ctaPrimaryLabel?: string | null;
+  ctaSecondaryLabel?: string | null;
+  seoTitle?: string | null;
+  seoDescription?: string | null;
+  ogImage?: (number | null) | Media;
   featured?: boolean | null;
   active?: boolean | null;
   order?: number | null;
-  seoTitle?: string | null;
-  seoDescription?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -621,6 +651,7 @@ export interface MediaSelect<T extends boolean = true> {
 export interface ServicesSelect<T extends boolean = true> {
   name?: T;
   slug?: T;
+  pageSlug?: T;
   icon?: T;
   shortDescription?: T;
   description?: T;
@@ -630,11 +661,34 @@ export interface ServicesSelect<T extends boolean = true> {
         feature?: T;
         id?: T;
       };
+  heroTitle?: T;
+  heroSubtitle?: T;
+  intro?: T;
+  whenNeededTitle?: T;
+  whenNeededItems?:
+    | T
+    | {
+        item?: T;
+        id?: T;
+      };
+  processTitle?: T;
+  processSteps?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  ctaTitle?: T;
+  ctaDescription?: T;
+  ctaPrimaryLabel?: T;
+  ctaSecondaryLabel?: T;
+  seoTitle?: T;
+  seoDescription?: T;
+  ogImage?: T;
   featured?: T;
   active?: T;
   order?: T;
-  seoTitle?: T;
-  seoDescription?: T;
   updatedAt?: T;
   createdAt?: T;
 }
