@@ -24,12 +24,12 @@
     { "path": "/", "label": "Acasă" },
     { "path": "/servicii", "label": "Servicii" },
     { "path": "/programare", "label": "Programare" },
-    { "path": "/daune", "label": "Daune RCA/CASCO" },
+    { "path": "/daune", "label": "Daune" },
     { "path": "/portofoliu", "label": "Portofoliu" },
-    { "path": "/despre", "label": "Despre noi" },
+    { "path": "/despre", "label": "Despre" },
     { "path": "/recenzii", "label": "Recenzii" },
-    { "path": "/faq", "label": "Întrebări frecvente" },
-    { "path": "/blog", "label": "Ghiduri auto" },
+    { "path": "/faq", "label": "FAQ" },
+    { "path": "/blog", "label": "Blog" },
     { "path": "/contact", "label": "Contact" }
   ],
   "copyrightText": "© 2026 CarFix Paint. Toate drepturile rezervate."
