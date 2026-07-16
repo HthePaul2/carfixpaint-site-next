@@ -1,12 +1,13 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { ArrowRight, CheckCircle, Shield, Phone, Car } from '@phosphor-icons/react'
+import { ArrowRight, CheckCircle, Shield, WhatsappLogo, Car } from '@phosphor-icons/react'
 import * as Icons from '@phosphor-icons/react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { useSiteSettings } from '@/components/providers/SiteSettingsProvider'
+import { buildWhatsAppLink } from '@/lib/whatsapp'
 import type {
   BlogPageView,
   BlogPostListView,
@@ -37,6 +38,7 @@ function resolveIcon(iconName: string) {
 export function DaunePage({ content }: { content: DaunePageView }) {
   const router = useRouter()
   const company = useSiteSettings()
+  const whatsappHref = buildWhatsAppLink(company.whatsappNumber, company.whatsappMessage)
 
   return (
     <div className="py-16">
@@ -92,19 +94,19 @@ export function DaunePage({ content }: { content: DaunePageView }) {
           <h2 className="text-2xl font-bold mb-4">{content.ctaTitle}</h2>
           <p className="mb-6 opacity-90">{content.ctaDescription}</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href={`tel:${company.phone.replace(/\s/g, '')}`}>
+            <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
               <Button size="lg" variant="secondary">
-                <Phone weight="bold" size={20} className="mr-2" />
-                {company.phone}
+                <WhatsappLogo weight="fill" size={20} className="mr-2" />
+                {content.ctaContactLabel}
               </Button>
             </a>
             <Button
               size="lg"
               variant="outline"
-              onClick={() => router.push('/contact')}
+              onClick={() => router.push('/programare')}
               className="bg-white/10 border-white/20 hover:bg-white/20 text-white"
             >
-              {content.ctaContactLabel}
+              Programează o constatare
               <ArrowRight weight="bold" size={20} className="ml-2" />
             </Button>
           </div>

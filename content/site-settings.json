@@ -1,36 +1,65 @@
 {
   "companyName": "CarFix Paint",
-  "tagline": "Tinichigerie, vopsitorie și service auto în Brașov",
+  "tagline": "Consiliere gratuită daune RCA · Mașină la schimb · Service auto Brașov",
   "phone": "0760 686 384",
   "whatsappNumber": "40760686384",
-  "whatsappMessage": "Bună ziua! Aș dori o evaluare pentru mașina mea. Vă pot trimite fotografii și detalii despre problemă?",
+  "whatsappMessage": "Bună ziua! Am o daună / o problemă la mașină și aș dori consiliere. Vă pot trimite fotografii și detalii.",
   "email": "office@carfixpaint.ro",
   "address": "Calea Făgărașului nr. 8, Brașov",
   "schedule": "Luni–Vineri, 08:00–18:00",
   "canonicalDomain": "https://carfixpaint.ro",
-  "ctaPhoneLabel": "Sună pentru evaluare",
+  "ctaPhoneLabel": "Scrie-ne pe WhatsApp",
   "ctaQuoteLabel": "Trimite o cerere",
   "logoAbbreviation": "CF",
-  "footerDescription": "Service auto multimarcă în Brașov pentru tinichigerie, vopsitorie, mecanică, diagnoză și gestionarea dosarelor de daună RCA/CASCO.",
+  "footerDescription": "Consiliere gratuită pentru constatarea amiabilă și deschiderea dosarului de daune. Mașină la schimb pentru dosarele RCA. Tinichigerie, vopsitorie, mecanică, diagnoză și climatizare în Brașov.",
   "footerServices": [
+    "Consiliere daune RCA/CASCO",
+    "Mașină la schimb RCA",
     "Tinichigerie și caroserie",
     "Vopsitorie auto",
-    "Mecanică auto",
-    "Diagnoză computerizată",
-    "Daune RCA/CASCO",
-    "Mașină la schimb"
+    "Mecanică, diagnoză și climatizare"
   ],
   "navigationItems": [
-    { "path": "/", "label": "Acasă" },
-    { "path": "/servicii", "label": "Servicii" },
-    { "path": "/programare", "label": "Programare" },
-    { "path": "/daune", "label": "Daune" },
-    { "path": "/portofoliu", "label": "Portofoliu" },
-    { "path": "/despre", "label": "Despre" },
-    { "path": "/recenzii", "label": "Recenzii" },
-    { "path": "/faq", "label": "FAQ" },
-    { "path": "/blog", "label": "Blog" },
-    { "path": "/contact", "label": "Contact" }
+    {
+      "path": "/",
+      "label": "Acasă"
+    },
+    {
+      "path": "/servicii",
+      "label": "Servicii"
+    },
+    {
+      "path": "/programare",
+      "label": "Programare"
+    },
+    {
+      "path": "/daune",
+      "label": "Daune"
+    },
+    {
+      "path": "/portofoliu",
+      "label": "Portofoliu"
+    },
+    {
+      "path": "/despre",
+      "label": "Despre"
+    },
+    {
+      "path": "/recenzii",
+      "label": "Recenzii"
+    },
+    {
+      "path": "/faq",
+      "label": "FAQ"
+    },
+    {
+      "path": "/blog",
+      "label": "Blog"
+    },
+    {
+      "path": "/contact",
+      "label": "Contact"
+    }
   ],
   "copyrightText": "© 2026 CarFix Paint. Toate drepturile rezervate."
 }

@@ -1,11 +1,13 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { ArrowLeft } from '@phosphor-icons/react'
+import { ArrowLeft, WhatsappLogo } from '@phosphor-icons/react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { BlogPostBody } from '@/components/cms/BlogPostBody'
+import { useSiteSettings } from '@/components/providers/SiteSettingsProvider'
 import type { BlogPostDetailView } from '@/lib/cms-types'
+import { buildWhatsAppLink } from '@/lib/whatsapp'
 
 type BlogDetailPageProps = {
   post: BlogPostDetailView
@@ -14,6 +16,8 @@ type BlogDetailPageProps = {
 
 export function BlogDetailPage({ post, contentHtml }: BlogDetailPageProps) {
   const router = useRouter()
+  const company = useSiteSettings()
+  const whatsappHref = buildWhatsAppLink(company.whatsappNumber, company.whatsappMessage)
 
   return (
     <div className="py-16">
@@ -46,13 +50,16 @@ export function BlogDetailPage({ post, contentHtml }: BlogDetailPageProps) {
           </Card>
 
           <div className="mt-8 text-center bg-accent text-accent-foreground rounded-lg p-8">
-            <h3 className="text-2xl font-bold mb-4">Ai Nevoie de Ajutor?</h3>
+            <h3 className="text-2xl font-bold mb-4">Ai nevoie de ajutor?</h3>
             <p className="mb-6 opacity-90">
-              Echipa CarFix Paint este gata să te ajute cu orice problemă auto.
+              Echipa CarFix Paint este gata să te ajute cu dauna sau cu o problemă la mașină.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" variant="secondary" asChild>
-                <a href="tel:0760686384">Sună Acum: 0760 686 384</a>
+                <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
+                  <WhatsappLogo weight="fill" size={20} className="mr-2" />
+                  Scrie-ne pe WhatsApp
+                </a>
               </Button>
               <Button
                 size="lg"
@@ -60,7 +67,7 @@ export function BlogDetailPage({ post, contentHtml }: BlogDetailPageProps) {
                 onClick={() => router.push('/contact')}
                 className="bg-white/10 border-white/20 hover:bg-white/20 text-white"
               >
-                Cere Ofertă
+                Trimite o cerere
               </Button>
             </div>
           </div>

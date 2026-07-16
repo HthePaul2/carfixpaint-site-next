@@ -1,6 +1,6 @@
 'use client'
 
-import { ArrowLeft, Phone } from '@phosphor-icons/react'
+import { ArrowLeft, WhatsappLogo } from '@phosphor-icons/react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -9,10 +9,12 @@ import { useRouter } from 'next/navigation'
 import { BrandLogo } from '@/components/layout/BrandLogo'
 import { useSiteSettings } from '@/components/providers/SiteSettingsProvider'
 import { Button } from '@/components/ui/button'
+import { buildWhatsAppLink } from '@/lib/whatsapp'
 
 export function NotFoundPage() {
   const router = useRouter()
   const company = useSiteSettings()
+  const whatsappHref = buildWhatsAppLink(company.whatsappNumber, company.whatsappMessage)
 
   return (
     <section className="relative flex min-h-[calc(100vh-4rem)] overflow-hidden bg-primary text-primary-foreground">
@@ -80,14 +82,14 @@ export function NotFoundPage() {
               <ArrowLeft weight="bold" size={22} />
               Înapoi acasă
             </Button>
-            <a href={`tel:${company.phone.replace(/\s/g, '')}`} className="sm:w-auto">
+            <a href={whatsappHref} target="_blank" rel="noopener noreferrer" className="sm:w-auto">
               <Button
                 size="lg"
                 variant="outline"
                 className="w-full gap-2 border-white/20 bg-white/10 text-lg text-white hover:bg-white/20 sm:w-auto"
               >
-                <Phone weight="bold" size={22} />
-                {company.phone}
+                <WhatsappLogo weight="fill" size={22} />
+                Scrie-ne pe WhatsApp
               </Button>
             </a>
           </motion.div>

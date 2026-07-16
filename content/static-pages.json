@@ -18,56 +18,56 @@
     "ogDescription": "Alege serviciul și intervalul preferat. Confirmăm programarea telefonic sau pe email."
   },
   "daune": {
-    "pageTitle": "Sprijin pentru daune RCA și CASCO",
-    "pageSubtitle": "O daună auto înseamnă reparații, documente și discuții cu asigurătorul. Te ajutăm să organizezi procesul și să înțelegi fiecare etapă.",
+    "pageTitle": "Consiliere gratuită pentru daune RCA și CASCO",
+    "pageSubtitle": "Te consiliem gratis pentru constatarea amiabilă și deschiderea dosarului. Pentru dosarele RCA oferim mașină la schimb pe durata reparației, când este disponibilă.",
     "highlights": [
       {
         "icon": "Shield",
-        "title": "Dosar organizat",
-        "description": "Verificăm documentele disponibile și îți spunem ce lipsește înainte de trimitere."
+        "title": "Consiliere gratuită",
+        "description": "Te ghidăm la constatarea amiabilă și la deschiderea dosarului de daune, fără cost pentru această etapă."
+      },
+      {
+        "icon": "Car",
+        "title": "Mașină la schimb RCA",
+        "description": "Pentru dosarele RCA poți primi mașină la schimb pe durata reparației, în funcție de disponibilitate."
       },
       {
         "icon": "CheckCircle",
         "title": "Lucrări explicate",
         "description": "Primești informații clare despre piesele, operațiunile și aprobările necesare."
-      },
-      {
-        "icon": "Car",
-        "title": "Mașină la schimb",
-        "description": "Disponibilitatea și costurile depind de situația concretă și de condițiile dosarului."
       }
     ],
-    "processTitle": "Pașii unei reparații prin asigurare",
+    "processTitle": "Pașii după o daună",
     "processSteps": [
       {
-        "title": "Contact inițial",
-        "description": "Ne spui ce s-a întâmplat, ce documente ai și unde este mașina. Fotografiile ajută la o primă orientare."
+        "title": "Contact pe WhatsApp",
+        "description": "Ne trimiți fotografiile și ne spui ce s-a întâmplat. Te consiliem gratuit pentru următorii pași."
       },
       {
-        "title": "Constatarea daunelor",
-        "description": "Daunele trebuie documentate înainte de reparație. Procedura exactă poate diferi în funcție de asigurător și poliță."
+        "title": "Constatare amiabilă și dosar",
+        "description": "Te ghidăm la constatarea amiabilă și la deschiderea dosarului, ca să știi ce documente sunt necesare."
       },
       {
         "title": "Deviz și documentație",
         "description": "Identificăm operațiunile și piesele necesare și pregătim documentele tehnice ale reparației."
       },
       {
-        "title": "Acord și programare",
-        "description": "Începem după ce sunt clarificate aprobările, piesele și termenul estimat."
+        "title": "Acord, programare și mașină la schimb",
+        "description": "Începem după aprobări. Pentru RCA, confirmăm dacă este disponibilă mașina la schimb."
       },
       {
         "title": "Reparație și predare",
-        "description": "Executăm lucrările aprobate, facem verificarea finală și îți explicăm ce s-a înlocuit sau reparat."
+        "description": "Executăm lucrările aprobate, facem verificarea finală și îți predăm mașina."
       }
     ],
-    "ctaTitle": "Ai deschis deja dosarul de daună?",
-    "ctaDescription": "Trimite-ne numărul dosarului, câteva fotografii și datele mașinii. Verificăm ce pași urmează pentru situația ta.",
-    "ctaContactLabel": "Trimite detaliile",
-    "seoTitle": "Daune RCA și CASCO Brașov | CarFix Paint",
-    "seoDescription": "Sprijin pentru constatarea, documentarea și repararea daunelor RCA/CASCO în Brașov.",
-    "seoKeywords": "daune RCA Brașov, daune CASCO Brașov, service daune auto, reparații prin asigurare",
-    "ogTitle": "Reparații pentru daune RCA/CASCO",
-    "ogDescription": "Te ajutăm să organizezi documentele și reparația mașinii după o daună."
+    "ctaTitle": "Ai o daună și ai nevoie de îndrumare?",
+    "ctaDescription": "Scrie-ne pe WhatsApp. Te consiliem gratuit pentru constatarea amiabilă și deschiderea dosarului.",
+    "ctaContactLabel": "Scrie-ne pe WhatsApp",
+    "seoTitle": "Consiliere daune RCA Brașov | Constatare amiabilă și mașină la schimb | CarFix Paint",
+    "seoDescription": "Consiliere gratuită pentru constatarea amiabilă și deschiderea dosarului de daune în Brașov. Mașină la schimb pentru dosarele RCA.",
+    "seoKeywords": "consiliere daune RCA, constatare amiabilă Brașov, deschidere dosar daune, mașină la schimb RCA",
+    "ogTitle": "Consiliere gratuită daune + mașină la schimb RCA",
+    "ogDescription": "Te ghidăm la constatarea amiabilă și deschiderea dosarului. Pentru RCA, mașină la schimb pe durata reparației."
   },
   "portofoliu": {
     "pageTitle": "Lucrări și studii de caz",

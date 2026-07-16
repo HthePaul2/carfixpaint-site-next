@@ -26,14 +26,14 @@ export const STATIC_PAGE_SEO: Record<StaticPageKey, StaticPageSeo> = {
   home: {
     path: '/',
     title:
-      'CarFix Paint - Service Auto Premium Brașov | Tinichigerie, Vopsitorie, Daune RCA/CASCO',
+      'Consiliere daune RCA Brașov | Constatare amiabilă și mașină la schimb | CarFix Paint',
     description:
-      'Service auto multimarcă în Brașov. Tinichigerie, vopsitorie profesională, mecanică, diagnoză computerizată. Decontare directă asigurări RCA/CASCO. Sună acum: 0760 686 384',
+      'Consiliere gratuită pentru constatarea amiabilă și deschiderea dosarului de daune în Brașov. Mașină la schimb pentru dosarele RCA. Tinichigerie, vopsitorie și service auto.',
     keywords:
-      'service auto Brașov, tinichigerie Brașov, vopsitorie auto Brașov, daune RCA Brașov, daune CASCO Brașov, service auto multimarcă, mecanică auto Brașov, diagnoză computerizată auto',
-    ogTitle: 'CarFix Paint - Cel Mai Bun Service Auto din Brașov',
+      'consiliere daune RCA Brașov, constatare amiabilă, deschidere dosar daune, mașină la schimb RCA, service auto Brașov, tinichigerie Brașov',
+    ogTitle: 'Consiliere gratuită daune + mașină la schimb RCA | CarFix Paint',
     ogDescription:
-      'Service auto premium. Tinichigerie, vopsitorie, mecanică și gestionare completă daune RCA/CASCO. Mașină la schimb disponibilă.',
+      'Te ghidăm la constatarea amiabilă și deschiderea dosarului. Pentru RCA, mașină la schimb pe durata reparației.',
   },
   servicii: {
     path: '/servicii',
@@ -58,14 +58,14 @@ export const STATIC_PAGE_SEO: Record<StaticPageKey, StaticPageSeo> = {
   },
   daune: {
     path: '/daune',
-    title: 'Daune RCA/CASCO Brașov | Decontare Directă Asigurări | CarFix Paint',
+    title: 'Consiliere daune RCA Brașov | Constatare amiabilă și mașină la schimb | CarFix Paint',
     description:
-      'Gestionăm daune RCA și CASCO în Brașov. Constatare, evaluare, reparații complete și decontare directă cu toți asigurătorii. Mașină la schimb disponibilă pe perioada reparațiilor.',
+      'Consiliere gratuită pentru constatarea amiabilă și deschiderea dosarului de daune în Brașov. Mașină la schimb pentru dosarele RCA.',
     keywords:
-      'daune RCA Brașov, daune CASCO Brașov, decontare directă asigurări, constatare daune auto, evaluare daune, mașină la schimb, reparații asigurări Brașov',
-    ogTitle: 'Gestionare Completă Daune RCA/CASCO - CarFix Paint',
+      'consiliere daune RCA, constatare amiabilă Brașov, deschidere dosar daune, mașină la schimb RCA',
+    ogTitle: 'Consiliere gratuită daune + mașină la schimb RCA',
     ogDescription:
-      'Proces simplificat pentru daune auto: constatare, evaluare, reparații și decontare directă cu asigurătorul. Mașină la schimb inclusă.',
+      'Te ghidăm la constatarea amiabilă și deschiderea dosarului. Pentru RCA, mașină la schimb pe durata reparației.',
   },
   portofoliu: {
     path: '/portofoliu',

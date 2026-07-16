@@ -1,6 +1,6 @@
 'use client'
 
-import { ArrowRight, CheckCircle, FileText, Phone, X } from '@phosphor-icons/react'
+import { ArrowRight, CheckCircle, FileText, WhatsappLogo, X } from '@phosphor-icons/react'
 import { useEffect, useMemo, useState } from 'react'
 import { toast } from 'sonner'
 
@@ -13,6 +13,7 @@ import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
 import type { ContactPageView } from '@/lib/cms-types'
+import { buildWhatsAppLink } from '@/lib/whatsapp'
 
 type ServiceOption = {
   value: string
@@ -362,11 +363,13 @@ export function ContactPage({ content, serviceOptions }: ContactPageProps) {
                 <h2 className="mb-4 text-lg font-semibold">{content.contactCardTitle}</h2>
                 <div className="space-y-4 text-sm">
                   <div className="flex items-start gap-3">
-                    <Phone size={20} weight="bold" className="mt-0.5 text-accent" />
+                    <WhatsappLogo size={20} weight="fill" className="mt-0.5 text-accent" />
                     <div>
-                      <p className="font-medium">Telefon</p>
+                      <p className="font-medium">WhatsApp</p>
                       <a
-                        href={`tel:${company.phone.replace(/\s/g, '')}`}
+                        href={buildWhatsAppLink(company.whatsappNumber, company.whatsappMessage)}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="text-muted-foreground hover:text-accent"
                       >
                         {company.phone}
