@@ -9,10 +9,17 @@ import {
   listSlotsForDate,
   type AvailabilityConfig,
 } from '@/lib/appointments'
+import {
+  CONTACT_PHOTO_MAX_FILES,
+  CONTACT_PHOTO_MAX_TOTAL_BYTES,
+  processContactPhoto,
+  retentionUntilFromNow,
+} from '@/lib/contact-photos'
 import { getPayloadClient } from '@/lib/payload'
 
 const RATE_LIMIT_MAX_REQUESTS = 5
 const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000
+const MAX_MULTIPART_BYTES = 25 * 1024 * 1024
 
 function getClientIp(request: Request): string {
   const forwarded = request.headers.get('x-forwarded-for')
@@ -20,10 +27,91 @@ function getClientIp(request: Request): string {
   return request.headers.get('x-real-ip') ?? 'unknown'
 }
 
+function formDataToObject(formData: FormData): Record<string, unknown> {
+  const body: Record<string, unknown> = {}
+  for (const [key, value] of formData.entries()) {
+    if (key === 'photos') continue
+    if (typeof value === 'string') body[key] = value
+  }
+  if (body.gdprConsent === 'true' || body.gdprConsent === 'on') body.gdprConsent = true
+  return body
+}
+
+async function parseRequest(request: Request): Promise<{
+  fields: unknown
+  photoFiles: File[]
+}> {
+  const contentType = request.headers.get('content-type') ?? ''
+
+  if (contentType.includes('multipart/form-data')) {
+    const contentLength = Number(request.headers.get('content-length') ?? '0')
+    if (contentLength > MAX_MULTIPART_BYTES) {
+      throw new Error('request_too_large')
+    }
+
+    const formData = await request.formData()
+    const photoFiles = formData
+      .getAll('photos')
+      .filter((entry): entry is File => entry instanceof File && entry.size > 0)
+
+    return {
+      fields: formDataToObject(formData),
+      photoFiles,
+    }
+  }
+
+  return {
+    fields: (await request.json()) as unknown,
+    photoFiles: [],
+  }
+}
+
 export async function POST(request: Request) {
+  const createdAttachmentIds: number[] = []
+  let createdAppointmentId: number | undefined
+
   try {
-    const body = (await request.json()) as unknown
-    const parsed = appointmentRequestSchema.safeParse(body)
+    let fields: unknown
+    let photoFiles: File[]
+
+    try {
+      ;({ fields, photoFiles } = await parseRequest(request))
+    } catch (error) {
+      const reason = error instanceof Error ? error.message : 'invalid_json'
+      return NextResponse.json(
+        {
+          success: false,
+          message:
+            reason === 'request_too_large'
+              ? 'Cererea trimisă este prea mare.'
+              : 'Datele trimise nu sunt valide.',
+        },
+        { status: reason === 'request_too_large' ? 413 : 400 },
+      )
+    }
+
+    if (photoFiles.length > CONTACT_PHOTO_MAX_FILES) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: `Poți încărca maximum ${CONTACT_PHOTO_MAX_FILES} fotografii.`,
+        },
+        { status: 400 },
+      )
+    }
+
+    const totalPhotoBytes = photoFiles.reduce((sum, file) => sum + file.size, 0)
+    if (totalPhotoBytes > CONTACT_PHOTO_MAX_TOTAL_BYTES) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'Dimensiunea totală a fotografiilor depășește 20 MB.',
+        },
+        { status: 400 },
+      )
+    }
+
+    const parsed = appointmentRequestSchema.safeParse(fields)
 
     if (!parsed.success) {
       return NextResponse.json(
@@ -63,6 +151,18 @@ export async function POST(request: Request) {
           { status: 429 },
         )
       }
+    }
+
+    let processedPhotos
+    try {
+      processedPhotos = await Promise.all(photoFiles.map((file) => processContactPhoto(file)))
+    } catch (error) {
+      const reason = error instanceof Error ? error.message : 'invalid_image'
+      const message =
+        reason === 'file_too_large'
+          ? 'Fiecare fotografie poate avea maximum 5 MB.'
+          : 'Una dintre fotografii nu este un JPG, PNG sau WebP valid.'
+      return NextResponse.json({ success: false, message }, { status: 400 })
     }
 
     const serviceResult = await payload.find({
@@ -155,6 +255,7 @@ export async function POST(request: Request) {
         },
         overrideAccess: true,
       })
+      createdAppointmentId = created.id as number
     } catch (error) {
       console.error('Appointment create failed', error)
       return NextResponse.json(
@@ -166,12 +267,47 @@ export async function POST(request: Request) {
       )
     }
 
+    for (const photo of processedPhotos) {
+      const attachment = await payload.create({
+        collection: 'contact-attachments',
+        data: {
+          appointment: createdAppointmentId,
+          originalFilename: photo.originalFilename,
+          mimeType: photo.mimeType,
+          sizeBytes: photo.sizeBytes,
+          width: photo.width,
+          height: photo.height,
+          uploadedAt: new Date().toISOString(),
+          retentionUntil: retentionUntilFromNow(180),
+        },
+        file: {
+          data: photo.buffer,
+          mimetype: photo.mimeType,
+          name: photo.filename,
+          size: photo.sizeBytes,
+        },
+        overrideAccess: true,
+      })
+      createdAttachmentIds.push(attachment.id as number)
+    }
+
+    if (createdAttachmentIds.length && createdAppointmentId) {
+      await payload.update({
+        collection: 'appointments',
+        id: createdAppointmentId,
+        data: {
+          photos: createdAttachmentIds,
+        },
+        overrideAccess: true,
+      })
+    }
+
     const cancelUrl = process.env.NEXT_PUBLIC_SERVER_URL
       ? `${process.env.NEXT_PUBLIC_SERVER_URL}/api/appointments/${token}/cancel`
       : undefined
 
     await sendAppointmentNotifications({
-      appointmentId: created.id as number,
+      appointmentId: createdAppointmentId!,
       name: data.name.trim(),
       phone: data.phone.trim(),
       email: data.email?.trim() || undefined,
@@ -180,6 +316,7 @@ export async function POST(request: Request) {
       date: data.date,
       customerMessage: data.customerMessage?.trim(),
       cancelUrl,
+      photoCount: createdAttachmentIds.length,
     })
 
     return NextResponse.json({
@@ -190,6 +327,27 @@ export async function POST(request: Request) {
     })
   } catch (error) {
     console.error('Appointment submission failed', error)
+
+    try {
+      const payload = await getPayloadClient()
+      for (const id of createdAttachmentIds) {
+        await payload.delete({
+          collection: 'contact-attachments',
+          id,
+          overrideAccess: true,
+        })
+      }
+      if (createdAppointmentId) {
+        await payload.delete({
+          collection: 'appointments',
+          id: createdAppointmentId,
+          overrideAccess: true,
+        })
+      }
+    } catch (cleanupError) {
+      console.error('Appointment cleanup failed', cleanupError)
+    }
+
     return NextResponse.json(
       {
         success: false,

@@ -147,6 +147,12 @@ export const Appointments: CollectionConfig = {
       type: 'relationship',
       relationTo: 'contact-attachments',
       hasMany: true,
+      label: 'Fotografii din formular',
+      admin: {
+        readOnly: true,
+        description:
+          'Fotografii încărcate de client pe /programare. Nu selecta manual poze din cereri de contact.',
+      },
     },
     {
       name: 'source',

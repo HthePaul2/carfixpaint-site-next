@@ -486,14 +486,21 @@ export interface ContactRequest {
   createdAt: string;
 }
 /**
- * Fotografii private din formularul de contact. Nu sunt publice.
+ * Fotografii private din formularele de contact și programare. Nu sunt publice pe site.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "contact-attachments".
  */
 export interface ContactAttachment {
   id: number;
+  /**
+   * Completat pentru foto din formularul de contact.
+   */
   contactRequest?: (number | null) | ContactRequest;
+  /**
+   * Completat pentru foto din formularul de programare.
+   */
+  appointment?: (number | null) | Appointment;
   originalFilename?: string | null;
   sizeBytes?: number | null;
   uploadedAt: string;
@@ -546,6 +553,9 @@ export interface Appointment {
   status: 'pending' | 'confirmed' | 'reschedule-proposed' | 'cancelled' | 'rejected' | 'completed' | 'no-show';
   customerMessage?: string | null;
   adminNotes?: string | null;
+  /**
+   * Fotografii încărcate de client pe /programare. Nu selecta manual poze din cereri de contact.
+   */
   photos?: (number | ContactAttachment)[] | null;
   source?: string | null;
   submittedAt: string;
@@ -915,6 +925,7 @@ export interface ContactRequestsSelect<T extends boolean = true> {
  */
 export interface ContactAttachmentsSelect<T extends boolean = true> {
   contactRequest?: T;
+  appointment?: T;
   originalFilename?: T;
   sizeBytes?: T;
   uploadedAt?: T;

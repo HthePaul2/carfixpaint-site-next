@@ -10,13 +10,21 @@ const dirname = path.dirname(filename)
 export const ContactAttachments: CollectionConfig = {
   slug: 'contact-attachments',
   labels: {
-    singular: 'Atașament contact',
-    plural: 'Atașamente contact',
+    singular: 'Atașament privat',
+    plural: 'Atașamente private',
   },
   admin: {
     useAsTitle: 'originalFilename',
-    defaultColumns: ['originalFilename', 'mimeType', 'sizeBytes', 'uploadedAt', 'updatedAt'],
-    description: 'Fotografii private din formularul de contact. Nu sunt publice.',
+    defaultColumns: [
+      'originalFilename',
+      'mimeType',
+      'sizeBytes',
+      'contactRequest',
+      'appointment',
+      'uploadedAt',
+    ],
+    description:
+      'Fotografii private din formularele de contact și programare. Nu sunt publice pe site.',
   },
   access: {
     read: isAuthenticated,
@@ -30,6 +38,18 @@ export const ContactAttachments: CollectionConfig = {
       type: 'relationship',
       relationTo: 'contact-requests',
       index: true,
+      admin: {
+        description: 'Completat pentru foto din formularul de contact.',
+      },
+    },
+    {
+      name: 'appointment',
+      type: 'relationship',
+      relationTo: 'appointments',
+      index: true,
+      admin: {
+        description: 'Completat pentru foto din formularul de programare.',
+      },
     },
     {
       name: 'originalFilename',

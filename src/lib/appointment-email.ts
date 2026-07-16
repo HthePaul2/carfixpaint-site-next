@@ -10,6 +10,7 @@ type AppointmentNotificationData = {
   date: string
   customerMessage?: string
   cancelUrl?: string
+  photoCount?: number
 }
 
 async function sendMail(input: {
@@ -56,6 +57,9 @@ export async function sendAppointmentNotifications(data: AppointmentNotification
           `Data: ${data.date}`,
           `Interval: ${data.slotLabel}`,
           data.customerMessage ? `Mesaj: ${data.customerMessage}` : undefined,
+          typeof data.photoCount === 'number'
+            ? `Fotografii: ${data.photoCount} (vezi în admin)`
+            : undefined,
           adminUrl ? `Admin: ${adminUrl}` : undefined,
           '',
           'Status: în așteptarea confirmării.',
