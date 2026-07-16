@@ -1,11 +1,7 @@
-'use client'
-
-import { ArrowRight, CheckCircle, Clock, WhatsappLogo } from '@phosphor-icons/react'
-import { resolvePhosphorIcon } from '@/lib/phosphor-icons'
+import Link from 'next/link'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
+import { ArrowRight, CheckCircle, Clock, WhatsappLogo } from '@phosphor-icons/react/ssr'
 
-import { useSiteSettings } from '@/components/providers/SiteSettingsProvider'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -14,7 +10,9 @@ import type {
   PortfolioProjectView,
   ReviewView,
   ServiceView,
+  SiteInfoView,
 } from '@/lib/cms-types'
+import { resolvePhosphorIcon } from '@/lib/phosphor-icons'
 import { buildWhatsAppLink } from '@/lib/whatsapp'
 
 type HomePageProps = {
@@ -22,21 +20,27 @@ type HomePageProps = {
   services: ServiceView[]
   portfolioProjects: PortfolioProjectView[]
   reviews: ReviewView[]
+  company: SiteInfoView
 }
 
-export function HomePage({ homepage, services, portfolioProjects, reviews }: HomePageProps) {
-  const router = useRouter()
-  const company = useSiteSettings()
+export function HomePage({
+  homepage,
+  services,
+  portfolioProjects,
+  reviews,
+  company,
+}: HomePageProps) {
   const whatsappHref = buildWhatsAppLink(company.whatsappNumber, company.whatsappMessage)
 
   return (
     <div>
       <section className="relative min-h-[70vh] overflow-hidden bg-primary text-primary-foreground md:min-h-[78vh]">
         <Image
-          src="/hero.png"
-          alt=""
+          src="/hero.webp"
+          alt="Service auto CarFix Paint în Brașov"
           fill
           priority
+          fetchPriority="high"
           sizes="100vw"
           className="object-cover object-center"
         />
@@ -55,13 +59,11 @@ export function HomePage({ homepage, services, portfolioProjects, reviews }: Hom
               {homepage.heroDescription}
             </p>
             <div className="flex flex-col gap-4 sm:flex-row">
-              <Button
-                size="lg"
-                onClick={() => router.push('/contact#evaluare')}
-                className="w-full gap-2 text-lg shadow-lg transition-shadow hover:shadow-xl sm:w-auto"
-              >
-                {homepage.heroCtaQuoteLabel}
-                <ArrowRight weight="bold" size={20} />
+              <Button size="lg" asChild className="w-full gap-2 text-lg shadow-lg sm:w-auto">
+                <Link href="/contact#evaluare">
+                  {homepage.heroCtaQuoteLabel}
+                  <ArrowRight weight="bold" size={20} />
+                </Link>
               </Button>
               <Button
                 size="lg"
@@ -131,13 +133,11 @@ export function HomePage({ homepage, services, portfolioProjects, reviews }: Hom
                           </li>
                         ))}
                       </ul>
-                      <Button
-                        variant="outline"
-                        className="mt-auto gap-2 self-start"
-                        onClick={() => router.push(`/servicii/${service.pageSlug}`)}
-                      >
-                        Vezi detalii
-                        <ArrowRight weight="bold" size={16} />
+                      <Button variant="outline" asChild className="mt-auto gap-2 self-start">
+                        <Link href={`/servicii/${service.pageSlug}`}>
+                          Vezi detalii
+                          <ArrowRight weight="bold" size={16} />
+                        </Link>
                       </Button>
                     </CardContent>
                   </Card>
@@ -147,9 +147,11 @@ export function HomePage({ homepage, services, portfolioProjects, reviews }: Hom
           </div>
 
           <div className="text-center">
-            <Button size="lg" onClick={() => router.push('/servicii')} className="gap-2">
-              Vezi toate serviciile
-              <ArrowRight weight="bold" size={20} />
+            <Button size="lg" asChild className="gap-2">
+              <Link href="/servicii">
+                Vezi toate serviciile
+                <ArrowRight weight="bold" size={20} />
+              </Link>
             </Button>
           </div>
         </div>
@@ -177,28 +179,30 @@ export function HomePage({ homepage, services, portfolioProjects, reviews }: Hom
                       <p className="text-xs text-muted-foreground">{step.description}</p>
                     </CardContent>
                   </Card>
-                  {index < homepage.damageProcessSteps.length - 1 && (
+                  {index < homepage.damageProcessSteps.length - 1 ? (
                     <ArrowRight
                       size={24}
                       weight="bold"
                       className="absolute -right-5 top-1/2 hidden -translate-y-1/2 text-accent md:block"
                     />
-                  )}
+                  ) : null}
                 </div>
               ))}
             </div>
 
             <div className="text-center">
-              <Button size="lg" onClick={() => router.push('/daune')} className="gap-2">
-                Vezi procesul pentru RCA/CASCO
-                <ArrowRight weight="bold" size={20} />
+              <Button size="lg" asChild className="gap-2">
+                <Link href="/daune">
+                  Vezi procesul pentru RCA/CASCO
+                  <ArrowRight weight="bold" size={20} />
+                </Link>
               </Button>
             </div>
           </div>
         </div>
       </section>
 
-      {portfolioProjects.length > 0 && (
+      {portfolioProjects.length > 0 ? (
         <section className="py-20">
           <div className="container">
             <div className="mx-auto mb-12 max-w-2xl text-center">
@@ -213,50 +217,47 @@ export function HomePage({ homepage, services, portfolioProjects, reviews }: Hom
             <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
               {portfolioProjects.map((project) => (
                 <div key={project.slug} className="transition-transform hover:scale-[1.02]">
-                  <Card
-                    className="cursor-pointer overflow-hidden transition-shadow hover:shadow-xl"
-                    onClick={() => router.push(`/portofoliu/${project.slug}`)}
-                  >
-                    <div className="relative h-48 overflow-hidden bg-muted">
-                      <img
-                        src={project.afterImage}
-                        alt={project.title}
-                        className="h-full w-full object-cover transition-transform duration-500 hover:scale-110"
-                      />
-                      <Badge className="absolute right-3 top-3 bg-accent">{project.duration}</Badge>
-                    </div>
-                    <CardContent className="p-6">
-                      <h3 className="mb-2 text-lg font-semibold">{project.title}</h3>
-                      <p className="mb-4 text-sm text-muted-foreground">{project.description}</p>
-                      <div className="flex flex-wrap gap-2">
-                        {project.services.map((service) => (
-                          <Badge key={service} variant="secondary" className="text-xs">
-                            {service}
-                          </Badge>
-                        ))}
+                  <Link href={`/portofoliu/${project.slug}`} className="block">
+                    <Card className="overflow-hidden transition-shadow hover:shadow-xl">
+                      <div className="relative h-48 overflow-hidden bg-muted">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={project.afterImage}
+                          alt={project.title}
+                          className="h-full w-full object-cover transition-transform duration-500 hover:scale-110"
+                        />
+                        <Badge className="absolute right-3 top-3 bg-accent">{project.duration}</Badge>
                       </div>
-                    </CardContent>
-                  </Card>
+                      <CardContent className="p-6">
+                        <h3 className="mb-2 text-lg font-semibold">{project.title}</h3>
+                        <p className="mb-4 text-sm text-muted-foreground">{project.description}</p>
+                        <div className="flex flex-wrap gap-2">
+                          {project.services.map((service) => (
+                            <Badge key={service} variant="secondary" className="text-xs">
+                              {service}
+                            </Badge>
+                          ))}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </Link>
                 </div>
               ))}
             </div>
 
             <div className="text-center">
-              <Button
-                size="lg"
-                variant="outline"
-                onClick={() => router.push('/portofoliu')}
-                className="gap-2"
-              >
-                Vezi tot portofoliul
-                <ArrowRight weight="bold" size={20} />
+              <Button size="lg" variant="outline" asChild className="gap-2">
+                <Link href="/portofoliu">
+                  Vezi tot portofoliul
+                  <ArrowRight weight="bold" size={20} />
+                </Link>
               </Button>
             </div>
           </div>
         </section>
-      )}
+      ) : null}
 
-      {reviews.length > 0 && (
+      {reviews.length > 0 ? (
         <section className="bg-secondary/30 py-20">
           <div className="container">
             <div className="mx-auto mb-12 max-w-2xl text-center">
@@ -271,7 +272,7 @@ export function HomePage({ homepage, services, portfolioProjects, reviews }: Hom
                 <div key={review.id}>
                   <Card className="h-full">
                     <CardContent className="p-6">
-                      <div className="mb-4 flex gap-1">
+                      <div className="mb-4 flex gap-1" aria-label={`${review.rating} din 5 stele`}>
                         {Array.from({ length: review.rating }, (_, index) => (
                           <span key={index} className="text-xl text-accent">
                             ★
@@ -297,43 +298,42 @@ export function HomePage({ homepage, services, portfolioProjects, reviews }: Hom
             </div>
 
             <div className="text-center">
-              <Button
-                size="lg"
-                variant="outline"
-                onClick={() => router.push('/recenzii')}
-                className="gap-2"
-              >
-                Vezi toate recenziile
-                <ArrowRight weight="bold" size={20} />
+              <Button size="lg" variant="outline" asChild className="gap-2">
+                <Link href="/recenzii">
+                  Vezi toate recenziile
+                  <ArrowRight weight="bold" size={20} />
+                </Link>
               </Button>
             </div>
           </div>
         </section>
-      )}
+      ) : null}
 
       <section className="bg-accent py-20 text-accent-foreground">
         <div className="container text-center">
           <div className="mx-auto max-w-3xl">
             <h2 className="mb-6 text-3xl font-bold md:text-4xl">{homepage.finalCtaTitle}</h2>
-            <p className="mb-8 text-lg opacity-90">{homepage.finalCtaDescription}</p>
+            <p className="mb-8 text-lg text-accent-foreground">{homepage.finalCtaDescription}</p>
             <div className="flex flex-col justify-center gap-4 sm:flex-row">
-              <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
-                <Button size="lg" variant="secondary" className="w-full gap-2 text-lg sm:w-auto">
+              <Button size="lg" variant="secondary" asChild className="w-full gap-2 text-lg sm:w-auto">
+                <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
                   <WhatsappLogo weight="fill" size={22} />
                   Scrie-ne pe WhatsApp
-                </Button>
-              </a>
+                </a>
+              </Button>
               <Button
                 size="lg"
                 variant="outline"
-                onClick={() => router.push('/contact#evaluare')}
-                className="w-full gap-2 border-white/20 bg-white/10 text-lg text-white hover:bg-white/20 sm:w-auto"
+                asChild
+                className="w-full gap-2 border-white/30 bg-transparent text-lg text-accent-foreground hover:bg-white/15 sm:w-auto"
               >
-                {homepage.finalCtaButtonLabel}
-                <ArrowRight weight="bold" size={20} />
+                <Link href="/contact#evaluare">
+                  {homepage.finalCtaButtonLabel}
+                  <ArrowRight weight="bold" size={20} />
+                </Link>
               </Button>
             </div>
-            <div className="mt-8 flex items-center justify-center gap-2 text-sm opacity-80">
+            <div className="mt-8 flex items-center justify-center gap-2 text-sm text-accent-foreground">
               <Clock size={20} weight="bold" />
               <span>{company.schedule}</span>
             </div>

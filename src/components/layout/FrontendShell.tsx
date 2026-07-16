@@ -1,12 +1,10 @@
-'use client'
-
 import type { SiteInfoView } from '@/lib/cms-types'
 import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
-import { FloatingActions } from '@/components/layout/FloatingActions'
+import { DelayedFloatingActions } from '@/components/layout/DelayedFloatingActions'
 import { ScrollToTop } from '@/components/layout/ScrollToTop'
-import { Providers } from '@/components/layout/Providers'
 import { SiteSettingsProvider } from '@/components/providers/SiteSettingsProvider'
+import { Toaster } from '@/components/ui/sonner'
 
 export function FrontendShell({
   children,
@@ -17,15 +15,14 @@ export function FrontendShell({
 }) {
   return (
     <SiteSettingsProvider value={siteSettings}>
-      <Providers>
-        <div className="min-h-screen flex flex-col">
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
-          <FloatingActions />
-          <ScrollToTop />
-        </div>
-      </Providers>
+      <div className="flex min-h-screen flex-col">
+        <Header company={siteSettings} />
+        <main className="flex-1">{children}</main>
+        <Footer company={siteSettings} />
+        <DelayedFloatingActions company={siteSettings} />
+        <ScrollToTop />
+        <Toaster />
+      </div>
     </SiteSettingsProvider>
   )
 }

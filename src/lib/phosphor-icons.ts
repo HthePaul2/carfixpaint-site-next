@@ -1,3 +1,4 @@
+import type { ComponentType, SVGProps } from 'react'
 import {
   Car,
   CheckCircle,
@@ -9,10 +10,16 @@ import {
   Phone,
   Shield,
   Wrench,
-  type Icon,
-} from '@phosphor-icons/react'
+} from '@phosphor-icons/react/ssr'
 
-/** Icons allowed in CMS (must stay in sync with `phosphorIconOptions`). */
+type IconComponent = ComponentType<
+  SVGProps<SVGSVGElement> & {
+    size?: number | string
+    weight?: 'thin' | 'light' | 'regular' | 'bold' | 'fill' | 'duotone'
+  }
+>
+
+/** Icons allowed in CMS (must stay in sync with `phosphorIconOptions`). SSR-safe. */
 export const phosphorIconMap = {
   Hammer,
   PaintBrush,
@@ -24,11 +31,11 @@ export const phosphorIconMap = {
   CheckCircle,
   Phone,
   Clock,
-} as const satisfies Record<string, Icon>
+} as const satisfies Record<string, IconComponent>
 
 export type PhosphorIconName = keyof typeof phosphorIconMap
 
-export function resolvePhosphorIcon(iconName: string): Icon {
+export function resolvePhosphorIcon(iconName: string): IconComponent {
   if (iconName in phosphorIconMap) {
     return phosphorIconMap[iconName as PhosphorIconName]
   }
