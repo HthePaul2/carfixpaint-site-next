@@ -334,7 +334,14 @@ export function HomePage({ homepage, services, portfolioProjects, reviews }: Hom
                           </span>
                         ))}
                       </div>
-                      <p className="mb-4 text-sm italic">&quot;{review.text}&quot;</p>
+                      {review.hasComment ? (
+                        <p className="mb-4 text-sm leading-relaxed">{review.text}</p>
+                      ) : (
+                        <p className="mb-4 text-sm text-muted-foreground">
+                          Evaluare de {review.rating}{' '}
+                          {review.rating === 1 ? 'stea' : 'stele'} fără comentariu public.
+                        </p>
+                      )}
                       <div>
                         <p className="font-semibold">{review.name}</p>
                         <p className="text-xs text-muted-foreground">{review.service}</p>

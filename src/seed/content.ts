@@ -67,12 +67,16 @@ export const STATIC_PAGES_CONTENT = {
 export const SERVICES = servicesJson as SeedService[]
 export const PORTFOLIO_PROJECTS = portfolioJson as SeedPortfolioProject[]
 export const BLOG_POSTS = blogPostsJson as SeedBlogPost[]
-export const REVIEWS = orderedGoogleReviews.map((review, index) => ({
-  ...review,
-  text:
-    review.text?.trim() ||
-    `[Evaluare Google de ${review.rating} stele, fără comentariu.]`,
-  order: index,
-})) as SeedReview[]
+export const REVIEWS = orderedGoogleReviews.map((review, index) => {
+  const comment = review.text?.trim() ?? ''
+  const hasComment = comment.length > 0
+
+  return {
+    ...review,
+    text: hasComment ? comment : '',
+    hasComment,
+    order: index,
+  }
+}) as SeedReview[]
 export const FAQ_ITEMS = faqsJson as SeedFaqItem[]
 export const LEGAL_PAGES_CONTENT = legalPagesJson as LegalPagesContent

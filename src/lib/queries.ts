@@ -8,6 +8,7 @@ import type {
   LegalPagesView,
   PortfolioProjectView,
   ReviewView,
+  ReviewsPageResult,
   ServiceView,
   SiteInfoView,
   StaticPagesView,
@@ -25,6 +26,7 @@ import {
   mapStaticPages,
 } from '@/lib/mappers'
 import { DEFAULT_PAGE_SEO, type StaticPageKey } from '@/lib/seo/static-pages'
+import type { Where } from 'payload'
 
 const PUBLIC_READ = { overrideAccess: false as const }
 
@@ -212,13 +214,154 @@ export async function getApprovedReviews(limit = 50): Promise<ReviewView[]> {
   const result = await payload.find({
     collection: 'reviews',
     where: { approved: { equals: true } },
-    sort: 'order',
+    sort: '-hasComment,-date',
     limit,
     depth: 1,
     ...PUBLIC_READ,
   })
 
   return result.docs.map(mapReview)
+}
+
+export async function getFeaturedReviews(limit = 6): Promise<ReviewView[]> {
+  const payload = await getPayloadClient()
+  const featured = await payload.find({
+    collection: 'reviews',
+    where: {
+      and: [
+        { approved: { equals: true } },
+        { featured: { equals: true } },
+        { hasComment: { equals: true } },
+      ],
+    },
+    sort: '-date',
+    limit,
+    depth: 1,
+    ...PUBLIC_READ,
+  })
+
+  if (featured.docs.length) return featured.docs.map(mapReview)
+
+  const fallback = await payload.find({
+    collection: 'reviews',
+    where: {
+      and: [{ approved: { equals: true } }, { hasComment: { equals: true } }],
+    },
+    sort: '-date',
+    limit,
+    depth: 1,
+    ...PUBLIC_READ,
+  })
+
+  return fallback.docs.map(mapReview)
+}
+
+type ReviewsPageQuery = {
+  page?: number
+  limit?: number
+  rating?: number
+  withText?: boolean
+  sort?: 'newest' | 'rating-desc' | 'rating-asc'
+}
+
+function buildReviewsWhere(input: { rating?: number; withText?: boolean }): Where {
+  const clauses: Where[] = [{ approved: { equals: true } }]
+
+  if (input.rating && input.rating >= 1 && input.rating <= 5) {
+    clauses.push({ rating: { equals: input.rating } })
+  }
+
+  if (input.withText) {
+    clauses.push({ hasComment: { equals: true } })
+  }
+
+  return { and: clauses }
+}
+
+function resolveReviewsSort(sort: ReviewsPageQuery['sort']): string {
+  switch (sort) {
+    case 'rating-asc':
+      return 'rating,-date'
+    case 'rating-desc':
+      return '-rating,-date'
+    case 'newest':
+    default:
+      return '-hasComment,-date'
+  }
+}
+
+export async function getApprovedReviewsPage(
+  input: ReviewsPageQuery = {},
+): Promise<ReviewsPageResult> {
+  const page = Math.max(1, input.page ?? 1)
+  const limit = Math.min(24, Math.max(1, input.limit ?? 12))
+  const sort = input.sort ?? 'newest'
+  const withText = Boolean(input.withText)
+  const rating =
+    input.rating && input.rating >= 1 && input.rating <= 5 ? input.rating : undefined
+
+  const payload = await getPayloadClient()
+  const where = buildReviewsWhere({ rating, withText })
+
+  const [result, summary, ...ratingCountResults] = await Promise.all([
+    payload.find({
+      collection: 'reviews',
+      where,
+      sort: resolveReviewsSort(sort),
+      page,
+      limit,
+      depth: 1,
+      ...PUBLIC_READ,
+    }),
+    payload.find({
+      collection: 'reviews',
+      where: { approved: { equals: true } },
+      limit: 0,
+      depth: 0,
+      ...PUBLIC_READ,
+    }),
+    ...([1, 2, 3, 4, 5] as const).map((value) =>
+      payload.find({
+        collection: 'reviews',
+        where: {
+          and: [{ approved: { equals: true } }, { rating: { equals: value } }],
+        },
+        limit: 0,
+        depth: 0,
+        ...PUBLIC_READ,
+      }),
+    ),
+  ])
+
+  const ratingCounts: Record<number, number> = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 }
+  ;([1, 2, 3, 4, 5] as const).forEach((value, index) => {
+    ratingCounts[value] = ratingCountResults[index]?.totalDocs ?? 0
+  })
+
+  const totalApproved = summary.totalDocs
+  const weightedSum = ([1, 2, 3, 4, 5] as const).reduce(
+    (sum, value) => sum + value * ratingCounts[value],
+    0,
+  )
+  const averageRating = totalApproved > 0 ? weightedSum / totalApproved : 0
+
+  return {
+    docs: result.docs.map(mapReview),
+    page: result.page ?? page,
+    limit: result.limit ?? limit,
+    totalPages: result.totalPages,
+    totalDocs: result.totalDocs,
+    hasNextPage: Boolean(result.hasNextPage),
+    hasPrevPage: Boolean(result.hasPrevPage),
+    ratingCounts,
+    averageRating,
+    totalApproved,
+    filters: {
+      rating,
+      withText,
+      sort,
+    },
+  }
 }
 
 export async function getFAQs(limit = 100): Promise<FAQView[]> {
@@ -252,7 +395,7 @@ export async function getHomepageData() {
   const [services, portfolioProjects, reviews] = await Promise.all([
     getServices(homepage.servicesLimit ?? 6),
     getPortfolioProjects(homepage.portfolioLimit ?? 3),
-    getApprovedReviews(homepage.reviewsLimit ?? 3),
+    getFeaturedReviews(Math.min(6, homepage.reviewsLimit ?? 6)),
   ])
 
   return {

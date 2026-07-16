@@ -198,8 +198,29 @@ export type ReviewView = {
   name: string
   rating: number
   text: string
+  hasComment: boolean
   date: string
   service: string
+}
+
+export type ReviewsSort = 'newest' | 'rating-desc' | 'rating-asc'
+
+export type ReviewsPageResult = {
+  docs: ReviewView[]
+  page: number
+  limit: number
+  totalPages: number
+  totalDocs: number
+  hasNextPage: boolean
+  hasPrevPage: boolean
+  ratingCounts: Record<number, number>
+  averageRating: number
+  totalApproved: number
+  filters: {
+    rating?: number
+    withText: boolean
+    sort: ReviewsSort
+  }
 }
 
 export type LegalPagesView = {
