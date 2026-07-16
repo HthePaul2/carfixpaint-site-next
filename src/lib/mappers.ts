@@ -161,6 +161,12 @@ export function mapStaticPages(global: StaticPage | null, fallback: StaticPagesV
     global.servicii?.ogImage,
   )
 
+  const programare = mergeSeo(
+    mergeHeader(fallback.programare, global.programare),
+    global.programare,
+    global.programare?.ogImage,
+  )
+
   const daune: DaunePageView = {
     ...mergeSeo(mergeHeader(fallback.daune, global.daune), global.daune, global.daune?.ogImage),
     highlights:
@@ -226,6 +232,7 @@ export function mapStaticPages(global: StaticPage | null, fallback: StaticPagesV
 
   return {
     servicii,
+    programare,
     daune,
     portofoliu,
     despre,

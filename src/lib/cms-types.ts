@@ -124,8 +124,11 @@ export type ContactPageView = StaticPageHeaderView &
     fastResponseText: string
   }
 
+export type ProgramarePageView = StaticPageHeaderView & PageSeoView
+
 export type StaticPagesView = {
   servicii: ServiciiPageView
+  programare: ProgramarePageView
   daune: DaunePageView
   portofoliu: PortofoliuPageView
   despre: DesprePageView

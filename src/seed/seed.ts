@@ -134,6 +134,7 @@ async function seed() {
     faq: 'FAQ — imagine Open Graph',
     blog: 'Blog — imagine Open Graph',
     contact: 'Contact — imagine Open Graph',
+    programare: 'Programare — imagine Open Graph',
   }
 
   const pageOgIds = new Map<string, number>()
@@ -224,6 +225,10 @@ async function seed() {
     servicii: {
       ...STATIC_PAGES_CONTENT.servicii,
       ogImage: pageOgIds.get('servicii'),
+    },
+    programare: {
+      ...STATIC_PAGES_CONTENT.programare,
+      ogImage: pageOgIds.get('programare'),
     },
     daune: {
       ...STATIC_PAGES_CONTENT.daune,

@@ -1,6 +1,7 @@
 export type StaticPageKey =
   | 'home'
   | 'servicii'
+  | 'programare'
   | 'daune'
   | 'portofoliu'
   | 'despre'
@@ -44,6 +45,16 @@ export const STATIC_PAGE_SEO: Record<StaticPageKey, StaticPageSeo> = {
     ogTitle: 'Servicii Auto Complete - CarFix Paint Brașov',
     ogDescription:
       'Tinichigerie, vopsitorie cabină premium, mecanică generală, diagnoză cu echipamente profesionale. Garanție la toate lucrările.',
+  },
+  programare: {
+    path: '/programare',
+    title: 'Programare service auto Brașov | Car Fix & Paint',
+    description:
+      'Solicită online o programare pentru constatare, diagnoză sau evaluarea mașinii la Car Fix & Paint Brașov.',
+    keywords: 'programare service auto Brașov, constatare auto, programare CarFix Paint',
+    ogTitle: 'Programare online — CarFix Paint Brașov',
+    ogDescription:
+      'Alege serviciul și intervalul preferat. Confirmăm programarea telefonic sau pe email.',
   },
   daune: {
     path: '/daune',
