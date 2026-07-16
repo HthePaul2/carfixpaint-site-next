@@ -40,6 +40,16 @@ export const StaticPages: GlobalConfig = {
           ],
         },
         {
+          label: 'Programare',
+          fields: [
+            {
+              name: 'programare',
+              type: 'group',
+              fields: [...pageHeaderFields, ...seoFields()],
+            },
+          ],
+        },
+        {
           label: 'Daune',
           fields: [
             {

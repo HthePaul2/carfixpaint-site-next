@@ -460,6 +460,7 @@ export async function getResolvedPageSeo(page: StaticPageKey) {
   const staticPages = await getStaticPages()
   const pageMap = {
     servicii: staticPages.servicii,
+    programare: staticPages.programare,
     daune: staticPages.daune,
     portofoliu: staticPages.portofoliu,
     despre: staticPages.despre,

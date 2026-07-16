@@ -11,6 +11,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
+import type { ProgramarePageView } from '@/lib/cms-types'
 
 type ServiceOption = {
   value: string
@@ -25,6 +26,7 @@ type Slot = {
 }
 
 type AppointmentPageProps = {
+  content: ProgramarePageView
   serviceOptions: ServiceOption[]
 }
 
@@ -50,7 +52,7 @@ type PreviewPhoto = {
   url: string
 }
 
-export function AppointmentPage({ serviceOptions }: AppointmentPageProps) {
+export function AppointmentPage({ content, serviceOptions }: AppointmentPageProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
   const preselected = searchParams.get('service') ?? ''
@@ -228,12 +230,11 @@ export function AppointmentPage({ serviceOptions }: AppointmentPageProps) {
       <div className="container max-w-2xl">
         <div className="mb-10 text-center">
           <h1 className="mb-4 text-4xl font-bold md:text-5xl">
-            Solicită o programare pentru constatare
+            {content.pageTitle}
           </h1>
-          <p className="text-lg text-muted-foreground">
-            Alege serviciul, ziua și intervalul preferat. Cererea este verificată de echipă, iar
-            programarea devine valabilă după confirmarea telefonică sau prin email.
-          </p>
+          {content.pageSubtitle ? (
+            <p className="text-lg text-muted-foreground">{content.pageSubtitle}</p>
+          ) : null}
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6 rounded-lg border p-6 md:p-8">

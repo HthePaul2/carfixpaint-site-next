@@ -559,8 +559,17 @@ export interface Appointment {
   photos?: (number | ContactAttachment)[] | null;
   source?: string | null;
   submittedAt: string;
+  /**
+   * Se completează automat când statusul trece în „Confirmată”.
+   */
   confirmedAt?: string | null;
+  /**
+   * Se completează automat când statusul trece în „Anulată” sau „Respinsă”.
+   */
   cancelledAt?: string | null;
+  /**
+   * Opțional. Dacă lași gol la anulare/respingere, se completează automat („Anulată din admin” / „Respinsă din admin”).
+   */
   cancellationReason?: string | null;
   cancelTokenHash?: string | null;
   ip?: string | null;
@@ -1166,6 +1175,19 @@ export interface StaticPage {
      */
     ogImage?: (number | null) | Media;
   };
+  programare: {
+    pageTitle: string;
+    pageSubtitle?: string | null;
+    seoTitle?: string | null;
+    seoDescription?: string | null;
+    seoKeywords?: string | null;
+    ogTitle?: string | null;
+    ogDescription?: string | null;
+    /**
+     * Imagine afișată la share pe rețele sociale. Dacă e goală, se folosește imaginea implicită din Setări site.
+     */
+    ogImage?: (number | null) | Media;
+  };
   daune: {
     pageTitle: string;
     pageSubtitle?: string | null;
@@ -1553,6 +1575,18 @@ export interface HomepageSelect<T extends boolean = true> {
  */
 export interface StaticPagesSelect<T extends boolean = true> {
   servicii?:
+    | T
+    | {
+        pageTitle?: T;
+        pageSubtitle?: T;
+        seoTitle?: T;
+        seoDescription?: T;
+        seoKeywords?: T;
+        ogTitle?: T;
+        ogDescription?: T;
+        ogImage?: T;
+      };
+  programare?:
     | T
     | {
         pageTitle?: T;
