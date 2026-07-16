@@ -1,6 +1,6 @@
 'use client'
 
-import { ArrowRight } from '@phosphor-icons/react'
+import { ArrowRight, X } from '@phosphor-icons/react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { toast } from 'sonner'
@@ -28,6 +28,10 @@ type AppointmentPageProps = {
   serviceOptions: ServiceOption[]
 }
 
+const MAX_PHOTOS = 5
+const MAX_PHOTO_BYTES = 5 * 1024 * 1024
+const ALLOWED_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp'])
+
 const initialForm = {
   name: '',
   phone: '',
@@ -38,6 +42,12 @@ const initialForm = {
   customerMessage: '',
   company: '',
   gdprConsent: false,
+}
+
+type PreviewPhoto = {
+  id: string
+  file: File
+  url: string
 }
 
 export function AppointmentPage({ serviceOptions }: AppointmentPageProps) {
@@ -53,19 +63,61 @@ export function AppointmentPage({ serviceOptions }: AppointmentPageProps) {
   const [slotKey, setSlotKey] = useState('')
   const [loadingSlots, setLoadingSlots] = useState(false)
   const [form, setForm] = useState(initialForm)
+  const [photos, setPhotos] = useState<PreviewPhoto[]>([])
+  const [isDragging, setIsDragging] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [doneMessage, setDoneMessage] = useState<string | null>(null)
 
-  const minDate = useMemo(() => {
-    const now = new Date()
-    return now.toISOString().slice(0, 10)
-  }, [])
+  useEffect(() => {
+    return () => {
+      photos.forEach((photo) => URL.revokeObjectURL(photo.url))
+    }
+  }, [photos])
 
+  const minDate = useMemo(() => new Date().toISOString().slice(0, 10), [])
   const maxDate = useMemo(() => {
     const now = new Date()
     now.setDate(now.getDate() + 60)
     return now.toISOString().slice(0, 10)
   }, [])
+  const remainingSlots = useMemo(() => MAX_PHOTOS - photos.length, [photos.length])
+
+  const addFiles = (fileList: FileList | File[]) => {
+    const incoming = Array.from(fileList)
+    const next: PreviewPhoto[] = []
+    const errors: string[] = []
+
+    for (const file of incoming) {
+      if (photos.length + next.length >= MAX_PHOTOS) {
+        errors.push(`Maximum ${MAX_PHOTOS} fotografii.`)
+        break
+      }
+      if (!ALLOWED_TYPES.has(file.type)) {
+        errors.push(`${file.name}: format nepermis (JPG, PNG sau WebP).`)
+        continue
+      }
+      if (file.size > MAX_PHOTO_BYTES) {
+        errors.push(`${file.name}: depășește 5 MB.`)
+        continue
+      }
+      next.push({
+        id: `${file.name}-${file.size}-${file.lastModified}-${Math.random()}`,
+        file,
+        url: URL.createObjectURL(file),
+      })
+    }
+
+    if (errors.length) toast.error(errors[0])
+    if (next.length) setPhotos((current) => [...current, ...next])
+  }
+
+  const removePhoto = (id: string) => {
+    setPhotos((current) => {
+      const target = current.find((photo) => photo.id === id)
+      if (target) URL.revokeObjectURL(target.url)
+      return current.filter((photo) => photo.id !== id)
+    })
+  }
 
   const loadSlots = useCallback(async (selectedDate: string) => {
     if (!selectedDate) {
@@ -117,16 +169,19 @@ export function AppointmentPage({ serviceOptions }: AppointmentPageProps) {
 
     setIsSubmitting(true)
     try {
+      const body = new FormData()
+      Object.entries(form).forEach(([key, value]) => {
+        if (typeof value === 'boolean') body.append(key, value ? 'true' : 'false')
+        else body.append(key, value)
+      })
+      body.append('serviceSlug', serviceSlug)
+      body.append('date', date)
+      body.append('slotKey', slotKey)
+      photos.forEach((photo) => body.append('photos', photo.file))
+
       const response = await fetch('/api/appointments', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...form,
-          serviceSlug,
-          date,
-          slotKey,
-          gdprConsent: true,
-        }),
+        body,
       })
       const result = (await response.json()) as { success?: boolean; message?: string }
       if (!response.ok || !result.success) {
@@ -139,6 +194,8 @@ export function AppointmentPage({ serviceOptions }: AppointmentPageProps) {
         result.message ??
           'Solicitarea a fost înregistrată. Te contactăm pentru confirmarea orei.',
       )
+      photos.forEach((photo) => URL.revokeObjectURL(photo.url))
+      setPhotos([])
       setForm(initialForm)
       setSlotKey('')
       toast.success('Solicitarea a fost înregistrată.')
@@ -158,7 +215,7 @@ export function AppointmentPage({ serviceOptions }: AppointmentPageProps) {
           <div className="flex flex-col justify-center gap-3 sm:flex-row">
             <Button onClick={() => setDoneMessage(null)}>Altă programare</Button>
             <Button variant="outline" onClick={() => router.push('/contact')}>
-              Trimite fotografii
+              Mergi la contact
             </Button>
           </div>
         </div>
@@ -332,6 +389,69 @@ export function AppointmentPage({ serviceOptions }: AppointmentPageProps) {
             />
           </div>
 
+          <div>
+            <Label>Fotografii (opțional, max {MAX_PHOTOS})</Label>
+            <div
+              className={`mt-2 rounded-lg border border-dashed p-4 transition-colors ${
+                isDragging ? 'border-accent bg-accent/5' : 'border-muted-foreground/30'
+              }`}
+              onDragOver={(event) => {
+                event.preventDefault()
+                setIsDragging(true)
+              }}
+              onDragLeave={() => setIsDragging(false)}
+              onDrop={(event) => {
+                event.preventDefault()
+                setIsDragging(false)
+                if (event.dataTransfer.files.length) addFiles(event.dataTransfer.files)
+              }}
+            >
+              <input
+                id="appointment-photos"
+                type="file"
+                accept="image/jpeg,image/png,image/webp"
+                multiple
+                className="sr-only"
+                disabled={isSubmitting || remainingSlots <= 0}
+                onChange={(event) => {
+                  if (event.target.files?.length) addFiles(event.target.files)
+                  event.target.value = ''
+                }}
+              />
+              <label
+                htmlFor="appointment-photos"
+                className="flex cursor-pointer flex-col items-center gap-2 py-4 text-center text-sm text-muted-foreground"
+              >
+                <span className="font-medium text-foreground">
+                  Trage fotografiile aici sau apasă pentru selectare
+                </span>
+                <span>
+                  Formate: JPG, PNG sau WebP. Maximum {MAX_PHOTOS} fotografii și 5 MB fiecare.
+                </span>
+              </label>
+            </div>
+
+            {photos.length > 0 ? (
+              <ul className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
+                {photos.map((photo) => (
+                  <li key={photo.id} className="relative overflow-hidden rounded-md border">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={photo.url} alt="" className="aspect-square w-full object-cover" />
+                    <button
+                      type="button"
+                      className="absolute right-1 top-1 rounded-full bg-black/70 p-1 text-white"
+                      onClick={() => removePhoto(photo.id)}
+                      aria-label="Elimină fotografia"
+                      disabled={isSubmitting}
+                    >
+                      <X size={14} weight="bold" />
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            ) : null}
+          </div>
+
           <div className="flex items-start gap-2">
             <Checkbox
               id="gdpr"
@@ -342,7 +462,8 @@ export function AppointmentPage({ serviceOptions }: AppointmentPageProps) {
               disabled={isSubmitting}
             />
             <Label htmlFor="gdpr" className="cursor-pointer text-sm">
-              Sunt de acord ca datele trimise să fie folosite pentru gestionarea programării. *
+              Sunt de acord ca datele și fotografiile trimise să fie folosite pentru gestionarea
+              programării. *
             </Label>
           </div>
 
