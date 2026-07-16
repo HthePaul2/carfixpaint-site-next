@@ -168,6 +168,27 @@ async function seed() {
     copyrightText: SITE_SETTINGS.copyrightText,
   })
 
+  console.log('→ Seeding availability-settings...')
+  await upsertGlobal(payload, 'availability-settings', {
+    timezone: 'Europe/Bucharest',
+    slotDurationMinutes: 30,
+    minNoticeHours: 2,
+    maxAdvanceDays: 60,
+    capacityPerSlot: 1,
+    breakStart: '12:00',
+    breakEnd: '13:00',
+    confirmationText:
+      'Solicitarea a fost înregistrată. Te contactăm pentru confirmarea orei sau pentru a propune un interval alternativ.',
+    monday: { enabled: true, start: '08:00', end: '17:00' },
+    tuesday: { enabled: true, start: '08:00', end: '17:00' },
+    wednesday: { enabled: true, start: '08:00', end: '17:00' },
+    thursday: { enabled: true, start: '08:00', end: '17:00' },
+    friday: { enabled: true, start: '08:00', end: '17:00' },
+    saturday: { enabled: false, start: '09:00', end: '13:00' },
+    sunday: { enabled: false, start: '09:00', end: '13:00' },
+    blockedDates: [],
+  })
+
   console.log(`  brand media: logo#${logoMedia.id}, hero#${heroMedia.id}, og#${ogMedia.id}`)
   console.log('→ Seeding homepage...')
   await upsertGlobal(payload, 'homepage', {

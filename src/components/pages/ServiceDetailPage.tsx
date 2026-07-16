@@ -60,7 +60,7 @@ export function ServiceDetailPage({ service }: ServiceDetailPageProps) {
                 size="lg"
                 variant="outline"
                 className="gap-2 border-white/20 bg-white/10 text-white hover:bg-white/20"
-                onClick={() => router.push('/contact?intent=programare')}
+                onClick={() => router.push(`/programare?service=${service.slug}`)}
               >
                 {service.ctaSecondaryLabel}
               </Button>
@@ -162,7 +162,7 @@ export function ServiceDetailPage({ service }: ServiceDetailPageProps) {
                 size="lg"
                 variant="outline"
                 className="gap-2 border-white/30 bg-white/10 text-white hover:bg-white/20"
-                onClick={() => router.push('/contact?intent=programare')}
+                onClick={() => router.push(`/programare?service=${service.slug}`)}
               >
                 {service.ctaSecondaryLabel}
               </Button>

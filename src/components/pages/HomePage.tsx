@@ -93,7 +93,7 @@ export function HomePage({ homepage, services, portfolioProjects, reviews }: Hom
               <Button
                 size="lg"
                 variant="outline"
-                onClick={() => router.push('/contact?intent=programare')}
+                onClick={() => router.push('/programare')}
                 className="w-full gap-2 border-white/20 bg-white/10 text-lg text-white hover:bg-white/20 sm:w-auto"
               >
                 {homepage.heroCtaPhoneLabel}
