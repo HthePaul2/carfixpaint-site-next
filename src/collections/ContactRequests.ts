@@ -11,7 +11,7 @@ export const ContactRequests: CollectionConfig = {
   slug: 'contact-requests',
   admin: {
     useAsTitle: 'name',
-    defaultColumns: ['name', 'phone', 'status', 'submittedAt', 'updatedAt'],
+    defaultColumns: ['name', 'phone', 'photoCount', 'status', 'submittedAt', 'updatedAt'],
   },
   access: {
     create: () => false,
@@ -66,11 +66,14 @@ export const ContactRequests: CollectionConfig = {
     },
     {
       name: 'photos',
-      type: 'relationship',
+      type: 'upload',
       relationTo: 'contact-attachments',
       hasMany: true,
+      label: 'Fotografii',
       admin: {
-        description: 'Fotografii private atașate la cerere.',
+        description:
+          'Fotografii încărcate din formularul public. Deschide fiecare fișier pentru preview complet.',
+        readOnly: true,
       },
     },
     {
@@ -79,7 +82,8 @@ export const ContactRequests: CollectionConfig = {
       defaultValue: 0,
       admin: {
         readOnly: true,
-        description: 'Număr de fotografii (pentru listare rapidă).',
+        position: 'sidebar',
+        description: 'Număr de fotografii.',
       },
     },
     {

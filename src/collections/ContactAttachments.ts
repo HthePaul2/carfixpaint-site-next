@@ -16,6 +16,7 @@ export const ContactAttachments: CollectionConfig = {
   admin: {
     useAsTitle: 'originalFilename',
     defaultColumns: [
+      'filename',
       'originalFilename',
       'mimeType',
       'sizeBytes',
@@ -25,6 +26,7 @@ export const ContactAttachments: CollectionConfig = {
     ],
     description:
       'Fotografii private din formularele de contact și programare. Nu sunt publice pe site.',
+    listSearchableFields: ['originalFilename', 'filename'],
   },
   access: {
     read: isAuthenticated,

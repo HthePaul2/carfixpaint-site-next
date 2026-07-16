@@ -470,11 +470,11 @@ export interface ContactRequest {
   message?: string | null;
   gdprConsent: boolean;
   /**
-   * Fotografii private atașate la cerere.
+   * Fotografii încărcate din formularul public. Deschide fiecare fișier pentru preview complet.
    */
   photos?: (number | ContactAttachment)[] | null;
   /**
-   * Număr de fotografii (pentru listare rapidă).
+   * Număr de fotografii.
    */
   photoCount?: number | null;
   status: 'new' | 'contacted' | 'scheduled' | 'closed' | 'spam';
@@ -554,7 +554,7 @@ export interface Appointment {
   customerMessage?: string | null;
   adminNotes?: string | null;
   /**
-   * Fotografii încărcate de client pe /programare. Nu selecta manual poze din cereri de contact.
+   * Fotografii încărcate de client pe /programare. Deschide fișierul pentru preview.
    */
   photos?: (number | ContactAttachment)[] | null;
   source?: string | null;
