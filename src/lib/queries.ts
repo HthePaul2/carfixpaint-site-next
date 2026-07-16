@@ -69,7 +69,7 @@ export async function getServices(limit = 50): Promise<ServiceView[]> {
     where: { active: { equals: true } },
     sort: 'order',
     limit,
-    depth: 0,
+    depth: 1,
     ...PUBLIC_READ,
   })
 
@@ -85,12 +85,28 @@ export async function getFeaturedServices(limit = 6): Promise<ServiceView[]> {
     },
     sort: 'order',
     limit,
-    depth: 0,
+    depth: 1,
     ...PUBLIC_READ,
   })
 
   if (result.docs.length) return result.docs.map(mapService)
   return getServices(limit)
+}
+
+export async function getServiceByPageSlug(pageSlug: string): Promise<ServiceView | null> {
+  const payload = await getPayloadClient()
+  const result = await payload.find({
+    collection: 'services',
+    where: {
+      and: [{ pageSlug: { equals: pageSlug } }, { active: { equals: true } }],
+    },
+    limit: 1,
+    depth: 1,
+    ...PUBLIC_READ,
+  })
+
+  const doc = result.docs[0]
+  return doc ? mapService(doc) : null
 }
 
 export async function getPortfolioProjects(limit = 50): Promise<PortfolioProjectView[]> {

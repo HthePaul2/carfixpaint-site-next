@@ -1,1 +1,320 @@
-[{"id":"tinichigerie","name":"Tinichigerie și caroserie","icon":"Hammer","shortDescription":"Reparații pentru elemente îndoite, lovite sau corodate, de la daune locale până la intervenții complexe.","description":"Evaluăm geometria și starea elementelor afectate, apoi stabilim dacă soluția corectă este îndreptarea, repararea sau înlocuirea. Înainte de lucru discutăm zonele vizibile, elementele ascunse care trebuie verificate și operațiunile necesare pentru pregătirea vopsirii.","features":["Reparații pentru aripi, uși, capote, praguri și panouri laterale","Îndreptarea elementelor de caroserie când reparația este sigură și justificată","Înlocuirea elementelor care nu mai pot fi reparate corect","Verificarea alinierii dintre panouri și a punctelor de prindere","Pregătirea suprafețelor pentru protecție anticorozivă și vopsire"],"featured":true,"active":true,"order":0,"seoTitle":"Tinichigerie auto Brașov | CarFix Paint","seoDescription":"Reparații de caroserie și tinichigerie auto în Brașov, cu evaluarea clară a elementelor afectate."},{"id":"vopsitorie","name":"Vopsitorie auto","icon":"PaintBrush","shortDescription":"Vopsire locală sau integrală, cu pregătirea suprafeței și potrivirea atentă a nuanței.","description":"Un rezultat bun începe înainte de aplicarea vopselei. Curățăm și pregătim suprafața, corectăm imperfecțiunile, aplicăm straturile necesare și verificăm nuanța în raport cu restul caroseriei. Soluția exactă depinde de starea vopselei existente, poziția elementului și tipul finisajului.","features":["Vopsirea unuia sau mai multor elemente de caroserie","Pregătire, grunduire și protecție înainte de stratul de culoare","Potrivirea nuanței și realizarea tranziției unde este necesar","Corectarea defectelor locale și refacerea lacului","Polish final și verificarea aspectului în lumină diferită"],"featured":true,"active":true,"order":1,"seoTitle":"Vopsitorie auto Brașov | CarFix Paint","seoDescription":"Vopsitorie auto în Brașov pentru elemente locale sau lucrări extinse, cu pregătire și potrivire de culoare."},{"id":"mecanica","name":"Mecanică auto","icon":"Wrench","shortDescription":"Verificări și reparații mecanice pentru sistemele care influențează siguranța și funcționarea mașinii.","description":"Pornim de la simptome și de la verificarea mașinii, nu de la înlocuirea la întâmplare a pieselor. Pentru fiecare intervenție explicăm ce am constatat, ce este urgent, ce poate fi monitorizat și ce operațiuni sunt necesare.","features":["Verificarea sistemului de frânare","Intervenții la suspensie și direcție","Probleme ale sistemului de răcire","Revizii și consumabile","Verificări mecanice după impact sau după apariția unor zgomote"],"featured":true,"active":true,"order":2,"seoTitle":"Mecanică auto Brașov | CarFix Paint","seoDescription":"Service de mecanică auto în Brașov pentru frâne, suspensie, direcție, răcire și întreținere."},{"id":"diagnoza","name":"Diagnoză computerizată","icon":"ComputerTower","shortDescription":"Citirea erorilor este punctul de pornire; diagnosticul corect include verificări și interpretarea simptomelor.","description":"Conectăm echipamentul de diagnoză, citim erorile și datele disponibile, apoi corelăm rezultatele cu simptomele mașinii. Un cod de eroare nu indică întotdeauna direct piesa defectă, de aceea pot fi necesare măsurători și teste suplimentare.","features":["Citirea și documentarea codurilor de eroare","Analiza parametrilor disponibili în timp real","Testarea componentelor și a circuitelor relevante","Ștergerea erorilor după remediere și verificare","Recomandări pentru pașii următori, fără înlocuiri inutile"],"featured":false,"active":true,"order":3,"seoTitle":"Diagnoză auto Brașov | CarFix Paint","seoDescription":"Diagnoză computerizată în Brașov, cu interpretarea erorilor și verificări suplimentare când sunt necesare."},{"id":"daune-rca-casco","name":"Gestionare daune RCA/CASCO","icon":"Shield","shortDescription":"Sprijin pentru documentarea, evaluarea și repararea mașinii în cadrul unui dosar de daună.","description":"Te ajutăm să organizezi informațiile tehnice și documentele necesare reparației. Procedura, aprobările și modalitatea de plată diferă în funcție de poliță, asigurător și situația concretă, iar acestea sunt clarificate înainte de începerea lucrărilor.","features":["Primă evaluare pe baza fotografiilor și a documentelor disponibile","Documentarea zonelor afectate și pregătirea devizului","Comunicare privind operațiunile și piesele necesare","Actualizări pe durata aprobării și a reparației","Predarea documentelor aferente lucrărilor executate"],"featured":false,"active":true,"order":4,"seoTitle":"Daune RCA și CASCO Brașov | CarFix Paint","seoDescription":"Sprijin pentru dosare de daună RCA/CASCO și reparații auto în Brașov."},{"id":"masina-schimb","name":"Mașină la schimb","icon":"Car","shortDescription":"O soluție de mobilitate pe durata reparației, în funcție de disponibilitate și de condițiile aplicabile.","description":"Pentru anumite reparații sau dosare de daună poate fi disponibil un autoturism de înlocuire. Confirmăm în scris perioada, condițiile de utilizare, responsabilitățile și eventualele costuri înainte de predare.","features":["Verificarea disponibilității înainte de programarea reparației","Condiții explicate înainte de predarea autoturismului","Proces-verbal de predare-primire","Perioadă corelată cu lucrarea sau cu dosarul de daună","Asistență pentru prelungire când reparația întârzie"],"featured":false,"active":true,"order":5,"seoTitle":"Mașină la schimb Brașov | CarFix Paint","seoDescription":"Informații despre disponibilitatea unei mașini la schimb pe durata reparației auto."}]
+[
+  {
+    "id": "tinichigerie",
+    "pageSlug": "tinichigerie-auto-brasov",
+    "name": "Tinichigerie și caroserie",
+    "icon": "Hammer",
+    "shortDescription": "Reparații pentru elemente îndoite, lovite sau corodate, de la daune locale până la intervenții complexe.",
+    "description": "Evaluăm geometria și starea elementelor afectate, apoi stabilim dacă soluția corectă este îndreptarea, repararea sau înlocuirea. Înainte de lucru discutăm zonele vizibile, elementele ascunse care trebuie verificate și operațiunile necesare pentru pregătirea vopsirii.",
+    "features": [
+      "Reparații pentru aripi, uși, capote, praguri și panouri laterale",
+      "Îndreptarea elementelor de caroserie când reparația este sigură și justificată",
+      "Înlocuirea elementelor care nu mai pot fi reparate corect",
+      "Verificarea alinierii dintre panouri și a punctelor de prindere",
+      "Pregătirea suprafețelor pentru protecție anticorozivă și vopsire"
+    ],
+    "heroTitle": "Tinichigerie auto în Brașov",
+    "heroSubtitle": "Evaluăm elementele afectate și stabilim dacă soluția corectă este îndreptarea, repararea sau înlocuirea lor.",
+    "intro": "O deformare vizibilă poate ascunde prinderi, ranforsări sau elemente aliniate incorect. Verificăm zona afectată, explicăm operațiunile necesare și pregătim caroseria pentru protecție și vopsire.",
+    "whenNeededTitle": "Când este recomandat acest serviciu",
+    "whenNeededItems": [
+      "Aripi, uși, capote sau praguri deformate după impact",
+      "Coroziune locală pe elemente de caroserie",
+      "Panouri nealiniate sau cu jocuri vizibile între elemente",
+      "Pregătirea mașinii pentru vopsire după daună sau reparație"
+    ],
+    "processTitle": "Cum lucrăm la tinichigerie",
+    "processSteps": [
+      {
+        "title": "Evaluare",
+        "description": "Inspectăm zona afectată, inclusiv elementele adiacente, și stabilim dacă se repară sau se înlocuiește."
+      },
+      {
+        "title": "Plan de lucru",
+        "description": "Îți explicăm operațiunile, piesele necesare și ordinea reparației înainte de a începe."
+      },
+      {
+        "title": "Reparație caroserie",
+        "description": "Îndreptăm, regenerăm sau înlocuim elementele, apoi verificăm alinierea și prinderile."
+      },
+      {
+        "title": "Pregătire pentru vopsire",
+        "description": "Protejăm și pregătim suprafețele pentru grund, vopsire și control final."
+      }
+    ],
+    "ctaTitle": "Ai nevoie de tinichigerie auto?",
+    "ctaDescription": "Trimite fotografiile daunei pentru o primă evaluare sau solicită o programare pentru constatare.",
+    "ctaPrimaryLabel": "Trimite poze pentru evaluare",
+    "ctaSecondaryLabel": "Solicită o programare",
+    "featured": true,
+    "active": true,
+    "order": 0,
+    "seoTitle": "Tinichigerie auto Brașov | Reparații caroserie | Car Fix & Paint",
+    "seoDescription": "Tinichigerie auto în Brașov pentru aripi, uși, capote, praguri și elemente de caroserie afectate de lovituri, deformări sau coroziune."
+  },
+  {
+    "id": "vopsitorie",
+    "pageSlug": "vopsitorie-auto-brasov",
+    "name": "Vopsitorie auto",
+    "icon": "PaintBrush",
+    "shortDescription": "Vopsire locală sau integrală, cu pregătirea suprafeței și potrivirea atentă a nuanței.",
+    "description": "Un rezultat bun începe înainte de aplicarea vopselei. Curățăm și pregătim suprafața, corectăm imperfecțiunile, aplicăm straturile necesare și verificăm nuanța în raport cu restul caroseriei. Soluția exactă depinde de starea vopselei existente, poziția elementului și tipul finisajului.",
+    "features": [
+      "Vopsirea unuia sau mai multor elemente de caroserie",
+      "Pregătire, grunduire și protecție înainte de stratul de culoare",
+      "Potrivirea nuanței și realizarea tranziției unde este necesar",
+      "Corectarea defectelor locale și refacerea lacului",
+      "Polish final și verificarea aspectului în lumină diferită"
+    ],
+    "heroTitle": "Vopsitorie auto în Brașov",
+    "heroSubtitle": "Pregătirea corectă a suprafeței, potrivirea nuanței și controlul finisajului în fiecare etapă.",
+    "intro": "Rezultatul final depinde de ceea ce se întâmplă înainte de aplicarea culorii. Curățăm, corectăm și pregătim suprafața, alegem formula potrivită și verificăm aspectul în raport cu elementele vecine.",
+    "whenNeededTitle": "Când este recomandat acest serviciu",
+    "whenNeededItems": [
+      "Zgârieturi, ciobituri sau decolorări pe un element de caroserie",
+      "Vopsire după tinichigerie sau după înlocuirea unui panou",
+      "Diferențe de nuanță între elemente vecine",
+      "Refacerea lacului sau a finisajului pe zone locale"
+    ],
+    "processTitle": "Cum lucrăm la vopsitorie",
+    "processSteps": [
+      {
+        "title": "Pregătirea suprafeței",
+        "description": "Curățăm, corectăm și protejăm zona înainte de aplicarea straturilor de culoare."
+      },
+      {
+        "title": "Potrivirea nuanței",
+        "description": "Alegem formula potrivită și verificăm tranziția față de elementele adiacente."
+      },
+      {
+        "title": "Aplicarea vopselei",
+        "description": "Aplicăm straturile necesare pentru acoperire, aspect și protecție."
+      },
+      {
+        "title": "Control final",
+        "description": "Verificăm finisajul în lumină diferită și facem polish-ul de final, când este cazul."
+      }
+    ],
+    "ctaTitle": "Ai nevoie de vopsitorie auto?",
+    "ctaDescription": "Trimite fotografii clare ale elementului și spune-ne dacă mașina a mai fost vopsită în zona respectivă.",
+    "ctaPrimaryLabel": "Trimite poze pentru evaluare",
+    "ctaSecondaryLabel": "Solicită o programare",
+    "featured": true,
+    "active": true,
+    "order": 1,
+    "seoTitle": "Vopsitorie auto Brașov | Potrivire culoare | Car Fix & Paint",
+    "seoDescription": "Vopsitorie auto în Brașov pentru elemente locale sau lucrări extinse, cu pregătirea suprafeței și potrivirea atentă a nuanței."
+  },
+  {
+    "id": "mecanica",
+    "pageSlug": "mecanica-auto-brasov",
+    "name": "Mecanică auto",
+    "icon": "Wrench",
+    "shortDescription": "Verificări și reparații mecanice pentru sistemele care influențează siguranța și funcționarea mașinii.",
+    "description": "Pornim de la simptome și de la verificarea mașinii, nu de la înlocuirea la întâmplare a pieselor. Pentru fiecare intervenție explicăm ce am constatat, ce este urgent, ce poate fi monitorizat și ce operațiuni sunt necesare.",
+    "features": [
+      "Verificarea sistemului de frânare",
+      "Intervenții la suspensie și direcție",
+      "Probleme ale sistemului de răcire",
+      "Revizii și consumabile",
+      "Verificări mecanice după impact sau după apariția unor zgomote"
+    ],
+    "heroTitle": "Mecanică auto în Brașov",
+    "heroSubtitle": "Pornim de la simptome și verificări, nu de la înlocuirea la întâmplare a pieselor.",
+    "intro": "Zgomotele, vibrațiile, martorii sau schimbările de comportament trebuie analizate în context. Verificăm sistemele relevante și explicăm ce este urgent, ce poate fi monitorizat și ce operațiuni sunt recomandate.",
+    "whenNeededTitle": "Când este recomandat acest serviciu",
+    "whenNeededItems": [
+      "Zgomote la frânare, suspensie sau direcție",
+      "Vibrații, trageri în lateral sau comportament schimbat la drum",
+      "Pierderi de lichid, temperatură ridicată sau probleme de răcire",
+      "Revizie, consumabile sau verificare după impact"
+    ],
+    "processTitle": "Cum lucrăm la mecanică",
+    "processSteps": [
+      {
+        "title": "Discuție despre simptome",
+        "description": "Notăm când apare problema, în ce condiții și ce ați observat la volan."
+      },
+      {
+        "title": "Verificare pe sistem",
+        "description": "Inspectăm frânele, suspensia, direcția sau alte sisteme relevante pentru simptom."
+      },
+      {
+        "title": "Diagnostic și recomandări",
+        "description": "Separăm ce este urgent de ce poate fi monitorizat și explicăm opțiunile."
+      },
+      {
+        "title": "Intervenție și verificare",
+        "description": "Executăm lucrările agreate și verificăm rezultatul înainte de predare."
+      }
+    ],
+    "ctaTitle": "Ai o problemă mecanică?",
+    "ctaDescription": "Descrie simptomele și solicită o programare pentru verificarea mașinii.",
+    "ctaPrimaryLabel": "Trimite poze pentru evaluare",
+    "ctaSecondaryLabel": "Solicită o programare",
+    "featured": true,
+    "active": true,
+    "order": 2,
+    "seoTitle": "Mecanică auto Brașov | Frâne, suspensie și întreținere | Car Fix & Paint",
+    "seoDescription": "Service de mecanică auto în Brașov pentru frâne, suspensie, direcție, răcire, revizii și verificări după impact."
+  },
+  {
+    "id": "diagnoza",
+    "pageSlug": "diagnoza-auto-brasov",
+    "name": "Diagnoză computerizată",
+    "icon": "ComputerTower",
+    "shortDescription": "Citirea erorilor este punctul de pornire; diagnosticul corect include verificări și interpretarea simptomelor.",
+    "description": "Conectăm echipamentul de diagnoză, citim erorile și datele disponibile, apoi corelăm rezultatele cu simptomele mașinii. Un cod de eroare nu indică întotdeauna direct piesa defectă, de aceea pot fi necesare măsurători și teste suplimentare.",
+    "features": [
+      "Citirea și documentarea codurilor de eroare",
+      "Analiza parametrilor disponibili în timp real",
+      "Testarea componentelor și a circuitelor relevante",
+      "Ștergerea erorilor după remediere și verificare",
+      "Recomandări pentru pașii următori, fără înlocuiri inutile"
+    ],
+    "heroTitle": "Diagnoză auto în Brașov",
+    "heroSubtitle": "Un cod de eroare este un punct de pornire, nu întotdeauna diagnosticul final.",
+    "intro": "Citirea erorilor trebuie corelată cu simptomele, datele în timp real și verificările componentelor sau circuitelor implicate. Scopul este identificarea cauzei, nu simpla ștergere a martorilor.",
+    "whenNeededTitle": "Când este recomandat acest serviciu",
+    "whenNeededItems": [
+      "Martori aprinși pe bord fără cauză clară",
+      "Pierderi de putere, porniri grele sau consum crescut",
+      "Erori care revin după ștergere",
+      "Verificare înainte de o reparație mai amplă"
+    ],
+    "processTitle": "Cum facem diagnoza",
+    "processSteps": [
+      {
+        "title": "Citirea erorilor",
+        "description": "Conectăm echipamentul și documentăm codurile și datele disponibile."
+      },
+      {
+        "title": "Corelare cu simptomele",
+        "description": "Analizăm când apare problema și ce parametri sunt relevanți în timp real."
+      },
+      {
+        "title": "Verificări suplimentare",
+        "description": "Testăm componentele sau circuitele implicate când un cod nu este suficient."
+      },
+      {
+        "title": "Recomandări clare",
+        "description": "Îți spunem cauza probabilă și pașii următori, fără înlocuiri inutile."
+      }
+    ],
+    "ctaTitle": "Ai nevoie de diagnoză?",
+    "ctaDescription": "Spune-ne ce martori sunt aprinși și când apare problema, apoi solicită o programare pentru diagnoză.",
+    "ctaPrimaryLabel": "Trimite poze pentru evaluare",
+    "ctaSecondaryLabel": "Solicită o programare",
+    "featured": false,
+    "active": true,
+    "order": 3,
+    "seoTitle": "Diagnoză auto Brașov | Citire și interpretare erori | Car Fix & Paint",
+    "seoDescription": "Diagnoză computerizată în Brașov, cu citirea codurilor, analiza parametrilor și verificări suplimentare înainte de înlocuirea pieselor."
+  },
+  {
+    "id": "daune-rca-casco",
+    "pageSlug": "daune-rca-casco-brasov",
+    "name": "Gestionare daune RCA/CASCO",
+    "icon": "Shield",
+    "shortDescription": "Sprijin pentru documentarea, evaluarea și repararea mașinii în cadrul unui dosar de daună.",
+    "description": "Te ajutăm să organizezi informațiile tehnice și documentele necesare reparației. Procedura, aprobările și modalitatea de plată diferă în funcție de poliță, asigurător și situația concretă, iar acestea sunt clarificate înainte de începerea lucrărilor.",
+    "features": [
+      "Primă evaluare pe baza fotografiilor și a documentelor disponibile",
+      "Documentarea zonelor afectate și pregătirea devizului",
+      "Comunicare privind operațiunile și piesele necesare",
+      "Actualizări pe durata aprobării și a reparației",
+      "Predarea documentelor aferente lucrărilor executate"
+    ],
+    "heroTitle": "Service pentru daune RCA și CASCO în Brașov",
+    "heroSubtitle": "Te ajutăm să înțelegi pașii, documentele și operațiunile necesare pentru repararea mașinii.",
+    "intro": "Fiecare dosar depinde de poliță, asigurător și avariile constatate. Organizăm informațiile tehnice, documentăm zonele afectate și comunicăm ce aprobări sunt necesare înainte de începerea lucrărilor.",
+    "whenNeededTitle": "Când este recomandat acest serviciu",
+    "whenNeededItems": [
+      "Ai un dosar de daună RCA sau CASCO în curs",
+      "Ai nevoie de constatare și documentare a zonelor afectate",
+      "Vrei un plan clar înainte de aprobarea reparației",
+      "Ai nevoie de sprijin pentru comunicare pe durata dosarului"
+    ],
+    "processTitle": "Cum gestionăm dauna",
+    "processSteps": [
+      {
+        "title": "Primă evaluare",
+        "description": "Analizăm fotografiile, documentele disponibile și starea mașinii."
+      },
+      {
+        "title": "Documentare și deviz",
+        "description": "Pregătim informațiile tehnice necesare pentru dosar și pentru aprobare."
+      },
+      {
+        "title": "Aprobare și reparație",
+        "description": "Începem lucrările după acordurile necesare și te ținem la curent pe parcurs."
+      },
+      {
+        "title": "Predare",
+        "description": "Predăm mașina și documentele aferente lucrărilor executate."
+      }
+    ],
+    "ctaTitle": "Ai un dosar de daună?",
+    "ctaDescription": "Trimite numărul dosarului, documentele disponibile și fotografiile zonelor afectate.",
+    "ctaPrimaryLabel": "Trimite poze pentru evaluare",
+    "ctaSecondaryLabel": "Solicită o programare",
+    "featured": false,
+    "active": true,
+    "order": 4,
+    "seoTitle": "Daune RCA și CASCO Brașov | Constatare și reparație | Car Fix & Paint",
+    "seoDescription": "Sprijin pentru dosare de daună RCA/CASCO în Brașov: fotografii, documente, evaluare tehnică, deviz și reparația mașinii."
+  },
+  {
+    "id": "masina-schimb",
+    "pageSlug": "masina-la-schimb-brasov",
+    "name": "Mașină la schimb",
+    "icon": "Car",
+    "shortDescription": "O soluție de mobilitate pe durata reparației, în funcție de disponibilitate și de condițiile aplicabile.",
+    "description": "Pentru anumite reparații sau dosare de daună poate fi disponibil un autoturism de înlocuire. Confirmăm în scris perioada, condițiile de utilizare, responsabilitățile și eventualele costuri înainte de predare.",
+    "features": [
+      "Verificarea disponibilității înainte de programarea reparației",
+      "Condiții explicate înainte de predarea autoturismului",
+      "Proces-verbal de predare-primire",
+      "Perioadă corelată cu lucrarea sau cu dosarul de daună",
+      "Asistență pentru prelungire când reparația întârzie"
+    ],
+    "heroTitle": "Mașină la schimb pe durata reparației",
+    "heroSubtitle": "Mobilitate pe durata reparației, în funcție de disponibilitate și de condițiile confirmate înainte de predare.",
+    "intro": "Pentru anumite lucrări sau dosare poate fi disponibil un autoturism de înlocuire. Perioada, regulile de utilizare, responsabilitățile și eventualele costuri se confirmă în scris înainte de predarea mașinii.",
+    "whenNeededTitle": "Când este utilă mașina la schimb",
+    "whenNeededItems": [
+      "Reparația durează mai multe zile și ai nevoie de mobilitate",
+      "Dosarul de daună permite sau prevede un autoturism de înlocuire",
+      "Vrei să confirmi disponibilitatea înainte de programare",
+      "Ai nevoie de condiții clare de utilizare și predare-primire"
+    ],
+    "processTitle": "Cum funcționează",
+    "processSteps": [
+      {
+        "title": "Verificare disponibilitate",
+        "description": "Confirmăm dacă există un autoturism disponibil pentru perioada estimată."
+      },
+      {
+        "title": "Condiții clare",
+        "description": "Explicăm perioada, responsabilitățile și eventualele costuri înainte de predare."
+      },
+      {
+        "title": "Predare-primire",
+        "description": "Întocmim procesul-verbal și predăm mașina pe durata lucrării."
+      },
+      {
+        "title": "Restituire",
+        "description": "La finalul reparației restituim mașina la schimb și predăm autoturismul reparat."
+      }
+    ],
+    "ctaTitle": "Ai nevoie de mașină la schimb?",
+    "ctaDescription": "Întreabă despre disponibilitate atunci când trimiți cererea de evaluare sau programare.",
+    "ctaPrimaryLabel": "Trimite poze pentru evaluare",
+    "ctaSecondaryLabel": "Solicită o programare",
+    "featured": false,
+    "active": true,
+    "order": 5,
+    "seoTitle": "Mașină la schimb Brașov | Pe durata reparației | Car Fix & Paint",
+    "seoDescription": "Informații despre disponibilitatea unei mașini la schimb pe durata reparației, în funcție de lucrare, dosar și condițiile aplicabile."
+  }
+]

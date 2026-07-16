@@ -137,10 +137,26 @@ export type StaticPagesView = {
 
 export type ServiceView = {
   slug: string
+  pageSlug: string
   name: string
   icon: string
   description: string
+  shortDescription?: string
   features: string[]
+  heroTitle: string
+  heroSubtitle: string
+  intro: string
+  whenNeededTitle: string
+  whenNeededItems: string[]
+  processTitle: string
+  processSteps: { title: string; description: string }[]
+  ctaTitle: string
+  ctaDescription: string
+  ctaPrimaryLabel: string
+  ctaSecondaryLabel: string
+  seoTitle?: string
+  seoDescription?: string
+  ogImage?: string
 }
 
 export type PortfolioProjectView = {

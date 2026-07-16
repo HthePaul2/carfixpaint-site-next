@@ -239,10 +239,34 @@ export function mapStaticPages(global: StaticPage | null, fallback: StaticPagesV
 export function mapService(doc: Service): ServiceView {
   return {
     slug: doc.slug,
+    pageSlug: doc.pageSlug,
     name: doc.name,
     icon: doc.icon,
     description: doc.description,
+    shortDescription: doc.shortDescription ?? undefined,
     features: doc.features?.map((item) => item.feature) ?? [],
+    heroTitle: doc.heroTitle?.trim() || doc.name,
+    heroSubtitle: doc.heroSubtitle?.trim() || doc.shortDescription || doc.description,
+    intro: doc.intro?.trim() || doc.description,
+    whenNeededTitle: doc.whenNeededTitle?.trim() || 'Când este recomandat acest serviciu',
+    whenNeededItems: doc.whenNeededItems?.map((entry) => entry.item).filter(Boolean) ?? [],
+    processTitle: doc.processTitle?.trim() || 'Cum lucrăm',
+    processSteps:
+      doc.processSteps
+        ?.filter((step) => step.title && step.description)
+        .map((step) => ({
+          title: step.title,
+          description: step.description,
+        })) ?? [],
+    ctaTitle: doc.ctaTitle?.trim() || `Ai nevoie de ${doc.name.toLowerCase()}?`,
+    ctaDescription:
+      doc.ctaDescription?.trim() ||
+      'Trimite fotografiile pentru o primă evaluare sau solicită o programare pentru constatare.',
+    ctaPrimaryLabel: doc.ctaPrimaryLabel?.trim() || 'Trimite poze pentru evaluare',
+    ctaSecondaryLabel: doc.ctaSecondaryLabel?.trim() || 'Solicită o programare',
+    seoTitle: doc.seoTitle ?? undefined,
+    seoDescription: doc.seoDescription ?? undefined,
+    ogImage: getMediaUrl(doc.ogImage, 'hero') || undefined,
   }
 }
 
