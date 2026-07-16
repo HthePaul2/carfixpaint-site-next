@@ -9,6 +9,8 @@ server {
 
     include %home%/%user%/conf/web/%domain%/nginx.forcessl.conf*;
 
+    client_max_body_size 25M;
+
     location ~ /\.(?!well-known\/|file) {
         deny all;
         return 404;
