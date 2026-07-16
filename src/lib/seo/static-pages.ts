@@ -150,6 +150,7 @@ export const STATIC_PAGE_SEO: Record<StaticPageKey, StaticPageSeo> = {
 export const SITEMAP_STATIC_PATHS = [
   '/',
   '/servicii',
+  '/programare',
   '/daune',
   '/portofoliu',
   '/despre',

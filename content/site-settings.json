@@ -23,6 +23,7 @@
   "navigationItems": [
     { "path": "/", "label": "Acasă" },
     { "path": "/servicii", "label": "Servicii" },
+    { "path": "/programare", "label": "Programare" },
     { "path": "/daune", "label": "Daune RCA/CASCO" },
     { "path": "/portofoliu", "label": "Portofoliu" },
     { "path": "/despre", "label": "Despre noi" },

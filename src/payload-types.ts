@@ -76,6 +76,7 @@ export interface Config {
     faqs: Faq;
     'contact-requests': ContactRequest;
     'contact-attachments': ContactAttachment;
+    appointments: Appointment;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -92,6 +93,7 @@ export interface Config {
     faqs: FaqsSelect<false> | FaqsSelect<true>;
     'contact-requests': ContactRequestsSelect<false> | ContactRequestsSelect<true>;
     'contact-attachments': ContactAttachmentsSelect<false> | ContactAttachmentsSelect<true>;
+    appointments: AppointmentsSelect<false> | AppointmentsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -106,12 +108,14 @@ export interface Config {
     homepage: Homepage;
     'static-pages': StaticPage;
     'legal-pages': LegalPage;
+    'availability-settings': AvailabilitySetting;
   };
   globalsSelect: {
     'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
     homepage: HomepageSelect<false> | HomepageSelect<true>;
     'static-pages': StaticPagesSelect<false> | StaticPagesSelect<true>;
     'legal-pages': LegalPagesSelect<false> | LegalPagesSelect<true>;
+    'availability-settings': AvailabilitySettingsSelect<false> | AvailabilitySettingsSelect<true>;
   };
   locale: null;
   widgets: {
@@ -521,6 +525,41 @@ export interface ContactAttachment {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "appointments".
+ */
+export interface Appointment {
+  id: number;
+  name: string;
+  phone: string;
+  email?: string | null;
+  service: number | Service;
+  carBrand?: string | null;
+  carModel?: string | null;
+  licensePlate?: string | null;
+  requestedStart: string;
+  requestedEnd: string;
+  timezone: string;
+  /**
+   * Cheie unică pentru sloturile care blochează calendarul (pending/confirmed).
+   */
+  slotKey: string;
+  status: 'pending' | 'confirmed' | 'reschedule-proposed' | 'cancelled' | 'rejected' | 'completed' | 'no-show';
+  customerMessage?: string | null;
+  adminNotes?: string | null;
+  photos?: (number | ContactAttachment)[] | null;
+  source?: string | null;
+  submittedAt: string;
+  confirmedAt?: string | null;
+  cancelledAt?: string | null;
+  cancellationReason?: string | null;
+  cancelTokenHash?: string | null;
+  ip?: string | null;
+  userAgent?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -578,6 +617,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'contact-attachments';
         value: number | ContactAttachment;
+      } | null)
+    | ({
+        relationTo: 'appointments';
+        value: number | Appointment;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -901,6 +944,37 @@ export interface ContactAttachmentsSelect<T extends boolean = true> {
               filename?: T;
             };
       };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "appointments_select".
+ */
+export interface AppointmentsSelect<T extends boolean = true> {
+  name?: T;
+  phone?: T;
+  email?: T;
+  service?: T;
+  carBrand?: T;
+  carModel?: T;
+  licensePlate?: T;
+  requestedStart?: T;
+  requestedEnd?: T;
+  timezone?: T;
+  slotKey?: T;
+  status?: T;
+  customerMessage?: T;
+  adminNotes?: T;
+  photos?: T;
+  source?: T;
+  submittedAt?: T;
+  confirmedAt?: T;
+  cancelledAt?: T;
+  cancellationReason?: T;
+  cancelTokenHash?: T;
+  ip?: T;
+  userAgent?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1307,6 +1381,69 @@ export interface LegalPage {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "availability-settings".
+ */
+export interface AvailabilitySetting {
+  id: number;
+  timezone: string;
+  slotDurationMinutes: number;
+  minNoticeHours: number;
+  maxAdvanceDays: number;
+  capacityPerSlot: number;
+  breakStart?: string | null;
+  breakEnd?: string | null;
+  confirmationText?: string | null;
+  /**
+   * Opțional; dacă lipsește, se folosește CONTACT_NOTIFICATION_EMAIL.
+   */
+  notificationEmail?: string | null;
+  monday?: {
+    enabled?: boolean | null;
+    start?: string | null;
+    end?: string | null;
+  };
+  tuesday?: {
+    enabled?: boolean | null;
+    start?: string | null;
+    end?: string | null;
+  };
+  wednesday?: {
+    enabled?: boolean | null;
+    start?: string | null;
+    end?: string | null;
+  };
+  thursday?: {
+    enabled?: boolean | null;
+    start?: string | null;
+    end?: string | null;
+  };
+  friday?: {
+    enabled?: boolean | null;
+    start?: string | null;
+    end?: string | null;
+  };
+  saturday?: {
+    enabled?: boolean | null;
+    start?: string | null;
+    end?: string | null;
+  };
+  sunday?: {
+    enabled?: boolean | null;
+    start?: string | null;
+    end?: string | null;
+  };
+  blockedDates?:
+    | {
+        date: string;
+        reason?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-settings_select".
  */
 export interface SiteSettingsSelect<T extends boolean = true> {
@@ -1564,6 +1701,80 @@ export interface LegalPagesSelect<T extends boolean = true> {
   termsSeoTitle?: T;
   termsSeoDescription?: T;
   termsOgImage?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "availability-settings_select".
+ */
+export interface AvailabilitySettingsSelect<T extends boolean = true> {
+  timezone?: T;
+  slotDurationMinutes?: T;
+  minNoticeHours?: T;
+  maxAdvanceDays?: T;
+  capacityPerSlot?: T;
+  breakStart?: T;
+  breakEnd?: T;
+  confirmationText?: T;
+  notificationEmail?: T;
+  monday?:
+    | T
+    | {
+        enabled?: T;
+        start?: T;
+        end?: T;
+      };
+  tuesday?:
+    | T
+    | {
+        enabled?: T;
+        start?: T;
+        end?: T;
+      };
+  wednesday?:
+    | T
+    | {
+        enabled?: T;
+        start?: T;
+        end?: T;
+      };
+  thursday?:
+    | T
+    | {
+        enabled?: T;
+        start?: T;
+        end?: T;
+      };
+  friday?:
+    | T
+    | {
+        enabled?: T;
+        start?: T;
+        end?: T;
+      };
+  saturday?:
+    | T
+    | {
+        enabled?: T;
+        start?: T;
+        end?: T;
+      };
+  sunday?:
+    | T
+    | {
+        enabled?: T;
+        start?: T;
+        end?: T;
+      };
+  blockedDates?:
+    | T
+    | {
+        date?: T;
+        reason?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
