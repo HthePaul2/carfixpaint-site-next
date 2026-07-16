@@ -13,7 +13,7 @@ export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const pathname = usePathname()
   const company = useSiteSettings()
-  const navItems = company.navigationItems
+  const navItems = company.navigationItems.filter((item) => item.path !== '/')
 
   const isActive = (path: string) => {
     if (path === '/') return pathname === '/'
@@ -23,15 +23,15 @@ export function Header() {
   return (
     <>
       <header className="sticky top-0 z-40 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center justify-between gap-4">
+        <div className="container flex h-16 items-center justify-between gap-3">
           <BrandLogo height={36} priority />
 
-          <nav className="hidden lg:flex items-center gap-6">
+          <nav className="hidden items-center gap-4 xl:flex 2xl:gap-5">
             {navItems.map((item) => (
               <Link
                 key={item.path}
                 href={item.path}
-                className={`text-sm font-medium transition-colors hover:text-accent ${
+                className={`whitespace-nowrap text-sm font-medium transition-colors hover:text-accent ${
                   isActive(item.path) ? 'text-accent' : 'text-foreground'
                 }`}
               >
@@ -40,18 +40,21 @@ export function Header() {
             ))}
           </nav>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             <a href={`tel:${company.phone.replace(/\s/g, '')}`} className="hidden md:block">
               <Button className="gap-2">
                 <Phone weight="bold" size={18} />
-                {company.phone}
+                <span className="hidden 2xl:inline">{company.phone}</span>
+                <span className="2xl:hidden">Sună</span>
               </Button>
             </a>
 
             <button
+              type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden"
+              className="xl:hidden"
               aria-label={mobileMenuOpen ? 'Închide meniul' : 'Deschide meniul'}
+              aria-expanded={mobileMenuOpen}
             >
               {mobileMenuOpen ? (
                 <X size={28} weight="bold" />
@@ -69,22 +72,22 @@ export function Header() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden border-b border-border bg-background"
+            className="border-b border-border bg-background xl:hidden"
           >
-            <nav className="container py-4 flex flex-col gap-3">
-              {navItems.map((item) => (
+            <nav className="container flex flex-col gap-1 py-4">
+              {company.navigationItems.map((item) => (
                 <Link
                   key={item.path}
                   href={item.path}
                   onClick={() => setMobileMenuOpen(false)}
-                  className={`text-sm font-medium py-2 transition-colors hover:text-accent ${
-                    isActive(item.path) ? 'text-accent' : 'text-foreground'
+                  className={`rounded-md px-2 py-2.5 text-sm font-medium transition-colors hover:bg-secondary hover:text-accent ${
+                    isActive(item.path) ? 'bg-secondary text-accent' : 'text-foreground'
                   }`}
                 >
                   {item.label}
                 </Link>
               ))}
-              <a href={`tel:${company.phone.replace(/\s/g, '')}`} className="pt-2">
+              <a href={`tel:${company.phone.replace(/\s/g, '')}`} className="pt-3 md:hidden">
                 <Button className="w-full gap-2">
                   <Phone weight="bold" size={18} />
                   {company.phone}
