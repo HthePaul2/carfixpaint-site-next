@@ -1,8 +1,8 @@
 'use client'
 
-import { ArrowRight, X } from '@phosphor-icons/react'
+import { ArrowRight } from '@phosphor-icons/react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { toast } from 'sonner'
 
 import { useSiteSettings } from '@/components/providers/SiteSettingsProvider'
@@ -20,21 +20,10 @@ type ServiceOption = {
   label: string
 }
 
-type Slot = {
-  start: string
-  end: string
-  label: string
-  slotKey: string
-}
-
 type AppointmentPageProps = {
   content: ProgramarePageView
   serviceOptions: ServiceOption[]
 }
-
-const MAX_PHOTOS = 5
-const MAX_PHOTO_BYTES = 5 * 1024 * 1024
-const ALLOWED_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp'])
 
 const initialForm = {
   name: '',
@@ -48,11 +37,11 @@ const initialForm = {
   gdprConsent: false,
 }
 
-type PreviewPhoto = {
-  id: string
-  file: File
-  url: string
-}
+const preferredTimeOptions = [
+  'Dimineata (08:00 - 11:00)',
+  'Pranz (11:00 - 14:00)',
+  'Dupa-amiaza (14:00 - 17:00)',
+]
 
 export function AppointmentPage({ content, serviceOptions }: AppointmentPageProps) {
   const company = useSiteSettings()
@@ -64,20 +53,10 @@ export function AppointmentPage({ content, serviceOptions }: AppointmentPageProp
     serviceOptions.some((option) => option.value === preselected) ? preselected : '',
   )
   const [date, setDate] = useState('')
-  const [slots, setSlots] = useState<Slot[]>([])
-  const [slotKey, setSlotKey] = useState('')
-  const [loadingSlots, setLoadingSlots] = useState(false)
+  const [preferredTime, setPreferredTime] = useState('')
   const [form, setForm] = useState(initialForm)
-  const [photos, setPhotos] = useState<PreviewPhoto[]>([])
-  const [isDragging, setIsDragging] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [doneMessage, setDoneMessage] = useState<string | null>(null)
-
-  useEffect(() => {
-    return () => {
-      photos.forEach((photo) => URL.revokeObjectURL(photo.url))
-    }
-  }, [photos])
 
   const minDate = useMemo(() => new Date().toISOString().slice(0, 10), [])
   const maxDate = useMemo(() => {
@@ -85,86 +64,13 @@ export function AppointmentPage({ content, serviceOptions }: AppointmentPageProp
     now.setDate(now.getDate() + 60)
     return now.toISOString().slice(0, 10)
   }, [])
-  const remainingSlots = useMemo(() => MAX_PHOTOS - photos.length, [photos.length])
-
-  const addFiles = (fileList: FileList | File[]) => {
-    const incoming = Array.from(fileList)
-    const next: PreviewPhoto[] = []
-    const errors: string[] = []
-
-    for (const file of incoming) {
-      if (photos.length + next.length >= MAX_PHOTOS) {
-        errors.push(`Maximum ${MAX_PHOTOS} fotografii.`)
-        break
-      }
-      if (!ALLOWED_TYPES.has(file.type)) {
-        errors.push(`${file.name}: format nepermis (JPG, PNG sau WebP).`)
-        continue
-      }
-      if (file.size > MAX_PHOTO_BYTES) {
-        errors.push(`${file.name}: depășește 5 MB.`)
-        continue
-      }
-      next.push({
-        id: `${file.name}-${file.size}-${file.lastModified}-${Math.random()}`,
-        file,
-        url: URL.createObjectURL(file),
-      })
-    }
-
-    if (errors.length) toast.error(errors[0])
-    if (next.length) setPhotos((current) => [...current, ...next])
-  }
-
-  const removePhoto = (id: string) => {
-    setPhotos((current) => {
-      const target = current.find((photo) => photo.id === id)
-      if (target) URL.revokeObjectURL(target.url)
-      return current.filter((photo) => photo.id !== id)
-    })
-  }
-
-  const loadSlots = useCallback(async (selectedDate: string) => {
-    if (!selectedDate) {
-      setSlots([])
-      setSlotKey('')
-      return
-    }
-
-    setLoadingSlots(true)
-    try {
-      const response = await fetch(`/api/appointments/availability?date=${selectedDate}`)
-      const result = (await response.json()) as {
-        success?: boolean
-        slots?: Slot[]
-        message?: string
-      }
-      if (!response.ok || !result.success) {
-        toast.error(result.message ?? 'Nu am putut încărca intervalele.')
-        setSlots([])
-        setSlotKey('')
-        return
-      }
-      setSlots(result.slots ?? [])
-      setSlotKey('')
-    } catch {
-      toast.error('Nu am putut încărca intervalele.')
-      setSlots([])
-    } finally {
-      setLoadingSlots(false)
-    }
-  }, [])
-
-  useEffect(() => {
-    if (date) void loadSlots(date)
-  }, [date, loadSlots])
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
     if (isSubmitting) return
 
-    if (!serviceSlug || !date || !slotKey) {
-      toast.error('Selectează serviciul, data și intervalul.')
+    if (!serviceSlug || !date || !preferredTime) {
+      toast.error('Selecteaza serviciul, data si intervalul preferat.')
       return
     }
     if (!form.gdprConsent) {
@@ -176,11 +82,10 @@ export function AppointmentPage({ content, serviceOptions }: AppointmentPageProp
     try {
       const serviceLabel =
         serviceOptions.find((option) => option.value === serviceSlug)?.label ?? serviceSlug
-      const slotLabel = slots.find((slot) => slot.slotKey === slotKey)?.label ?? slotKey
       const message = buildAppointmentWhatsAppMessage({
         serviceLabel,
         date,
-        slotLabel,
+        slotLabel: preferredTime,
         name: form.name,
         phone: form.phone,
         email: form.email,
@@ -188,7 +93,6 @@ export function AppointmentPage({ content, serviceOptions }: AppointmentPageProp
         carModel: form.carModel,
         licensePlate: form.licensePlate,
         customerMessage: form.customerMessage,
-        hasPhotos: photos.length > 0,
       })
       const whatsappHref = buildWhatsAppLink(company.whatsappNumber, message)
       const popup = window.open(whatsappHref, '_blank', 'noopener,noreferrer')
@@ -199,11 +103,9 @@ export function AppointmentPage({ content, serviceOptions }: AppointmentPageProp
       if (!popup) {
         window.location.href = whatsappHref
       }
-      photos.forEach((photo) => URL.revokeObjectURL(photo.url))
-      setPhotos([])
       setForm(initialForm)
-      setSlotKey('')
-      toast.success('Se deschide WhatsApp. Trimite acolo mesajul si, daca vrei, pozele selectate.')
+      setPreferredTime('')
+      toast.success('Se deschide WhatsApp. Trimite acolo mesajul pentru confirmarea programarii.')
     } catch {
       toast.error('Nu am putut deschide WhatsApp. Incearca din nou.')
     } finally {
@@ -283,37 +185,22 @@ export function AppointmentPage({ content, serviceOptions }: AppointmentPageProp
           </div>
 
           <div>
-            <Label>Interval disponibil *</Label>
-            {loadingSlots ? (
-              <p className="mt-2 text-sm text-muted-foreground">Se încarcă intervalele...</p>
-            ) : !date ? (
-              <p className="mt-2 text-sm text-muted-foreground">Selectează mai întâi o dată.</p>
-            ) : slots.length === 0 ? (
-              <p className="mt-2 text-sm text-muted-foreground">
-                Nu există intervale disponibile în această zi.
-              </p>
-            ) : (
-              <div className="mt-3 grid grid-cols-3 gap-2 sm:grid-cols-4">
-                {slots.map((slot) => (
-                  <button
-                    key={slot.slotKey}
-                    type="button"
-                    className={
-                      slotKey === slot.slotKey
-                        ? 'rounded-md bg-accent px-3 py-2 text-sm font-medium text-accent-foreground'
-                        : 'rounded-md border px-3 py-2 text-sm hover:bg-secondary'
-                    }
-                    onClick={() => setSlotKey(slot.slotKey)}
-                    disabled={isSubmitting}
-                  >
-                    {slot.label}
-                  </button>
+            <Label>Interval preferat *</Label>
+            <Select value={preferredTime} onValueChange={setPreferredTime} disabled={isSubmitting}>
+              <SelectTrigger>
+                <SelectValue placeholder="Alege intervalul preferat" />
+              </SelectTrigger>
+              <SelectContent>
+                {preferredTimeOptions.map((option) => (
+                  <SelectItem key={option} value={option}>
+                    {option}
+                  </SelectItem>
                 ))}
-              </div>
-            )}
+              </SelectContent>
+            </Select>
             <p className="mt-3 text-xs text-muted-foreground">
-              Intervalele afișate sunt pentru constatare și evaluare. Durata reparației se stabilește
-              separat după verificarea mașinii.
+              Intervalul este orientativ. Confirmarea finala se face in conversatia WhatsApp, in
+              functie de disponibilitatea reala.
             </p>
           </div>
 
@@ -393,70 +280,6 @@ export function AppointmentPage({ content, serviceOptions }: AppointmentPageProp
             />
           </div>
 
-          <div>
-            <Label>Fotografii (opțional, max {MAX_PHOTOS})</Label>
-            <div
-              className={`mt-2 rounded-lg border border-dashed p-4 transition-colors ${
-                isDragging ? 'border-accent bg-accent/5' : 'border-muted-foreground/30'
-              }`}
-              onDragOver={(event) => {
-                event.preventDefault()
-                setIsDragging(true)
-              }}
-              onDragLeave={() => setIsDragging(false)}
-              onDrop={(event) => {
-                event.preventDefault()
-                setIsDragging(false)
-                if (event.dataTransfer.files.length) addFiles(event.dataTransfer.files)
-              }}
-            >
-              <input
-                id="appointment-photos"
-                type="file"
-                accept="image/jpeg,image/png,image/webp"
-                multiple
-                className="sr-only"
-                disabled={isSubmitting || remainingSlots <= 0}
-                onChange={(event) => {
-                  if (event.target.files?.length) addFiles(event.target.files)
-                  event.target.value = ''
-                }}
-              />
-              <label
-                htmlFor="appointment-photos"
-                className="flex cursor-pointer flex-col items-center gap-2 py-4 text-center text-sm text-muted-foreground"
-              >
-                <span className="font-medium text-foreground">
-                  Trage fotografiile aici sau apasă pentru selectare
-                </span>
-                <span>
-                  Formate: JPG, PNG sau WebP. Maximum {MAX_PHOTOS} fotografii si 5 MB fiecare.
-                  Dupa deschiderea WhatsApp, trimite manual fotografiile in conversatie.
-                </span>
-              </label>
-            </div>
-
-            {photos.length > 0 ? (
-              <ul className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
-                {photos.map((photo) => (
-                  <li key={photo.id} className="relative overflow-hidden rounded-md border">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={photo.url} alt="" className="aspect-square w-full object-cover" />
-                    <button
-                      type="button"
-                      className="absolute right-1 top-1 rounded-full bg-black/70 p-1 text-white"
-                      onClick={() => removePhoto(photo.id)}
-                      aria-label="Elimină fotografia"
-                      disabled={isSubmitting}
-                    >
-                      <X size={14} weight="bold" />
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            ) : null}
-          </div>
-
           <div className="flex items-start gap-2">
             <Checkbox
               id="gdpr"
@@ -467,8 +290,8 @@ export function AppointmentPage({ content, serviceOptions }: AppointmentPageProp
               disabled={isSubmitting}
             />
             <Label htmlFor="gdpr" className="cursor-pointer text-sm">
-              Sunt de acord ca datele completate si eventualele fotografii selectate sa fie folosite
-              pentru pregatirea mesajului WhatsApp si pentru gestionarea programarii. *
+              Sunt de acord ca datele completate sa fie folosite pentru pregatirea mesajului
+              WhatsApp si pentru gestionarea programarii. *
             </Label>
           </div>
 

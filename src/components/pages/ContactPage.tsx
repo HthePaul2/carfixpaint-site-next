@@ -1,7 +1,7 @@
 'use client'
 
-import { ArrowRight, CheckCircle, FileText, WhatsappLogo, X } from '@phosphor-icons/react'
-import { useEffect, useMemo, useState } from 'react'
+import { ArrowRight, CheckCircle, FileText, WhatsappLogo } from '@phosphor-icons/react'
+import { useState } from 'react'
 import { toast } from 'sonner'
 
 import { useSiteSettings } from '@/components/providers/SiteSettingsProvider'
@@ -25,10 +25,6 @@ type ContactPageProps = {
   serviceOptions: ServiceOption[]
 }
 
-const MAX_PHOTOS = 5
-const MAX_PHOTO_BYTES = 5 * 1024 * 1024
-const ALLOWED_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp'])
-
 const initialFormState = {
   name: '',
   phone: '',
@@ -41,68 +37,15 @@ const initialFormState = {
   company: '',
 }
 
-type PreviewPhoto = {
-  id: string
-  file: File
-  url: string
-}
-
 export function ContactPage({ content, serviceOptions }: ContactPageProps) {
   const company = useSiteSettings()
   const [formData, setFormData] = useState(initialFormState)
-  const [photos, setPhotos] = useState<PreviewPhoto[]>([])
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isDragging, setIsDragging] = useState(false)
-
-  useEffect(() => {
-    return () => {
-      photos.forEach((photo) => URL.revokeObjectURL(photo.url))
-    }
-  }, [photos])
 
   const pageTitle = content.pageTitle || 'Trimite detaliile și fotografiile mașinii'
   const pageSubtitle =
     content.pageSubtitle ||
-    'Descrie problema și încarcă până la 5 fotografii clare ale zonei afectate. Imaginile ne ajută la o primă orientare, dar soluția finală se stabilește după verificarea mașinii.'
-
-  const remainingSlots = useMemo(() => MAX_PHOTOS - photos.length, [photos.length])
-
-  const addFiles = (fileList: FileList | File[]) => {
-    const incoming = Array.from(fileList)
-    const next: PreviewPhoto[] = []
-    const errors: string[] = []
-
-    for (const file of incoming) {
-      if (photos.length + next.length >= MAX_PHOTOS) {
-        errors.push(`Maximum ${MAX_PHOTOS} fotografii.`)
-        break
-      }
-      if (!ALLOWED_TYPES.has(file.type)) {
-        errors.push(`${file.name}: format nepermis (JPG, PNG sau WebP).`)
-        continue
-      }
-      if (file.size > MAX_PHOTO_BYTES) {
-        errors.push(`${file.name}: depășește 5 MB.`)
-        continue
-      }
-      next.push({
-        id: `${file.name}-${file.size}-${file.lastModified}-${Math.random()}`,
-        file,
-        url: URL.createObjectURL(file),
-      })
-    }
-
-    if (errors.length) toast.error(errors[0])
-    if (next.length) setPhotos((current) => [...current, ...next])
-  }
-
-  const removePhoto = (id: string) => {
-    setPhotos((current) => {
-      const target = current.find((photo) => photo.id === id)
-      if (target) URL.revokeObjectURL(target.url)
-      return current.filter((photo) => photo.id !== id)
-    })
-  }
+    'Descrie problema masinii, iar noi iti pregatim mesajul pentru WhatsApp. Daca vrei sa ne trimiti poze, o vei face direct in conversatie.'
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
@@ -132,7 +75,6 @@ export function ContactPage({ content, serviceOptions }: ContactPageProps) {
         licensePlate: formData.licensePlate,
         serviceType: serviceLabel,
         message: formData.message,
-        hasPhotos: photos.length > 0,
       })
       const whatsappHref = buildWhatsAppLink(company.whatsappNumber, message)
       const popup = window.open(whatsappHref, '_blank', 'noopener,noreferrer')
@@ -141,9 +83,7 @@ export function ContactPage({ content, serviceOptions }: ContactPageProps) {
         window.location.href = whatsappHref
       }
 
-      toast.success('Se deschide WhatsApp. Trimite acolo mesajul si, daca vrei, pozele selectate.')
-      photos.forEach((photo) => URL.revokeObjectURL(photo.url))
-      setPhotos([])
+      toast.success('Se deschide WhatsApp. Trimite acolo mesajul si, daca vrei, pozele masinii.')
       setFormData(initialFormState)
     } catch {
       toast.error('Nu am putut deschide WhatsApp. Incearca din nou sau scrie-ne direct.')
@@ -269,75 +209,6 @@ export function ContactPage({ content, serviceOptions }: ContactPageProps) {
                   />
                 </div>
 
-                <div>
-                  <Label>Fotografii (opțional, max {MAX_PHOTOS})</Label>
-                  <div
-                    className={`mt-2 rounded-lg border border-dashed p-4 transition-colors ${
-                      isDragging ? 'border-accent bg-accent/5' : 'border-muted-foreground/30'
-                    }`}
-                    onDragOver={(event) => {
-                      event.preventDefault()
-                      setIsDragging(true)
-                    }}
-                    onDragLeave={() => setIsDragging(false)}
-                    onDrop={(event) => {
-                      event.preventDefault()
-                      setIsDragging(false)
-                      if (event.dataTransfer.files.length) addFiles(event.dataTransfer.files)
-                    }}
-                  >
-                    <input
-                      id="photos"
-                      type="file"
-                      accept="image/jpeg,image/png,image/webp"
-                      multiple
-                      className="sr-only"
-                      disabled={isSubmitting || remainingSlots <= 0}
-                      onChange={(event) => {
-                        if (event.target.files?.length) addFiles(event.target.files)
-                        event.target.value = ''
-                      }}
-                    />
-                    <label
-                      htmlFor="photos"
-                      className="flex cursor-pointer flex-col items-center gap-2 py-4 text-center text-sm text-muted-foreground"
-                    >
-                      <span className="font-medium text-foreground">
-                        Trage fotografiile aici sau apasă pentru selectare
-                      </span>
-                      <span>
-                        Formate acceptate: JPG, PNG sau WebP. Maximum {MAX_PHOTOS} fotografii si 5 MB
-                        pentru fiecare fisier. Dupa deschiderea WhatsApp, trimite manual fotografiile
-                        in conversatie.
-                      </span>
-                    </label>
-                  </div>
-
-                  {photos.length > 0 ? (
-                    <ul className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
-                      {photos.map((photo) => (
-                        <li key={photo.id} className="relative overflow-hidden rounded-md border">
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img
-                            src={photo.url}
-                            alt=""
-                            className="aspect-square w-full object-cover"
-                          />
-                          <button
-                            type="button"
-                            className="absolute right-1 top-1 rounded-full bg-black/70 p-1 text-white"
-                            onClick={() => removePhoto(photo.id)}
-                            aria-label="Elimină fotografia"
-                            disabled={isSubmitting}
-                          >
-                            <X size={14} weight="bold" />
-                          </button>
-                        </li>
-                      ))}
-                    </ul>
-                  ) : null}
-                </div>
-
                 <div className="flex items-start gap-2">
                   <Checkbox
                     id="gdpr"
@@ -348,9 +219,8 @@ export function ContactPage({ content, serviceOptions }: ContactPageProps) {
                     disabled={isSubmitting}
                   />
                   <Label htmlFor="gdpr" className="cursor-pointer text-sm">
-                    Sunt de acord ca datele completate si eventualele fotografii selectate sa fie
-                    folosite pentru pregatirea mesajului WhatsApp si pentru a fi contactat in
-                    legatura cu solicitarea. *
+                    Sunt de acord ca datele completate sa fie folosite pentru pregatirea mesajului
+                    WhatsApp si pentru a fi contactat in legatura cu solicitarea. *
                   </Label>
                 </div>
 
