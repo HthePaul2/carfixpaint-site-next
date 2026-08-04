@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { toast } from 'sonner'
 
+import { useSiteSettings } from '@/components/providers/SiteSettingsProvider'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
@@ -12,6 +13,7 @@ import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
 import type { ProgramarePageView } from '@/lib/cms-types'
+import { buildAppointmentWhatsAppMessage, buildWhatsAppLink } from '@/lib/whatsapp'
 
 type ServiceOption = {
   value: string
@@ -53,6 +55,7 @@ type PreviewPhoto = {
 }
 
 export function AppointmentPage({ content, serviceOptions }: AppointmentPageProps) {
+  const company = useSiteSettings()
   const router = useRouter()
   const searchParams = useSearchParams()
   const preselected = searchParams.get('service') ?? ''
@@ -165,44 +168,44 @@ export function AppointmentPage({ content, serviceOptions }: AppointmentPageProp
       return
     }
     if (!form.gdprConsent) {
-      toast.error('Trebuie să accepți prelucrarea datelor.')
+      toast.error('Trebuie sa accepti prelucrarea datelor pentru a continua pe WhatsApp.')
       return
     }
 
     setIsSubmitting(true)
     try {
-      const body = new FormData()
-      Object.entries(form).forEach(([key, value]) => {
-        if (typeof value === 'boolean') body.append(key, value ? 'true' : 'false')
-        else body.append(key, value)
+      const serviceLabel =
+        serviceOptions.find((option) => option.value === serviceSlug)?.label ?? serviceSlug
+      const slotLabel = slots.find((slot) => slot.slotKey === slotKey)?.label ?? slotKey
+      const message = buildAppointmentWhatsAppMessage({
+        serviceLabel,
+        date,
+        slotLabel,
+        name: form.name,
+        phone: form.phone,
+        email: form.email,
+        carBrand: form.carBrand,
+        carModel: form.carModel,
+        licensePlate: form.licensePlate,
+        customerMessage: form.customerMessage,
+        hasPhotos: photos.length > 0,
       })
-      body.append('serviceSlug', serviceSlug)
-      body.append('date', date)
-      body.append('slotKey', slotKey)
-      photos.forEach((photo) => body.append('photos', photo.file))
-
-      const response = await fetch('/api/appointments', {
-        method: 'POST',
-        body,
-      })
-      const result = (await response.json()) as { success?: boolean; message?: string }
-      if (!response.ok || !result.success) {
-        toast.error(result.message ?? 'Nu am putut înregistra programarea.')
-        if (response.status === 409) await loadSlots(date)
-        return
-      }
+      const whatsappHref = buildWhatsAppLink(company.whatsappNumber, message)
+      const popup = window.open(whatsappHref, '_blank', 'noopener,noreferrer')
 
       setDoneMessage(
-        result.message ??
-          'Solicitarea a fost înregistrată. Te contactăm pentru confirmarea orei.',
+        'WhatsApp a fost deschis. Trimite mesajul si continua acolo pentru confirmarea programarii.',
       )
+      if (!popup) {
+        window.location.href = whatsappHref
+      }
       photos.forEach((photo) => URL.revokeObjectURL(photo.url))
       setPhotos([])
       setForm(initialForm)
       setSlotKey('')
-      toast.success('Solicitarea a fost înregistrată.')
+      toast.success('Se deschide WhatsApp. Trimite acolo mesajul si, daca vrei, pozele selectate.')
     } catch {
-      toast.error('Nu am putut înregistra programarea. Încearcă din nou.')
+      toast.error('Nu am putut deschide WhatsApp. Incearca din nou.')
     } finally {
       setIsSubmitting(false)
     }
@@ -212,10 +215,10 @@ export function AppointmentPage({ content, serviceOptions }: AppointmentPageProp
     return (
       <div className="py-16">
         <div className="container max-w-2xl text-center">
-          <h1 className="mb-4 text-4xl font-bold">Solicitare înregistrată</h1>
+          <h1 className="mb-4 text-4xl font-bold">Continua pe WhatsApp</h1>
           <p className="mb-8 text-lg text-muted-foreground">{doneMessage}</p>
           <div className="flex flex-col justify-center gap-3 sm:flex-row">
-            <Button onClick={() => setDoneMessage(null)}>Altă programare</Button>
+            <Button onClick={() => setDoneMessage(null)}>Alta programare</Button>
             <Button variant="outline" onClick={() => router.push('/contact')}>
               Mergi la contact
             </Button>
@@ -427,7 +430,8 @@ export function AppointmentPage({ content, serviceOptions }: AppointmentPageProp
                   Trage fotografiile aici sau apasă pentru selectare
                 </span>
                 <span>
-                  Formate: JPG, PNG sau WebP. Maximum {MAX_PHOTOS} fotografii și 5 MB fiecare.
+                  Formate: JPG, PNG sau WebP. Maximum {MAX_PHOTOS} fotografii si 5 MB fiecare.
+                  Dupa deschiderea WhatsApp, trimite manual fotografiile in conversatie.
                 </span>
               </label>
             </div>
@@ -463,13 +467,13 @@ export function AppointmentPage({ content, serviceOptions }: AppointmentPageProp
               disabled={isSubmitting}
             />
             <Label htmlFor="gdpr" className="cursor-pointer text-sm">
-              Sunt de acord ca datele și fotografiile trimise să fie folosite pentru gestionarea
-              programării. *
+              Sunt de acord ca datele completate si eventualele fotografii selectate sa fie folosite
+              pentru pregatirea mesajului WhatsApp si pentru gestionarea programarii. *
             </Label>
           </div>
 
           <Button type="submit" size="lg" className="w-full" disabled={isSubmitting}>
-            {isSubmitting ? 'Se trimite...' : 'Trimite solicitarea'}
+            {isSubmitting ? 'Se pregateste WhatsApp...' : 'Continua pe WhatsApp'}
             <ArrowRight weight="bold" size={20} className="ml-2" />
           </Button>
         </form>

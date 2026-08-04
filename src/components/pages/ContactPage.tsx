@@ -13,7 +13,7 @@ import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
 import type { ContactPageView } from '@/lib/cms-types'
-import { buildWhatsAppLink } from '@/lib/whatsapp'
+import { buildContactWhatsAppMessage, buildWhatsAppLink } from '@/lib/whatsapp'
 
 type ServiceOption = {
   value: string
@@ -108,42 +108,45 @@ export function ContactPage({ content, serviceOptions }: ContactPageProps) {
     event.preventDefault()
     if (isSubmitting) return
 
+    if (!formData.serviceType) {
+      toast.error('Alege serviciul pentru care vrei sa ne scrii.')
+      return
+    }
+
     if (!formData.gdprConsent) {
-      toast.error('Trebuie să accepți prelucrarea datelor pentru a trimite formularul.')
+      toast.error('Trebuie sa accepti prelucrarea datelor pentru a continua pe WhatsApp.')
       return
     }
 
     setIsSubmitting(true)
 
     try {
-      const body = new FormData()
-      Object.entries(formData).forEach(([key, value]) => {
-        if (typeof value === 'boolean') body.append(key, value ? 'true' : 'false')
-        else body.append(key, value)
+      const serviceLabel =
+        serviceOptions.find((option) => option.value === formData.serviceType)?.label ??
+        formData.serviceType
+      const message = buildContactWhatsAppMessage({
+        name: formData.name,
+        phone: formData.phone,
+        email: formData.email,
+        carBrand: formData.carBrand,
+        licensePlate: formData.licensePlate,
+        serviceType: serviceLabel,
+        message: formData.message,
+        hasPhotos: photos.length > 0,
       })
-      photos.forEach((photo) => body.append('photos', photo.file))
+      const whatsappHref = buildWhatsAppLink(company.whatsappNumber, message)
+      const popup = window.open(whatsappHref, '_blank', 'noopener,noreferrer')
 
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        body,
-      })
-
-      const result = (await response.json()) as { success?: boolean; message?: string }
-
-      if (!response.ok || !result.success) {
-        toast.error(result.message ?? 'Nu am putut trimite cererea. Încearcă din nou.')
-        return
+      if (!popup) {
+        window.location.href = whatsappHref
       }
 
-      toast.success(
-        result.message ??
-          'Cererea și fotografiile au fost trimise. Revenim cât mai curând posibil în programul de lucru.',
-      )
+      toast.success('Se deschide WhatsApp. Trimite acolo mesajul si, daca vrei, pozele selectate.')
       photos.forEach((photo) => URL.revokeObjectURL(photo.url))
       setPhotos([])
       setFormData(initialFormState)
     } catch {
-      toast.error('Nu am putut trimite cererea. Încearcă din nou sau sună-ne direct.')
+      toast.error('Nu am putut deschide WhatsApp. Incearca din nou sau scrie-ne direct.')
     } finally {
       setIsSubmitting(false)
     }
@@ -303,8 +306,9 @@ export function ContactPage({ content, serviceOptions }: ContactPageProps) {
                         Trage fotografiile aici sau apasă pentru selectare
                       </span>
                       <span>
-                        Formate acceptate: JPG, PNG sau WebP. Maximum {MAX_PHOTOS} fotografii și 5 MB
-                        pentru fiecare fișier.
+                        Formate acceptate: JPG, PNG sau WebP. Maximum {MAX_PHOTOS} fotografii si 5 MB
+                        pentru fiecare fisier. Dupa deschiderea WhatsApp, trimite manual fotografiile
+                        in conversatie.
                       </span>
                     </label>
                   </div>
@@ -344,13 +348,14 @@ export function ContactPage({ content, serviceOptions }: ContactPageProps) {
                     disabled={isSubmitting}
                   />
                   <Label htmlFor="gdpr" className="cursor-pointer text-sm">
-                    Sunt de acord ca datele și fotografiile trimise să fie folosite pentru analizarea
-                    solicitării și pentru a fi contactat în legătură cu aceasta. *
+                    Sunt de acord ca datele completate si eventualele fotografii selectate sa fie
+                    folosite pentru pregatirea mesajului WhatsApp si pentru a fi contactat in
+                    legatura cu solicitarea. *
                   </Label>
                 </div>
 
                 <Button type="submit" size="lg" className="w-full" disabled={isSubmitting}>
-                  {isSubmitting ? 'Se trimite...' : 'Trimite cererea'}
+                  {isSubmitting ? 'Se pregateste WhatsApp...' : 'Continua pe WhatsApp'}
                   <ArrowRight weight="bold" size={20} className="ml-2" />
                 </Button>
               </form>
