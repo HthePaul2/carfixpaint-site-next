@@ -12,14 +12,10 @@ import { PortfolioProjects } from './collections/PortfolioProjects'
 import { BlogPosts } from './collections/BlogPosts'
 import { Reviews } from './collections/Reviews'
 import { FAQs } from './collections/FAQs'
-import { ContactRequests } from './collections/ContactRequests'
-import { Appointments } from './collections/Appointments'
-import { ContactAttachments } from './collections/ContactAttachments'
 import { SiteSettings } from './globals/SiteSettings'
 import { Homepage } from './globals/Homepage'
 import { LegalPages } from './globals/LegalPages'
 import { StaticPages } from './globals/StaticPages'
-import { AvailabilitySettings } from './globals/AvailabilitySettings'
 import { getStoragePlugins } from './lib/storage'
 
 const filename = fileURLToPath(import.meta.url)
@@ -49,11 +45,8 @@ export default buildConfig({
     BlogPosts,
     Reviews,
     FAQs,
-    ContactRequests,
-    ContactAttachments,
-    Appointments,
   ],
-  globals: [SiteSettings, Homepage, StaticPages, LegalPages, AvailabilitySettings],
+  globals: [SiteSettings, Homepage, StaticPages, LegalPages],
   plugins: [...getStoragePlugins()],
   db: postgresAdapter({
     pool: {

@@ -85,7 +85,7 @@ export async function upsertByField(
 
 export async function upsertGlobal(
   payload: Payload,
-  slug: 'site-settings' | 'homepage' | 'legal-pages' | 'static-pages' | 'availability-settings',
+  slug: 'site-settings' | 'homepage' | 'legal-pages' | 'static-pages',
   data: Record<string, unknown>,
 ) {
   return payload.updateGlobal({

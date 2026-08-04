@@ -10,6 +10,7 @@ import * as migration_20260716_080000_contact_attachments from './20260716_08000
 import * as migration_20260716_083000_appointments from './20260716_083000_appointments'
 import * as migration_20260716_084500_attachment_appointment from './20260716_084500_attachment_appointment'
 import * as migration_20260716_090000_programare_static_page from './20260716_090000_programare_static_page'
+import * as migration_20260804_123500_remove_contact_and_appointments from './20260804_123500_remove_contact_and_appointments'
 
 export const migrations = [
   {
@@ -71,5 +72,10 @@ export const migrations = [
     up: migration_20260716_090000_programare_static_page.up,
     down: migration_20260716_090000_programare_static_page.down,
     name: '20260716_090000_programare_static_page',
+  },
+  {
+    up: migration_20260804_123500_remove_contact_and_appointments.up,
+    down: migration_20260804_123500_remove_contact_and_appointments.down,
+    name: '20260804_123500_remove_contact_and_appointments',
   },
 ]

@@ -74,9 +74,6 @@ export interface Config {
     'blog-posts': BlogPost;
     reviews: Review;
     faqs: Faq;
-    'contact-requests': ContactRequest;
-    'contact-attachments': ContactAttachment;
-    appointments: Appointment;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -91,9 +88,6 @@ export interface Config {
     'blog-posts': BlogPostsSelect<false> | BlogPostsSelect<true>;
     reviews: ReviewsSelect<false> | ReviewsSelect<true>;
     faqs: FaqsSelect<false> | FaqsSelect<true>;
-    'contact-requests': ContactRequestsSelect<false> | ContactRequestsSelect<true>;
-    'contact-attachments': ContactAttachmentsSelect<false> | ContactAttachmentsSelect<true>;
-    appointments: AppointmentsSelect<false> | AppointmentsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -108,14 +102,12 @@ export interface Config {
     homepage: Homepage;
     'static-pages': StaticPage;
     'legal-pages': LegalPage;
-    'availability-settings': AvailabilitySetting;
   };
   globalsSelect: {
     'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
     homepage: HomepageSelect<false> | HomepageSelect<true>;
     'static-pages': StaticPagesSelect<false> | StaticPagesSelect<true>;
     'legal-pages': LegalPagesSelect<false> | LegalPagesSelect<true>;
-    'availability-settings': AvailabilitySettingsSelect<false> | AvailabilitySettingsSelect<true>;
   };
   locale: null;
   widgets: {
@@ -453,132 +445,6 @@ export interface Faq {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "contact-requests".
- */
-export interface ContactRequest {
-  id: number;
-  name: string;
-  phone: string;
-  email?: string | null;
-  carBrand?: string | null;
-  licensePlate?: string | null;
-  service?: (number | null) | Service;
-  /**
-   * Tip serviciu (text liber dacă relationship lipsește)
-   */
-  serviceType?: string | null;
-  message?: string | null;
-  gdprConsent: boolean;
-  /**
-   * Fotografii încărcate din formularul public. Deschide fiecare fișier pentru preview complet.
-   */
-  photos?: (number | ContactAttachment)[] | null;
-  /**
-   * Număr de fotografii.
-   */
-  photoCount?: number | null;
-  status: 'new' | 'contacted' | 'scheduled' | 'closed' | 'spam';
-  source?: string | null;
-  submittedAt: string;
-  ip?: string | null;
-  userAgent?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * Fotografii private din formularele de contact și programare. Nu sunt publice pe site.
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "contact-attachments".
- */
-export interface ContactAttachment {
-  id: number;
-  /**
-   * Completat pentru foto din formularul de contact.
-   */
-  contactRequest?: (number | null) | ContactRequest;
-  /**
-   * Completat pentru foto din formularul de programare.
-   */
-  appointment?: (number | null) | Appointment;
-  originalFilename?: string | null;
-  sizeBytes?: number | null;
-  uploadedAt: string;
-  /**
-   * Dată estimată pentru ștergere conform politicii de retenție.
-   */
-  retentionUntil?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
-  sizes?: {
-    thumbnail?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-  };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "appointments".
- */
-export interface Appointment {
-  id: number;
-  name: string;
-  phone: string;
-  email?: string | null;
-  service: number | Service;
-  carBrand?: string | null;
-  carModel?: string | null;
-  licensePlate?: string | null;
-  requestedStart: string;
-  requestedEnd: string;
-  timezone: string;
-  /**
-   * Cheie unică pentru sloturile care blochează calendarul (pending/confirmed).
-   */
-  slotKey: string;
-  status: 'pending' | 'confirmed' | 'reschedule-proposed' | 'cancelled' | 'rejected' | 'completed' | 'no-show';
-  customerMessage?: string | null;
-  adminNotes?: string | null;
-  /**
-   * Fotografii încărcate de client pe /programare. Deschide fișierul pentru preview.
-   */
-  photos?: (number | ContactAttachment)[] | null;
-  source?: string | null;
-  submittedAt: string;
-  /**
-   * Se completează automat când statusul trece în „Confirmată”.
-   */
-  confirmedAt?: string | null;
-  /**
-   * Se completează automat când statusul trece în „Anulată” sau „Respinsă”.
-   */
-  cancelledAt?: string | null;
-  /**
-   * Opțional. Dacă lași gol la anulare/respingere, se completează automat („Anulată din admin” / „Respinsă din admin”).
-   */
-  cancellationReason?: string | null;
-  cancelTokenHash?: string | null;
-  ip?: string | null;
-  userAgent?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -628,18 +494,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'faqs';
         value: number | Faq;
-      } | null)
-    | ({
-        relationTo: 'contact-requests';
-        value: number | ContactRequest;
-      } | null)
-    | ({
-        relationTo: 'contact-attachments';
-        value: number | ContactAttachment;
-      } | null)
-    | ({
-        relationTo: 'appointments';
-        value: number | Appointment;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -901,98 +755,6 @@ export interface FaqsSelect<T extends boolean = true> {
   category?: T;
   published?: T;
   order?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "contact-requests_select".
- */
-export interface ContactRequestsSelect<T extends boolean = true> {
-  name?: T;
-  phone?: T;
-  email?: T;
-  carBrand?: T;
-  licensePlate?: T;
-  service?: T;
-  serviceType?: T;
-  message?: T;
-  gdprConsent?: T;
-  photos?: T;
-  photoCount?: T;
-  status?: T;
-  source?: T;
-  submittedAt?: T;
-  ip?: T;
-  userAgent?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "contact-attachments_select".
- */
-export interface ContactAttachmentsSelect<T extends boolean = true> {
-  contactRequest?: T;
-  appointment?: T;
-  originalFilename?: T;
-  sizeBytes?: T;
-  uploadedAt?: T;
-  retentionUntil?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  url?: T;
-  thumbnailURL?: T;
-  filename?: T;
-  mimeType?: T;
-  filesize?: T;
-  width?: T;
-  height?: T;
-  focalX?: T;
-  focalY?: T;
-  sizes?:
-    | T
-    | {
-        thumbnail?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-      };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "appointments_select".
- */
-export interface AppointmentsSelect<T extends boolean = true> {
-  name?: T;
-  phone?: T;
-  email?: T;
-  service?: T;
-  carBrand?: T;
-  carModel?: T;
-  licensePlate?: T;
-  requestedStart?: T;
-  requestedEnd?: T;
-  timezone?: T;
-  slotKey?: T;
-  status?: T;
-  customerMessage?: T;
-  adminNotes?: T;
-  photos?: T;
-  source?: T;
-  submittedAt?: T;
-  confirmedAt?: T;
-  cancelledAt?: T;
-  cancellationReason?: T;
-  cancelTokenHash?: T;
-  ip?: T;
-  userAgent?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1414,69 +1176,6 @@ export interface LegalPage {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "availability-settings".
- */
-export interface AvailabilitySetting {
-  id: number;
-  timezone: string;
-  slotDurationMinutes: number;
-  minNoticeHours: number;
-  maxAdvanceDays: number;
-  capacityPerSlot: number;
-  breakStart?: string | null;
-  breakEnd?: string | null;
-  confirmationText?: string | null;
-  /**
-   * Opțional; dacă lipsește, se folosește CONTACT_NOTIFICATION_EMAIL.
-   */
-  notificationEmail?: string | null;
-  monday?: {
-    enabled?: boolean | null;
-    start?: string | null;
-    end?: string | null;
-  };
-  tuesday?: {
-    enabled?: boolean | null;
-    start?: string | null;
-    end?: string | null;
-  };
-  wednesday?: {
-    enabled?: boolean | null;
-    start?: string | null;
-    end?: string | null;
-  };
-  thursday?: {
-    enabled?: boolean | null;
-    start?: string | null;
-    end?: string | null;
-  };
-  friday?: {
-    enabled?: boolean | null;
-    start?: string | null;
-    end?: string | null;
-  };
-  saturday?: {
-    enabled?: boolean | null;
-    start?: string | null;
-    end?: string | null;
-  };
-  sunday?: {
-    enabled?: boolean | null;
-    start?: string | null;
-    end?: string | null;
-  };
-  blockedDates?:
-    | {
-        date: string;
-        reason?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  updatedAt?: string | null;
-  createdAt?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-settings_select".
  */
 export interface SiteSettingsSelect<T extends boolean = true> {
@@ -1746,80 +1445,6 @@ export interface LegalPagesSelect<T extends boolean = true> {
   termsSeoTitle?: T;
   termsSeoDescription?: T;
   termsOgImage?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  globalType?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "availability-settings_select".
- */
-export interface AvailabilitySettingsSelect<T extends boolean = true> {
-  timezone?: T;
-  slotDurationMinutes?: T;
-  minNoticeHours?: T;
-  maxAdvanceDays?: T;
-  capacityPerSlot?: T;
-  breakStart?: T;
-  breakEnd?: T;
-  confirmationText?: T;
-  notificationEmail?: T;
-  monday?:
-    | T
-    | {
-        enabled?: T;
-        start?: T;
-        end?: T;
-      };
-  tuesday?:
-    | T
-    | {
-        enabled?: T;
-        start?: T;
-        end?: T;
-      };
-  wednesday?:
-    | T
-    | {
-        enabled?: T;
-        start?: T;
-        end?: T;
-      };
-  thursday?:
-    | T
-    | {
-        enabled?: T;
-        start?: T;
-        end?: T;
-      };
-  friday?:
-    | T
-    | {
-        enabled?: T;
-        start?: T;
-        end?: T;
-      };
-  saturday?:
-    | T
-    | {
-        enabled?: T;
-        start?: T;
-        end?: T;
-      };
-  sunday?:
-    | T
-    | {
-        enabled?: T;
-        start?: T;
-        end?: T;
-      };
-  blockedDates?:
-    | T
-    | {
-        date?: T;
-        reason?: T;
-        id?: T;
-      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
