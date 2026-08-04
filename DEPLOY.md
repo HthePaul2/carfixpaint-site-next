@@ -16,6 +16,7 @@
 ssh hetzner
 export NVM_DIR=/root/.nvm && . "$NVM_DIR/nvm.sh" && nvm use 22.22.2
 cd /home/tigidal/web/carfixpaint.tigidal.ro/private/site-next
+grep '^PAYLOAD_MEDIA_DIR=' .env.production
 GIT_SSH_COMMAND='ssh -i /root/.ssh/carfixpaint_github -o IdentitiesOnly=yes' git pull --ff-only
 npm ci --legacy-peer-deps
 npm run migrate
@@ -25,8 +26,15 @@ rm -rf .next/standalone/.next/static .next/standalone/public
 cp -a .next/static .next/standalone/.next/static
 cp -a public .next/standalone/public
 ln -sfn "$(pwd)/media" .next/standalone/media
+test -e .next/standalone/media/home.jpg
 cp -f .env.production .next/standalone/.env.production
 systemctl restart carfixpaint-next
+```
+
+`PAYLOAD_MEDIA_DIR` trebuie să pointeze la directorul persistent de uploaduri:
+
+```dotenv
+PAYLOAD_MEDIA_DIR=/home/tigidal/web/carfixpaint.tigidal.ro/private/site-next/media
 ```
 
 **Ordine importantă:** pe DB goală, rulează `migrate` (și opțional `seed`) **înainte** de `build` — pagina global 404 citește site-settings la build.

@@ -1,4 +1,9 @@
 import type { CollectionConfig } from 'payload'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+
+const filename = fileURLToPath(import.meta.url)
+const dirname = path.dirname(filename)
 
 export const Media: CollectionConfig = {
   slug: 'media',
@@ -30,6 +35,9 @@ export const Media: CollectionConfig = {
     },
   ],
   upload: {
+    // Keep public uploads in a stable project-level directory so Payload
+    // doesn't resolve them relative to `.next/standalone` in production.
+    staticDir: process.env.PAYLOAD_MEDIA_DIR ?? path.resolve(dirname, '../../media'),
     imageSizes: [
       { name: 'thumbnail', width: 400, height: 300, position: 'centre' },
       { name: 'card', width: 768, height: 512, position: 'centre' },

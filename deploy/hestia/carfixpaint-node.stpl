@@ -21,6 +21,14 @@ server {
         return 404;
     }
 
+    location ^~ /api/media/file/ {
+        alias %home%/%user%/web/%domain%/private/site-next/media/;
+        try_files $uri =404;
+        access_log off;
+        expires 1y;
+        add_header Cache-Control "public, max-age=31536000, immutable" always;
+    }
+
     location / {
         proxy_pass http://127.0.0.1:3010;
         proxy_http_version 1.1;
